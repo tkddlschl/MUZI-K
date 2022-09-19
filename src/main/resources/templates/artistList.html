@@ -181,9 +181,12 @@
                      </div>
                      
                      <div th:each="art : ${art}" class="col-xl-3 col-sm-6 mb-3">
-                        <div class="channels-card">
+                        <div th:each="a_img : ${a_img}"  th:if="${art.u_id} == ${a_img.u_id}" class="channels-card">
                            <div class="channels-card-image">
-                              <a th:href="@{artistDetail(u_id=${art.u_id},u_nick=${art.u_nick})}"><img class="img-fluid" src="img/s3.png" alt=""></a>
+                              <a th:href="@{artistDetail(u_id=${art.u_id},u_nick=${art.u_nick})}">
+                              <img th:if="${a_img.u_image != null}" class="img-fluid" th:src="@{../display3(u_path=${a_img.u_path}, u_image=${a_img.u_image})}" alt="">
+                              <img th:if="${a_img.u_image == null}" alt="Avatar" src="/img/default.png">
+                              </a>
                               <div class="channels-card-image-btn"></div>
                            </div>
                            <div class="channels-card-body">
