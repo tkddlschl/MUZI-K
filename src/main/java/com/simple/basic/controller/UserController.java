@@ -24,6 +24,8 @@ import com.simple.basic.command.CategoryDTO;
 import com.simple.basic.command.RecodeDTO;
 import com.simple.basic.command.UploadDTO;
 import com.simple.basic.command.UserDTO;
+import com.simple.basic.command.UserTotalDTO;
+import com.simple.basic.command.UserUploadDTO;
 import com.simple.basic.user.UserService;
 
 
@@ -83,11 +85,13 @@ public class UserController {
 		List<CategoryDTO> list3 = categoryService.listAll();
 		List<RecodeDTO> list1 = userService.myRecode1(u_id);
 	    List<UploadDTO> list2 = userService.myRecode2();
+	    UserUploadDTO profile = userService.artistImgDetail(u_id);
 
 	    model.addAttribute("list1", list1);
 	    model.addAttribute("list2", list2);
 	    model.addAttribute("u_id", u_id);
 	    model.addAttribute("u_nick", u_nick);
+	    model.addAttribute("profile", profile);
 		model.addAttribute("list3", list3);
 		return "artistDetail";
 	}
@@ -99,9 +103,9 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
-	public String loginForm(UserDTO dto, HttpServletRequest request, RedirectAttributes rttr, Model model) {
+	public String loginForm(UserTotalDTO dto, HttpServletRequest request, RedirectAttributes rttr, Model model) {
 		HttpSession session = request.getSession();
-		UserDTO user = userService.login(dto);
+		UserTotalDTO user = userService.login(dto);
 		
 		if(user == null) {
 			session.setAttribute("user", null);
@@ -181,7 +185,7 @@ public class UserController {
 		if(idResult == 1 || nickResult == 1) {
 			return "register";
 		}
-		boolean b = userService.userInsert(image, dto);
+		boolean b = userService.userInsert(dto, image);
 		return "redirect:/main";
 	}
 	

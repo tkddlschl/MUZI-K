@@ -85,7 +85,8 @@
             
             <li th:if="${session.user != null}" class="nav-item dropdown no-arrow osahan-right-navbar-user">
                <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <img alt="Avatar" src="img/user.png">
+			   <img th:if="${session.user.u_image != null}" alt="Avatar" th:src="@{../display3(u_path=${session.user.u_path}, u_image=${session.user.u_image})}">
+               <img th:if="${session.user.u_image == null}" alt="Avatar" src="/img/default.png">
                [[${session.user.u_nick}]]
                </a>
                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
@@ -160,57 +161,31 @@
          </ul>
 
          <div id="content-wrapper">
-            <div class="container-fluid pb-0">
-               <div class="video-block section-padding">
-                  <div class="row">
-                     <div class="col-md-12">
-                        <div class="main-title">
-                           <div class="btn-group float-right right-action">
-                              <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Sort by <i class="fa fa-caret-down" aria-hidden="true"></i>
-                              </a>
-                              <div class="dropdown-menu dropdown-menu-right">
-                                 <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; Top Rated</a>
-                                 <a class="dropdown-item" href="#"><i class="fas fa-fw fa-signal"></i> &nbsp; Viewed</a>
-                                 <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; Close</a>
-                              </div>
-                           </div>
-                           <h6>커뮤니티</h6>
-                          <form name="actionForm" action="####" method="####">
-                        <div class="full_collum collum">
-                            <ul>
-                                <li class="collum_tit">
-                                    <h2>detail</h2>
-                                    <span class="showtoggle minus"></span>                              
-                                            <table class="board_basic_view">
-                                                <tbody>
-                                                    <tr>
-														<th>번호(PK)</th>
-														<!-- hidden태그는 화면에 보이지는 않지만 반드시 필요한 값을 전달할 때 사용합니다 -->
-														<td><input type="hidden" name="c_num" th:value="${CommunityDTO.c_num}">[[${CommunityDTO.c_num}]]</td>
-													</tr>    
-													                                
-                                                    <tr>
-                                                        <th>등록자ID</th>
-                                                        <td><input type="text" name="u_id" th:value="${CommunityDTO.u_id}" readonly /></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">제목</th>
-                                                        <td><input class="inputw99p margin_center" type="text" name="c_title" th:value="${CommunityDTO.c_title}">
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>설명</th>
-                                                        <td colspan="5">
-                                                            <div><textarea class="inputw99p" name="c_contents"
-                                                                    style="height: 200px;">[[${CommunityDTO.c_contents}]]</textarea>
-                                                            </div>
-                                                        </td>                                                                                                  
-                                               
-                                                    </tr>
-                                                </tbody>
-                                            </table>    
-                                            <div class="btn_area2">                                                                                                                       
+			<div class="container-fluid pb-0">
+				<div class="video-block section-padding">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="main-title">
+								
+								
+								<article class ="d-flex">
+								<div class="container" role="main">
+									<a><img src="img/logo.png"></img></a>
+									<form name="actionForm" action="####" method="####">
+										<div class="mb-3">
+											<input type="hidden" name="c_num" th:value="${CommunityDTO.c_num}">
+										</div>
+										<div class="mb-3">
+											<label for="reg_id">작성자</label> <input type="text" class="form-control" name="u_id" th:value="${CommunityDTO.u_id}" readonly />
+										</div>
+										<div class="mb-3">
+											<label for="reg_id">제목</label> <input type="text" class="form-control" name="c_title" th:value="${CommunityDTO.c_title}">
+										</div>
+										<div class="mb-3">
+											<label for="content">내용</label>
+											<textarea class="form-control" rows="5" name="c_contents" style="height: 400px;">[[${CommunityDTO.c_contents}]]</textarea>
+										</div>
+										<div class="btn_area2">                                                                                                                       
                                                 <a th:if="${session.user == null}"th:href="communityList" class="revise">목록</a>                                                                                                        	
                                             </div>                                   
                                             <div class="btn_area">       
@@ -218,35 +193,32 @@
                                                 <a th:href="communityList" class="revise">목록</a>                                       
                                                 <a th:if="${session.user.u_id} == ${CommunityDTO.u_id}" href="#" class="delete" th:onclick="|commu_delete()|">삭제</a>                                          	
                                             </div>
-                             	  	 </li>
-                          	 	 </ul>
+									</form>
+									</div>
+									</article>
+								</div>
+								</div>
+							</div>
+						</div>
+						<hr>
 
-                        </div>
-                        </form>
-                        </div>
-                     </div> 
-                  </div>
-               </div>
-               <hr>
-             
-            </div>
-            <!-- /.container-fluid -->
-            <!-- Sticky Footer -->
-            <footer class="sticky-footer">
-               <div class="container">
-                  <div class="row no-gutters">
-                     <div class="col-lg-6 col-sm-6">
-                     </div>
-                     <div class="col-lg-6 col-sm-6 text-right">
-                        <div class="app">
-                           <a href="#"><img alt="" src="img/google.png"></a>
-                           <a href="#"><img alt="" src="img/apple.png"></a>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </footer>
-         </div>
+					</div>
+					<!-- /.container-fluid -->
+					<!-- Sticky Footer -->
+					<footer class="sticky-footer">
+						<div class="container">
+							<div class="row no-gutters">
+								<div class="col-lg-6 col-sm-6"></div>
+								<div class="col-lg-6 col-sm-6 text-right">
+									<div class="app">
+										<a href="#"><img alt="" src="img/google.png"></a> <a
+											href="#"><img alt="" src="img/apple.png"></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</footer>
+				</div>
          <!-- /.content-wrapper -->
       </div>
       <!-- /#wrapper -->

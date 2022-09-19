@@ -85,7 +85,8 @@
             
             <li th:if="${session.user != null}" class="nav-item dropdown no-arrow osahan-right-navbar-user">
                <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <img alt="Avatar" src="img/user.png">
+               <img th:if="${session.user.u_image != null}" alt="Avatar" th:src="@{../display3(u_path=${session.user.u_path}, u_image=${session.user.u_image})}">
+               <img th:if="${session.user.u_image == null}" alt="Avatar" src="/img/default.png">
                [[${session.user.u_nick}]]
                </a>
                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
@@ -245,10 +246,13 @@
                            <h6>인기 아티스트</h6>
                         </div>
                      </div>
-                     <div th:each="art : ${art}" class="col-xl-3 col-sm-6 mb-3">
-                        <div class="channels-card">
+                     <div th:each="art : ${art}"  class="col-xl-3 col-sm-6 mb-3">
+                        <div th:each="a_img : ${a_img}" th:if="${art.u_id} == ${a_img.u_id}" class="channels-card">
                            <div class="channels-card-image">
-                              <a th:href="@{artistDetail(u_id=${art.u_id},u_nick=${art.u_nick})}"><img class="img-fluid" src="img/s1.png" alt=""></a>
+                              <a th:href="@{artistDetail(u_id=${art.u_id},u_nick=${art.u_nick})}">
+                              <img th:if="${a_img.u_image != null}" class="img-fluid" th:src="@{../display3(u_path=${a_img.u_path}, u_image=${a_img.u_image})}" alt="">
+                              <img th:if="${a_img.u_image == null}" alt="Avatar" src="/img/default.png">
+                              </a>
                               <div class="channels-card-image-btn"><button type="button" class="btn btn-outline-danger btn-sm">팔로워 <strong>1.4M</strong></button></div>
                            </div>
                            <div class="channels-card-body">

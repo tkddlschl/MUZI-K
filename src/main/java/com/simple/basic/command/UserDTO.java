@@ -25,5 +25,4 @@ public class UserDTO {
 	private String u_nick;
 	@NotNull(message = "유형 선택은 필수입니다.")
 	private char u_type;
-	private String u_image;
 }

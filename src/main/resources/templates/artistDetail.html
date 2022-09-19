@@ -85,7 +85,8 @@
             
             <li th:if="${session.user != null}" class="nav-item dropdown no-arrow osahan-right-navbar-user">
                <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <img alt="Avatar" src="img/user.png">
+               <img th:if="${session.user.u_image != null}" alt="Avatar" th:src="@{../display3(u_path=${session.user.u_path}, u_image=${session.user.u_image})}">
+               <img th:if="${session.user.u_image == null}" alt="Avatar" src="/img/default.png">
                [[${session.user.u_nick}]]
                </a>
                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
@@ -163,7 +164,8 @@
             <div class="single-channel-image">
                <img class="img-fluid" alt="" src="img/channel-banner.png">
                <div class="channel-profile">
-                  <img class="channel-profile-img" alt="" src="img/s2.png">
+                  <img th:if="${profile.u_image != null}" class="channel-profile-img" alt="" th:src="@{../display3(u_path=${profile.u_path}, u_image=${profile.u_image})}">
+                  <img th:if="${profile.u_image == null}" class="channel-profile-img" alt="" src="/img/default.png">
                   <div class="social hidden-xs">
                      Social &nbsp;
                      <a class="fb" href="#">Facebook</a>
@@ -245,7 +247,7 @@
                                  <a th:href="@{recodeDetail(r_num=${dto1.r_num})}">[[${dto1.r_name}]]</a>
                               </div>
                               <div class="video-page text-success">
-                                 Education  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
+                                [[${dto1.r_genre}]]  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
                               </div>
                               <div class="video-view">
                                  1.8M views &nbsp;<i class="fas fa-calendar-alt"></i> 11 Months ago

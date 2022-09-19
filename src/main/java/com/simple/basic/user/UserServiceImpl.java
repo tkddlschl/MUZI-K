@@ -14,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.simple.basic.command.RecodeDTO;
 import com.simple.basic.command.UploadDTO;
 import com.simple.basic.command.UserDTO;
+import com.simple.basic.command.UserTotalDTO;
+import com.simple.basic.command.UserUploadDTO;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -24,24 +26,24 @@ public class UserServiceImpl implements UserService {
 	public String uploadPath;
 
 	@Override
-	public boolean userInsert(MultipartFile image, UserDTO dto) {
+	public boolean userInsert(UserDTO dto, MultipartFile u_image) {
 		
 		boolean result = userMapper.userInsert(dto);
 		
-		String imageOrigin = image.getOriginalFilename();
+		String imageOrigin = u_image.getOriginalFilename();
 	    String imageName = imageOrigin.substring(imageOrigin.lastIndexOf("\\") + 1);
 	    String imageSave = uploadPath + "\\"  + imageName;
 	    
 	    try {
 	    	File saveImage= new File(imageSave);
 	    	
-	    	image.transferTo(saveImage);
+	    	u_image.transferTo(saveImage);
 	    	
 	    } catch (Exception e) {
 	    	System.out.println("upload error 입니다.");
 	    }
 	    
-	    userMapper.userImageInsert(UserDTO.builder().u_id(dto.getU_id()).u_image(imageName).build());
+	    userMapper.userImageInsert(UserUploadDTO.builder().u_image(imageName).u_path(uploadPath).u_email(dto.getU_email()).build());
 	    
 	    return result;
 		
@@ -59,7 +61,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Transactional
 	@Override
-	public UserDTO login(UserDTO user) {
+	public UserTotalDTO login(UserTotalDTO user) {
 		return userMapper.login(user);
 	}
 
@@ -88,5 +90,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<UserDTO> artistList() {
 		return userMapper.artistList();
+	}
+
+	@Override
+	public List<UserTotalDTO> artistImgList() {
+		return userMapper.artistImgList();
+	}
+
+	@Override
+	public UserUploadDTO artistImgDetail(String u_id) {
+		return userMapper.artistImgDetail(u_id);
 	}
 }

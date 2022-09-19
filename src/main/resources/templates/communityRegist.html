@@ -85,7 +85,8 @@
             
             <li th:if="${session.user != null}" class="nav-item dropdown no-arrow osahan-right-navbar-user">
                <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <img alt="Avatar" src="img/user.png">
+			   <img th:if="${session.user.u_image != null}" alt="Avatar" th:src="@{../display3(u_path=${session.user.u_path}, u_image=${session.user.u_image})}">
+               <img th:if="${session.user.u_image == null}" alt="Avatar" src="/img/default.png">
                [[${session.user.u_nick}]]
                </a>
                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
@@ -160,92 +161,70 @@
          </ul>
 
          <div id="content-wrapper">
-            <div class="container-fluid pb-0">
-               <div class="video-block section-padding">
-                  <div class="row">
-                     <div class="col-md-12">
-                        <div class="main-title">
-                           <div class="btn-group float-right right-action">
-                              <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Sort by <i class="fa fa-caret-down" aria-hidden="true"></i>
-                              </a>
-                              <div class="dropdown-menu dropdown-menu-right">
-                                 <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; Top Rated</a>
-                                 <a class="dropdown-item" href="#"><i class="fas fa-fw fa-signal"></i> &nbsp; Viewed</a>
-                                 <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; Close</a>
-                              </div>
-                           </div>
-                           <h6>커뮤니티</h6>
-                          
-                          <form name="communityForm" action="communityForm" method="post" enctype="multipart/form-data">
-                        <div class="full_collum collum">
-                            <ul>
-                                <li class="collum_tit">
-                                    <h2>Regist</h2>
+			<div class="container-fluid pb-0">
+				<div class="video-block section-padding">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="main-title">
+								
+								<article class="d-flex">
+									<div class="container" role="main">
+										<form name="communityForm" action="communityForm"
+											method="post" enctype="multipart/form-data">
+											<div class="full_collum collum">
 
-                                    <span class="showtoggle minus"></span>
-                                    
-                                            <table cellpadding="0" cellspacing="0" class="board_basic_view"
-                                                width="20%;">
-                                                <tr>
-                                                    <th>등록자ID</th>
-                                                    <td>
-                                                    	<input type="text" class="inputw150" name="u_id" th:value="${session.user.u_id}" readonly>
-                                                    	<!-- th:value="${session.u_id}" -->
-                                                    	<span>[[${session.u_id}]]</span>
-                                                    </td>
-                                                </tr>
+												<a><img src="img/logo.png"></img></a>
 
-                                                <tr>
-                                                    <th>제목</th>
-                                                    <td colspan="5">
-                                                    	<input type="text" class="inputw99p" name="c_title" th:value="${c_title}">
-                                                    	<span>[[${c_title}]]</span>
-                                                    </td>
-                                                </tr>
+												<div class="mb-3">
+													<label for="title">등록자 ID</label> <input type="text"
+														class="form-control" name="u_id"
+														th:value="${session.user.u_id}" readonly>
+													<!-- th:value="${session.u_id}" -->
+													<span>[[${session.u_id}]]</span>
+												</div>
+												<div class="mb-3">
+													<label for="title">제목</label> <input type="text"
+														class="form-control" name="c_title" th:value="${c_title}">
+													<span>[[${c_title}]]</span>
+												</div>
+												<div class="mb-3">
+													<label for="title">내용</label>
+													<textarea class="form-control" rows="5" name="c_contents"
+														style="height: 400px;"></textarea>
+													<!-- th:value="${session.u_id}" -->
+												</div>
+												<div class="btn_area">
+													<input type="submit" class="save" value="등록"> <input
+														type="button" class="delete" value="목록"
+														onClick="location.href='communityList'">
+												</div>
+											</div>
+										</form>
+									</div>
+								</article>
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr>
 
-                                               
-                                                <tr>
-                                                    <th>내용</th>
-                                                    <td colspan="5">
-
-                                                        <div><textarea  class="inputw99p" name="c_contents" style="height: 200px;"></textarea>
-                                                        </div>
-                                                    </td>
-                                                </tr>       
-                                            </table>
-                                            <div class="btn_area">
-                                                <input type="submit" class="save" value="등록">                                                                                 
-                                            	<input type="button" class="delete" value="목록" onClick="location.href='communityList'">                                             
-                                            </div>
-                                        </li>           
-                            </ul>
-                        </div>
-                    </form>
-                        </div>
-                     </div> 
-                  </div>
-               </div>
-               <hr>
-             
-            </div>
-            <!-- /.container-fluid -->
-            <!-- Sticky Footer -->
-            <footer class="sticky-footer">
-               <div class="container">
-                  <div class="row no-gutters">
-                     <div class="col-lg-6 col-sm-6">
-                     </div>
-                     <div class="col-lg-6 col-sm-6 text-right">
-                        <div class="app">
-                           <a href="#"><img alt="" src="img/google.png"></a>
-                           <a href="#"><img alt="" src="img/apple.png"></a>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </footer>
-         </div>
+			</div>
+			<!-- /.container-fluid -->
+			<!-- Sticky Footer -->
+			<footer class="sticky-footer">
+				<div class="container">
+					<div class="row no-gutters">
+						<div class="col-lg-6 col-sm-6"></div>
+						<div class="col-lg-6 col-sm-6 text-right">
+							<div class="app">
+								<a href="#"><img alt="" src="img/google.png"></a> <a
+									href="#"><img alt="" src="img/apple.png"></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
          <!-- /.content-wrapper -->
       </div>
       <!-- /#wrapper -->

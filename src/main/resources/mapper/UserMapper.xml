@@ -10,9 +10,12 @@
   	values(#{u_id}, #{u_pw}, #{u_email}, #{u_nick}, #{u_type})
   </insert>
   
-  <insert id="userImageInsert">
-  	insert into user(u_image)
-  	values(#{u_image})
+   <insert id= "userImageInsert">
+  <selectKey resultType = "String" keyProperty="u_id" order ="BEFORE"> 
+     select max(u_id) as u_id from user where u_email = #{u_email}
+     </selectKey>
+     insert into u_imgupload ( u_path, u_image, u_id, u_email)
+     values(#{u_path},#{u_image},#{u_id},#{u_email})
   </insert>
   
   <select id="idCheck" resultType="int">
@@ -27,10 +30,10 @@
   	where u_nick = #{u_nick}
   </select>
   
-  <select id="login" resultType="UserDTO">
-  	select u_id, u_pw, u_email, u_nick, u_type
-  	from user
-  	where u_id = #{u_id} and u_pw = #{u_pw}
+  <select id="login" resultType="UserTotalDTO">
+  	select u.u_id, u.u_pw, u.u_email, u.u_nick, u.u_type, u_img.u_path, u_img.u_image
+  	from user u right join u_imgupload u_img on u.u_id = u_img.u_id
+  	where u.u_id = #{u_id} and u.u_pw = #{u_pw}
   </select>
   
   <select id="myRecode1" resultType="RecodeDTO">
@@ -54,7 +57,19 @@
   	delete from user where u_id = #{u_id}
   </delete>
   
-  <select id ="artistList" resultType = "userDTO">
+  <select id ="artistList" resultType = "UserDTO">
   	select * from user where u_type = 'a'
+  </select>
+  
+  <select id="artistImgList" resultType="UserTotalDTO">
+  	select *
+  	from user u right join u_imgupload u_img on u.u_id = u_img.u_id
+  	where u.u_type = 'a'
+  </select>
+  
+  <select id="artistImgDetail" resultType="UserUploadDTO">
+  	select * 
+  	from u_imgupload
+  	where u_id = #{u_id}
   </select>
   </mapper>
