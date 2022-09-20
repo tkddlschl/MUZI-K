@@ -18,7 +18,7 @@ public interface UserService {
 	public UserTotalDTO login(UserTotalDTO user); // 로그인
 	public List<RecodeDTO> myRecode1(String u_id); // 내 음악 가져오기
 	public List<UploadDTO> myRecode2(); // 내 음악 가져오기
-	public boolean userUpdate(UserDTO dto); //회원 정보 수정
+	public boolean userUpdate(UserTotalDTO dto); //회원 정보 수정
 	public boolean userDelete(String u_id); //회원 삭제
 	public List<UserDTO> artistList();// 아티스트 가져오기
 	public List<UserTotalDTO> artistImgList(); //아티스트 ID에 맞는 이미지 리스트 가져오기

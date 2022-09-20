@@ -187,7 +187,11 @@
                               <img th:if="${a_img.u_image != null}" class="img-fluid" th:src="@{../display3(u_path=${a_img.u_path}, u_image=${a_img.u_image})}" alt="">
                               <img th:if="${a_img.u_image == null}" alt="Avatar" src="/img/default.png">
                               </a>
-                              <div class="channels-card-image-btn"></div>
+                              <form action="artistListForm" method="post">
+                              <input th:if="${session.user != null}" type="hidden" name="u_id" th:value="${session.user.u_id}">
+                              <input th:if="${session.user != null}" type="hidden" name="f_passiveUser" th:value="${art.u_id}">
+                              <div th:if="${session.user != null} and ${session.user.u_id} != ${art.u_id}" class="channels-card-image-btn"><button type="submit" class="btn btn-outline-danger btn-sm">팔로워 <strong>1.4M</strong></button></div>
+                              </form>
                            </div>
                            <div class="channels-card-body">
                               <div class="channels-title">

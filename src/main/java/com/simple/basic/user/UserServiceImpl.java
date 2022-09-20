@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	@Override
-	public boolean userUpdate(UserDTO dto) {
+	public boolean userUpdate(UserTotalDTO dto) {
 		return userMapper.userUpdate(dto);
 	}
 
