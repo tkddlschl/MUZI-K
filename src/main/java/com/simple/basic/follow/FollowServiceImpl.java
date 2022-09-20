@@ -42,4 +42,19 @@ public class FollowServiceImpl implements FollowService {
 	public void deleteUserFollow(String u_id) {
 		followMapper.deleteUserFollow(u_id);
 	}
+
+	@Override
+	public List<FollowDTO> followUnfollowList(String u_id) {
+		return followMapper.followUnfollowList(u_id);
+	}
+
+	@Override
+	public int followingCount(String u_id) {
+		return followMapper.followingCount(u_id);
+	}
+
+	@Override
+	public int followerCount(String u_id) {
+		return followMapper.followerCount(u_id);
+	}
 }

@@ -54,16 +54,20 @@ public class MainController {
 	}
 	
 	@PostMapping("/mainForm")
-	public String mainForm(@RequestParam("u_id")String u_id, @RequestParam("f_passiveUser")String f_passiveUser, Model model) {
+	public String mainForm(@RequestParam("u_id")String u_id, @RequestParam("f_passiveUser")String f_passiveUser, Model model, RedirectAttributes ra) {
 		int isFollow = followService.isFollow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
 		if(isFollow == 0) {
 			followService.follow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
+			ra.addFlashAttribute("isFollowInsert", isFollow);
 		}
 		else {
 			followService.unfollow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
+			ra.addFlashAttribute("isFollowDelete", isFollow);
 		}
 		
-		//model.addAttribute("isFollow", isFollow);
-		return "redirect:/main?isFollow=" + isFollow;
+//		List<FollowDTO> list = followService.followUnfollowList(u_id);
+//		
+//		model.addAttribute("list", list);
+		return "redirect:/main";
 	}
 }

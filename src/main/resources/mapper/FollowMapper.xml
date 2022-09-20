@@ -39,4 +39,25 @@
   	on(i.u_id = u.u_id)
   	where f.f_passiveUser = #{f_passiveUser}
   </select>
+  
+  <select id ="followUnfollowList" resultType = "FollowDTO">
+     select *
+     from follow
+     where u_id = #{u_id}
+  </select>
+  
+  
+  <select id ="followingCount" resultType = "int">
+	  select count(*)
+	  from follow
+	  where u_id = #{u_id}
+  </select>
+  
+  <select id ="followerCount" resultType = "int">
+	  select count(*)
+	  from follow
+	  where f_passiveUser = #{u_id}
+  </select>
+  
+  
   </mapper>

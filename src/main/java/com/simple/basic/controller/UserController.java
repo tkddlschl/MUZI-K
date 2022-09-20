@@ -142,10 +142,14 @@ public class UserController {
 		List<RecodeDTO> list1 = userService.myRecode1(u_id);
 		List<UploadDTO> list2 = userService.myRecode2();
 		List<CategoryDTO> list3 = categoryService.listAll();
+		int follower = followService.followerCount(u_id);
+		int following = followService.followingCount(u_id);
 		
 		model.addAttribute("list1", list1);
 		model.addAttribute("list2", list2);
 		model.addAttribute("list3", list3);
+		model.addAttribute("follower", follower);
+		model.addAttribute("following", following);
 		return "/mypage";
 	}
 	
