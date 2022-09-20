@@ -19,8 +19,7 @@ public class CommunityServiceImpl implements CommunityService {
 	@Transactional(rollbackOn = Exception.class)
 	@Override
 	public boolean communityRegist(CommunityDTO dto) {
-		boolean result = communityMapper.communityRegist(dto);
-		return result;
+		return communityMapper.communityRegist(dto);
 	}
 	
 	@Override 

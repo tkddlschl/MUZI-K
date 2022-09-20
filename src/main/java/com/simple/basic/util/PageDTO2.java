@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 import lombok.Data;
 
 @Data
-public class PageDTO {
+public class PageDTO2 {
 	
 	//criteria클래스를 받아서 화면에 그려질 페이지네이션을 계산
 	private int start; //페이지네이션 시작번호
@@ -18,13 +18,13 @@ public class PageDTO {
 	private int page;  //조회하는 페이지번호(cri)
 	private int amount; //조회하는 데이터개수(cri)
 	private int realEnd; //실제 끝번호
-	private Criteria cri; //페이지 기준클래스
+	private Criteria2 cri; //페이지 기준클래스
 	
 	private List<Integer> pageList; 
 	
 	
 
-	public PageDTO(Criteria cri, int total) {
+	public PageDTO2(Criteria2 cri, int total) {
 		this.page = cri.getPage();
 		this.amount = cri.getAmount();
 		this.total = total;
