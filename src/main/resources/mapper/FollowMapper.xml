@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.simple.basic.follow.FollowMapper">
+  <insert id="follow">
+  	insert into follow(u_id, f_passiveUser)
+  	values(#{u_id}, #{f_passiveUser});
+  </insert>
+  
+  <delete id="unfollow">
+  	delete from follow 
+  	where u_id = #{u_id} and f_passiveUser = #{f_passiveUser}
+  </delete>
+  
+  <select id="isFollow" resultType="int">
+  	select count(*) 
+  	from follow
+  	where u_id = #{u_id} and f_passiveUser = #{f_passiveUser}
+  </select>
+  
+  <select id="selectActiveUserList" resultType="FollowDTO">
+  	select f.u_id, f.f_passiveUser, u.u_id, i.u_path, i.u_image
+  	from follow f
+  	left outer join user u
+  	on(f.f_passiveUser = u.u_id)
+  	left outer join u_imgupload i
+  	on(i.u_id = u.u_id)
+  	where f.u_id = #{u_id}
+  </select>
+  
+  <select id="selectPassiveUserList" resultType="FollowDTO">
+  	select f.u_id, f.f_passiveUser, u.u_id, i.u_path, i.u_image
+  	from follow f
+  	left outer join user u
+  	on(f.u_id = u.u_id)
+  	left outer join u_imgupload i
+  	on(i.u_id = u.u_id)
+  	where f.f_passiveUser = #{f_passiveUser}
+  </select>
+  </mapper>

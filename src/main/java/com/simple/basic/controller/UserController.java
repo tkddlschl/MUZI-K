@@ -21,11 +21,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.simple.basic.category.CategoryService;
 import com.simple.basic.command.CategoryDTO;
+import com.simple.basic.command.FollowDTO;
 import com.simple.basic.command.RecodeDTO;
 import com.simple.basic.command.UploadDTO;
 import com.simple.basic.command.UserDTO;
 import com.simple.basic.command.UserTotalDTO;
 import com.simple.basic.command.UserUploadDTO;
+import com.simple.basic.follow.FollowService;
 import com.simple.basic.user.UserService;
 
 
@@ -38,6 +40,9 @@ public class UserController {
 	
 	@Autowired
 	CategoryService categoryService;
+	
+	@Autowired
+	FollowService followService;
 	
 	
 	@GetMapping("/login")
@@ -82,6 +87,19 @@ public class UserController {
 		return "artistList";
 	}
 	
+	@PostMapping("/artistListForm")
+	public String artistFollowForm(@RequestParam("u_id")String u_id, @RequestParam("f_passiveUser")String f_passiveUser) {
+		int isFollow = followService.isFollow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
+		if(isFollow == 0) {
+			followService.follow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
+		}
+		else {
+			followService.unfollow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
+		}
+		return "redirect:/artistList";
+	}
+	
+	
 	@GetMapping("/artistDetail")
 	public String artistDetail(@RequestParam("u_id")String u_id, @RequestParam("u_nick")String u_nick, Model model) {
 		List<CategoryDTO> list3 = categoryService.listAll();
@@ -98,11 +116,6 @@ public class UserController {
 		return "artistDetail";
 	}
 	
-	@GetMapping("/followList")
-	public String followList() {
-		
-		return "followList";
-	}
 	
 	@PostMapping("/login")
 	public String loginForm(UserTotalDTO dto, HttpServletRequest request, RedirectAttributes rttr, Model model) {
@@ -137,10 +150,10 @@ public class UserController {
 	}
 	
 	@PostMapping("/userUpdate")
-	public String userUpdate(HttpServletRequest request, UserDTO dto) {
+	public String userUpdate(HttpServletRequest request, UserTotalDTO dto) {
 		HttpSession session = request.getSession();
 		boolean b = userService.userUpdate(dto);
-		UserDTO user = dto;
+		UserTotalDTO user = dto;
 		session.setAttribute("user", user);
 		
 		return "redirect:/main";
@@ -176,11 +189,11 @@ public class UserController {
 			model.addAttribute("dto", dto);
 			return "register";
 		}
-		if(image.getContentType().contains("image") == false) {
-			model.addAttribute("dto", dto);
-			model.addAttribute("valid_image", "이미지형식만 등록가능합니다");
-			return "register";
-		}
+//		if(image.getContentType().contains("image") == false) {
+//			model.addAttribute("dto", dto);
+//			model.addAttribute("valid_image", "이미지형식만 등록가능합니다");
+//			return "register";
+//		}
 		int idResult = userService.idCheck(u_id);
 		int nickResult = userService.nickCheck(u_nick);
 		
