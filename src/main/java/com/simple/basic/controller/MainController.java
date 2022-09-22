@@ -16,7 +16,6 @@ import com.simple.basic.command.FollowDTO;
 import com.simple.basic.command.RecodeDTO;
 import com.simple.basic.command.UploadDTO;
 import com.simple.basic.command.UserDTO;
-import com.simple.basic.command.UserTotalDTO;
 import com.simple.basic.follow.FollowService;
 import com.simple.basic.recode.RecodeService;
 import com.simple.basic.user.UserService;
@@ -42,14 +41,12 @@ public class MainController {
 		List<UploadDTO> list2 = recodeService.recodeList2();
 		List<CategoryDTO> list3 = categoryService.listAll();
 		List<UserDTO> art= userService.artistList();
-		List<UserTotalDTO> a_img = userService.artistImgList();
 		
 		
 		model.addAttribute("list1", list1);
 		model.addAttribute("list2", list2);
 		model.addAttribute("list3", list3);
 		model.addAttribute("art", art);
-		model.addAttribute("a_img", a_img);
 		return "index";
 	}
 	

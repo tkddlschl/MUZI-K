@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.simple.basic.category.CategoryService;
 import com.simple.basic.command.CategoryDTO;
 import com.simple.basic.command.JoinDTO;
+import com.simple.basic.command.LikeDTO;
 import com.simple.basic.command.RecodeDTO;
 import com.simple.basic.command.UploadDTO;
 import com.simple.basic.recode.RecodeService;
@@ -60,11 +62,13 @@ public class RecodeController {
 		RecodeDTO dto1 = recodeService.recodeDetail1(r_num);
 		UploadDTO dto2 = recodeService.recodeDetail2(r_num);
 		List<CategoryDTO> list3 = categoryService.listAll();
+		int ilike = recodeService.ilike(r_num);
 		
 		model.addAttribute("dto1", dto1);
 		model.addAttribute("dto2", dto2);
 		model.addAttribute("list3", list3);
 		model.addAttribute("nickName", nickName);
+		model.addAttribute("ilike", ilike);
 		return "/recodeDetail";
 	}
 
@@ -107,5 +111,20 @@ public class RecodeController {
 			
 		boolean result = recodeService.recodeInsert(image, file, dto); // 정보, 음원, 음원이미지
 		return "redirect:/main";
+	}
+	
+	@PostMapping("/likeu")
+	public String likeu(LikeDTO dto, @RequestParam("u_id") String u_id, @RequestParam("r_num") int r_num,
+			RedirectAttributes ra) {
+		int check = recodeService.checkLike(dto);
+		if (check == 0) {
+			recodeService.like(dto);
+		} else {
+			recodeService.unlike(dto);
+		}
+
+		ra.addAttribute("r_num", r_num);
+		ra.addAttribute("check", check);
+		return "redirect:/recodeDetail";
 	}
 }

@@ -24,13 +24,14 @@ public class FollowController {
 	public String followList(@RequestParam("u_id") String u_id, Model model) {
 		List<FollowDTO> p_list = followService.selectPassiveUserList(u_id);
 		model.addAttribute("p_list", p_list);
+		model.addAttribute("my_id", u_id);
 		return "followerList";
 	}
 	
 	@GetMapping("/followingList")
 	public String followingList(@RequestParam("u_id") String u_id, Model model) {
 		List<FollowDTO> list = followService.selectActiveUserList(u_id);
-		
+		model.addAttribute("my_id", u_id);
 		model.addAttribute("list", list);
 		return "followingList";
 	}

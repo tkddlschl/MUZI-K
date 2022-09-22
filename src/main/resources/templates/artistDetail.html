@@ -165,12 +165,11 @@
                <div class="channel-profile">
                   <img th:if="${profile.u_image != null}" class="channel-profile-img" alt="" th:src="@{../display3(u_path=${profile.u_path}, u_image=${profile.u_image})}">
                   <img th:if="${profile.u_image == null}" class="channel-profile-img" alt="" src="/img/default.png">
-                  <div class="social hidden-xs">
-                     Social &nbsp;
-                     <a class="fb" href="#">Facebook</a>
-                     <a class="tw" href="#">Twitter</a>
-                     <a class="gp" href="#">Google</a>
-                  </div>
+                  <p style="margin-right: 34%; width: 57%; float: right; margin-top: 25px;">
+				    <a th:href="@{followerList(u_id=${u_id})}"><button type="button" class="btn btn-primary btn-lg">팔로워   [[${follower}]]</button></a>
+				    <a th:href="@{followingList(u_id=${u_id})}"><button type="button" class="btn btn-default btn-lg">팔로잉   [[${following}]]</button></a>
+				  </p>
+                  
                </div>
             </div>
             <div class="single-channel-nav">

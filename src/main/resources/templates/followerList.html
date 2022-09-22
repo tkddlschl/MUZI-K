@@ -180,7 +180,7 @@
                      <div th:each="p_list : ${p_list}" class="col-xl-3 col-sm-6 mb-3">
                         <div class="channels-card">
                            <div class="channels-card-image">
-                              <a th:href="@{artistDetail(u_id=${p_list.u_id},u_nick=${p_list.u_nick})}">
+                              <a th:href="@{artistDetail(u_id=${p_list.follower},u_nick=${p_list.u_nick})}">
                               <img th:if="${p_list.u_image != null}" class="img-fluid" th:src="@{../display3(u_path=${p_list.u_path}, u_image=${p_list.u_image})}" alt="">
                               <img th:if="${p_list.u_image == null}" src="/img/default.png">
                               </a>
@@ -195,18 +195,18 @@
 	                              	</form> -->
 	                              	
 	                              	<form action="followerDelete" method="post">
-		                              <input th:if="${session.user != null}" type="hidden" name="u_id" th:value="${p_list.u_id}">
+		                              <input th:if="${session.user != null}" type="hidden" name="u_id" th:value="${p_list.follower}">
 		                              <input th:if="${session.user != null}" type="hidden" name="f_passiveUser" th:value="${session.user.u_id}">
-		                              <button style="color: white; cursor:pointer;" class="btn-danger btn-sm border-none">삭제</button>
+		                              <button th:if="${session.user != null} and ${session.user.u_id} == ${my_id}" style="color: white; cursor:pointer;" class="btn-danger btn-sm border-none">삭제</button>
 	                              	</form>
 	                              </div>
                            </div>
                            <div class="channels-card-body">
                               <div class="channels-title">
-                                 <a href="#">[[${p_list.u_nick}]]</a>
+                                 <a th:href="@{artistDetail(u_id=${p_list.follower},u_nick=${p_list.u_nick})}">[[${p_list.u_nick}]]</a>
                               </div>
                               <div class="channels-view">
-                                 <!-- 382,323 팔로워 -->
+                                 [[${p_list.followerCount}]] 팔로워
                               </div>
                            </div>
                         </div>

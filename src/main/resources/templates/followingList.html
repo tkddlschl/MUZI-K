@@ -189,13 +189,13 @@
                               	  <input th:if="${session.user != null}" type="hidden" name="u_id" th:value="${session.user.u_id}">
 		                              <input th:if="${session.user != null}" type="hidden" name="f_passiveUser" th:value="${list.follower}">
 	                              <a style="color: white" class="btn-danger btn-sm border-none">팔로잉</a>
-	                              <button type="submit" style="cursor:pointer;" class="btn-warning btn-sm border-none"><i class="fas fa-times-circle"></i></button>
+	                              <a th:if="${session.user != null} and ${session.user.u_id} == ${my_id}"><button type="submit" style="cursor:pointer;" class="btn-warning btn-sm border-none"><i class="fas fa-times-circle"></i></button></a>
                               </div>
                               </form>
                            </div>
                            <div class="channels-card-body">
                               <div class="channels-title">
-                                 <a href="#">[[${list.u_nick}]]</a>
+                                 <a th:href="@{artistDetail(u_id=${list.follower},u_nick=${list.u_nick})}">[[${list.u_nick}]]</a>
                               </div>
                               <div class="channels-view">
                                  [[${list.followerCount}]] 팔로워

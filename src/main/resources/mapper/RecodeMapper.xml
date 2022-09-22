@@ -42,4 +42,27 @@
      left join u_imgupload i
      on(i.u_id = u.u_id)
   </select>
+  
+   <insert id = "like" >
+      insert into likey(u_id, r_num)
+      values(#{u_id}, #{r_num})
+   </insert>  
+  
+  <delete id="unlike">
+     delete from likey
+     where u_id = #{u_id} and r_num = #{r_num}
+  </delete>
+  
+ 
+  <select id="checkLike" resultType="int">
+     select count(like_num)
+     from likey
+     where u_id = #{u_id} and r_num = #{r_num}
+  </select>
+  
+   <select id="ilike" resultType = "int">
+     select count(*)
+     from likey
+     where r_num = #{r_num}
+  </select>
   </mapper>

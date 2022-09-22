@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.simple.basic.command.JoinDTO;
+import com.simple.basic.command.LikeDTO;
 import com.simple.basic.command.RecodeDTO;
 import com.simple.basic.command.UploadDTO;
 
@@ -102,6 +103,28 @@ public class RecodeServiceImpl implements RecodeService {
 	@Override
 	public List<JoinDTO> nickName() {
 		return recodeMapper.nickName();
+	}
+	
+	@Override
+	public boolean like(LikeDTO dto) {
+		// TODO Auto-generated method stub
+		return recodeMapper.like(dto);
+	}
+
+	@Override
+	public int ilike(int r_num) {
+		return recodeMapper.ilike(r_num);
+	}
+
+	@Override
+	public int checkLike(LikeDTO dto) {
+		return recodeMapper.checkLike(dto);
+	}
+
+	@Override
+	public boolean unlike(LikeDTO dto) {
+		// TODO Auto-generated method stub
+		return recodeMapper.unlike(dto);
 	}
 
 }

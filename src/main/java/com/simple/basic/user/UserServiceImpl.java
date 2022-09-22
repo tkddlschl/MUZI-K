@@ -98,11 +98,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserTotalDTO> artistImgList() {
-		return userMapper.artistImgList();
-	}
-
-	@Override
 	public UserUploadDTO artistImgDetail(String u_id) {
 		return userMapper.artistImgDetail(u_id);
 	}
