@@ -15,11 +15,12 @@ public class FollowDTO {
 	private String u_id; // 팔로우 건 유저
 	private String f_passiveUser; //팔로우 당한 유저
 	
-	private String f_activeUserId; // 팔로우 건 유저의 아이디
-	private String f_passiveUserId; // 팔로우 당한 유저의 아이디
-	
 	private String u_image; // 유저 프로필 사진
+	private String u_path; // 유저 프로필 사진 저장 주소
+	private String u_nick; // 유저 닉네임
 	
-	private String f_activeUserNick; // 팔로우 건 유저의 닉네임
-	private String f_passiveUserNick; // 팔로우 당한 유저의 닉네임
+	private int followerCount; // 팔로워 숫자
+	private int followingCount; // 팔로잉 숫자
+	
+	private String follower; // 내가 팔로우한 사람
 }

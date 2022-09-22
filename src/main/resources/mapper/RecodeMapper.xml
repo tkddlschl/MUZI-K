@@ -35,6 +35,11 @@
   </select>
   
   <select id="nickName" resultType="JoinDTO">
-     select distinct r.u_id, u_nick from user u left join record r on u.u_id= r.u_id ;
+     select distinct r.u_id, u_nick, i.u_path, i.u_image
+     from user u 
+     left join record r 
+     on(u.u_id= r.u_id)
+     left join u_imgupload i
+     on(i.u_id = u.u_id)
   </select>
   </mapper>

@@ -202,7 +202,7 @@
                            </div>
                            <div class="mr-5">팔로워<b> [[${follower}]]</b></div>
                         </div>
-                        <a class="card-footer text-white clearfix small z-1" th:href="@{followerList}">
+                        <a class="card-footer text-white clearfix small z-1" th:href="@{followerList(u_id=${session.user.u_id})}">
                         <span class="float-left">View Details</span>
                         <span class="float-right">
                         <i class="fas fa-angle-right"></i>
@@ -218,7 +218,7 @@
                            </div>
                            <div class="mr-5">팔로잉 <b>[[${following}]]</b></div>
                         </div>
-                        <a class="card-footer text-white clearfix small z-1" th:href="@{followingList}">
+                        <a class="card-footer text-white clearfix small z-1" th:href="@{followingList(u_id=${session.user.u_id})}">
                         <span class="float-left">View Details</span>
                         <span class="float-right">
                         <i class="fas fa-angle-right"></i>

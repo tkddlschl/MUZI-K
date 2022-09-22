@@ -185,12 +185,12 @@
 											<textarea class="form-control" rows="5" name="c_contents" style="height: 400px;">[[${CommunityDTO.c_contents}]]</textarea>
 										</div>
 										<div class="btn_area2">                                                                                                                       
-                                                <a th:if="${session.user == null}"th:href="communityList" class="revise">목록</a>                                                                                                        	
+                                                                                                                                                      	
                                             </div>                                   
                                             <div class="btn_area">       
-                                                <a th:if="${session.user.u_id} == ${CommunityDTO.u_id}" href="#" class="save" th:onclick="|commu_update()|">저장</a>                                                                                 
-                                                <a th:href="communityList" class="revise">목록</a>                                       
-                                                <a th:if="${session.user.u_id} == ${CommunityDTO.u_id}" href="#" class="delete" th:onclick="|commu_delete()|">삭제</a>                                          	
+                                                <a th:if="${session.user != null} and ${session.user.u_id} == ${CommunityDTO.u_id}" href="#" class="save" th:onclick="|commu_update()|">저장</a>                                                                                 
+                                                <a th:href="communityList" class="revise">목록</a>                                        
+                                                <a th:if="${session.user != null} and ${session.user.u_id} == ${CommunityDTO.u_id}" href="#" class="delete" th:onclick="|commu_delete()|">삭제</a>                                          	
                                             </div>
 									</form>
 									</div>

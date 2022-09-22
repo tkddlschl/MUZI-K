@@ -44,8 +44,8 @@ public class FollowServiceImpl implements FollowService {
 	}
 
 	@Override
-	public List<FollowDTO> followUnfollowList(String u_id) {
-		return followMapper.followUnfollowList(u_id);
+	public List<FollowDTO> followerList(String u_id) {
+		return followMapper.followerList(u_id);
 	}
 
 	@Override

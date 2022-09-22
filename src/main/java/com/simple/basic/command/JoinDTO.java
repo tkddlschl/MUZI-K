@@ -12,4 +12,6 @@ import lombok.NoArgsConstructor;
 public class JoinDTO {
 	public String u_nick;
 	public String u_id;
+	public String u_path;
+	public String u_image;
 }

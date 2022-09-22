@@ -81,6 +81,7 @@ public class UserController {
 		List<CategoryDTO> list3 = categoryService.listAll();
 		List<UserTotalDTO> a_img = userService.artistImgList();
 		
+		
 		model.addAttribute("art", art);
 		model.addAttribute("list3", list3);
 		model.addAttribute("a_img", a_img);

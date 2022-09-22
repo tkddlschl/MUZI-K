@@ -21,29 +21,34 @@
   </select>
   
   <select id="selectActiveUserList" resultType="FollowDTO">
-  	select f.u_id, f.f_passiveUser, u.u_id, i.u_path, i.u_image
-  	from follow f
-  	left outer join user u
-  	on(f.f_passiveUser = u.u_id)
-  	left outer join u_imgupload i
-  	on(i.u_id = u.u_id)
-  	where f.u_id = #{u_id}
+  	select  u.u_id as follower, u.u_nick, i.u_path, i.u_image, 
+	(select count(*)
+	from follow f1
+	where f1.f_passiveUser = follower) as followerCount
+	from user u
+	inner join u_imgupload i
+	on i.u_id = u.u_id 
+	where u.u_id in (select f_passiveUser 
+			  		from follow f
+			  		where f.u_id = #{u_id})
+	order by u.u_nick
   </select>
   
   <select id="selectPassiveUserList" resultType="FollowDTO">
-  	select f.u_id, f.f_passiveUser, u.u_id, i.u_path, i.u_image
+  	select f.u_id, f.f_passiveUser, u.u_id, u.u_nick, i.u_path, i.u_image
   	from follow f
   	left outer join user u
   	on(f.u_id = u.u_id)
   	left outer join u_imgupload i
   	on(i.u_id = u.u_id)
   	where f.f_passiveUser = #{f_passiveUser}
+  	order by u.u_nick
   </select>
   
-  <select id ="followUnfollowList" resultType = "FollowDTO">
+  <select id ="followerList" resultType = "FollowDTO">
      select *
      from follow
-     where u_id = #{u_id}
+     where f_passiveUser = #{u_id}
   </select>
   
   
@@ -59,5 +64,10 @@
 	  where f_passiveUser = #{u_id}
   </select>
   
+  <select id ="indivFollowerCount" resultType = "Integer">
+     select count(*)
+     from follow
+     where f_passiveUser = #{u_id}
+  </select>
   
   </mapper>
