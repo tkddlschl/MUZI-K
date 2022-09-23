@@ -94,7 +94,6 @@
                	  <input type="hidden" name="u_id1" class="form-control" th:value="${session.user.u_id}">
                   <button style="cursor:pointer" class="dropdown-item" th:href="@{mypage}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; 마이페이지</button>
                </form>
-                  <a class="dropdown-item" th:href="@{followList}"><i class="fas fa-fw fa-video"></i> &nbsp; 팔로우 목록</a>
                   <a class="dropdown-item" th:href="@{userInfo}"><i class="fas fa-fw fa-cog"></i> &nbsp; 회원정보관리</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; 로그아웃</a>
@@ -191,14 +190,21 @@
 										<div class="mb-3">
 											<label for="content">내용</label>
 											<textarea class="form-control" rows="5" name="c_contents" style="height: 400px;">[[${CommunityDTO.c_contents}]]</textarea>
-										</div>                                   
+
+										</div>
+										<div class="btn_area2">                                                                                                                       
+                                                                                                                                                      	
+                                            </div>                                                                              
+                                     
+                                   
                                             <div class="btn_area">       
                                                 <a th:if="${session.user != null} and ${session.user.u_id} == ${CommunityDTO.u_id}" href="#" class="save" th:onclick="|commu_update()|">저장</a>                                                                                 
                                                 <a th:href="communityList" class="revise">목록</a>                                       
+
                                                 <a th:if="${session.user != null} and ${session.user.u_id} == ${CommunityDTO.u_id}" href="#" class="delete" th:onclick="|commu_delete()|">삭제</a>                                          	
                                             </div>
 									</form>
-									
+									<div
 									<table class="container">
 									<tr>
                                                 <th colspan="2">여러분의 의견을 남겨주세요</th>

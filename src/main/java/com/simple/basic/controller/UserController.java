@@ -79,11 +79,10 @@ public class UserController {
 	public String artistList(Model model) {
 		List<UserDTO> art= userService.artistList();
 		List<CategoryDTO> list3 = categoryService.listAll();
-		List<UserTotalDTO> a_img = userService.artistImgList();
+		
 		
 		model.addAttribute("art", art);
 		model.addAttribute("list3", list3);
-		model.addAttribute("a_img", a_img);
 		return "artistList";
 	}
 	
@@ -106,6 +105,10 @@ public class UserController {
 		List<RecodeDTO> list1 = userService.myRecode1(u_id);
 	    List<UploadDTO> list2 = userService.myRecode2();
 	    UserUploadDTO profile = userService.artistImgDetail(u_id);
+	    List<FollowDTO> u_list = followService.selectActiveUserList(u_id);
+	    List<FollowDTO> f_list = followService.selectActiveUserList(u_id);
+	    int follower = followService.followerCount(u_id);
+	    int following = followService.followingCount(u_id);
 
 	    model.addAttribute("list1", list1);
 	    model.addAttribute("list2", list2);
@@ -113,6 +116,10 @@ public class UserController {
 	    model.addAttribute("u_nick", u_nick);
 	    model.addAttribute("profile", profile);
 		model.addAttribute("list3", list3);
+		model.addAttribute("u_list", u_list);
+		model.addAttribute("f_list", f_list);
+		model.addAttribute("follower", follower);
+		model.addAttribute("following", following);
 		return "artistDetail";
 	}
 	
@@ -142,10 +149,14 @@ public class UserController {
 		List<RecodeDTO> list1 = userService.myRecode1(u_id);
 		List<UploadDTO> list2 = userService.myRecode2();
 		List<CategoryDTO> list3 = categoryService.listAll();
+		int follower = followService.followerCount(u_id);
+		int following = followService.followingCount(u_id);
 		
 		model.addAttribute("list1", list1);
 		model.addAttribute("list2", list2);
 		model.addAttribute("list3", list3);
+		model.addAttribute("follower", follower);
+		model.addAttribute("following", following);
 		return "/mypage";
 	}
 	

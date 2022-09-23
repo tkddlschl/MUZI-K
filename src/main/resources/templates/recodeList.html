@@ -93,7 +93,6 @@
                	  <input type="hidden" name="u_id1" class="form-control" th:value="${session.user.u_id}">
                   <button style="cursor:pointer" class="dropdown-item" th:href="@{mypage}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; 마이페이지</button>
                </form>
-                  <a class="dropdown-item" th:href="@{followList}"><i class="fas fa-fw fa-video"></i> &nbsp; 팔로우 목록</a>
                   <a class="dropdown-item" th:href="@{userInfo}"><i class="fas fa-fw fa-cog"></i> &nbsp; 회원정보관리</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; 로그아웃</a>
@@ -183,13 +182,15 @@
                         <div class="video-card history-video">
                            <div class="video-card-image">
                               <a class="video-close" href="#"><i class="fas fa-times-circle"></i></a>
-                              <a class="play-icon" th:href="@{recodeDetail(r_num=${dto1.r_num})}"><i class="fas fa-play-circle"></i></a>
+                              <a th:if="${session.user != null}" class="play-icon" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=${session.user.u_id})}"><i class="fas fa-play-circle"></i></a>
+                              <a th:unless="${session.user != null}" class="play-icon" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=null)}"><i class="fas fa-play-circle"></i></a>
                               <a th:each="dto2 : ${list2}" th:if="${dto1.r_num} == ${dto2.r_num}" href="#"><img class="img-fluid" th:src="@{../display(r_path=${dto2.r_path}, r_image=${dto2.r_image})}" alt=""></a>
                               <div class="time"></div>
                            </div>
                            <div class="video-card-body">
                               <div class="video-title">
-                                 <a th:href="@{recodeDetail(r_num=${dto1.r_num})}">[[${dto1.r_name}]]</a>
+                                 <a th:if="${session.user != null}" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=${session.user.u_id})}">[[${dto1.r_name}]]</a>
+                                 <a th:unless="${session.user != null}" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=null)}">[[${dto1.r_name}]]</a>
                               </div>
                               <div class="video-page text-success">
                                  [[${dto1.r_genre}]]  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>

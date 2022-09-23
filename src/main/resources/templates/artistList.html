@@ -94,7 +94,6 @@
                	  <input type="hidden" name="u_id1" class="form-control" th:value="${session.user.u_id}">
                   <button style="cursor:pointer" class="dropdown-item" th:href="@{mypage}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; 마이페이지</button>
                </form>
-                  <a class="dropdown-item" th:href="@{followList}"><i class="fas fa-fw fa-video"></i> &nbsp; 팔로우 목록</a>
                   <a class="dropdown-item" th:href="@{userInfo}"><i class="fas fa-fw fa-cog"></i> &nbsp; 회원정보관리</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; 로그아웃</a>
@@ -181,24 +180,26 @@
                      </div>
                      
                      <div th:each="art : ${art}" class="col-xl-3 col-sm-6 mb-3">
-                        <div th:each="a_img : ${a_img}"  th:if="${art.u_id} == ${a_img.u_id}" class="channels-card">
+                        <div class="channels-card">
                            <div class="channels-card-image">
-                              <a th:href="@{artistDetail(u_id=${art.u_id},u_nick=${art.u_nick})}">
-                              <img th:if="${a_img.u_image != null}" class="img-fluid" th:src="@{../display3(u_path=${a_img.u_path}, u_image=${a_img.u_image})}" alt="">
-                              <img th:if="${a_img.u_image == null}" alt="Avatar" src="/img/default.png">
+                              <a th:href="@{artistDetail(u_id=${art.follower},u_nick=${art.u_nick})}">
+                              <img th:if="${art.u_image != null}" class="img-fluid" th:src="@{../display3(u_path=${art.u_path}, u_image=${art.u_image})}" alt="">
+                              <img th:if="${art.u_image == null}" alt="Avatar" src="/img/default.png">
                               </a>
                               <form action="artistListForm" method="post">
                               <input th:if="${session.user != null}" type="hidden" name="u_id" th:value="${session.user.u_id}">
-                              <input th:if="${session.user != null}" type="hidden" name="f_passiveUser" th:value="${art.u_id}">
-                              <div th:if="${session.user != null} and ${session.user.u_id} != ${art.u_id}" class="channels-card-image-btn"><button type="submit" class="btn btn-outline-danger btn-sm">팔로워 <strong>1.4M</strong></button></div>
+                              <input th:if="${session.user != null}" type="hidden" name="f_passiveUser" th:value="${art.follower}">
+                              <div th:if="${session.user != null} and ${session.user.u_id} != ${art.follower}" class="channels-card-image-btn">
+                              	<button type="submit" class="btn btn-outline-danger btn-sm">팔로우</button>
+                              </div>
                               </form>
                            </div>
                            <div class="channels-card-body">
                               <div class="channels-title">
-                                 <a th:href="@{artistDetail(u_id=${art.u_id}, u_nick=${art.u_nick})}">[[${art.u_nick}]]<span title="" data-placement="top" data-toggle="tooltip" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></span></a>
+                                 <a th:href="@{artistDetail(u_id=${art.follower}, u_nick=${art.u_nick})}">[[${art.u_nick}]]<span title="" data-placement="top" data-toggle="tooltip" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></span></a>
                               </div>
                               <div class="channels-view">
-                                 [[${art.u_id}]]
+                                 [[${art.followerCount}]] 팔로워
                               </div>
                            </div>
                         </div>

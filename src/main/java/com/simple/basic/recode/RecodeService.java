@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.simple.basic.command.JoinDTO;
+import com.simple.basic.command.LikeDTO;
 import com.simple.basic.command.RecodeDTO;
 import com.simple.basic.command.UploadDTO;
 
@@ -19,4 +20,9 @@ public interface RecodeService {
 	public boolean recodeDelete(int r_num);
 	public boolean recodeUpdate(RecodeDTO dto);
 	public List<JoinDTO> nickName();
+	
+	public int checkLike(LikeDTO dto);
+	public boolean like(LikeDTO dto);
+	public boolean unlike(LikeDTO dto);
+	public int ilike(int r_num);
 }

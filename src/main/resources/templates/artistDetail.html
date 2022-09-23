@@ -94,7 +94,6 @@
                	  <input type="hidden" name="u_id1" class="form-control" th:value="${session.user.u_id}">
                   <button style="cursor:pointer" class="dropdown-item" th:href="@{mypage}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; 마이페이지</button>
                </form>
-                  <a class="dropdown-item" th:href="@{followList}"><i class="fas fa-fw fa-video"></i> &nbsp; 팔로우 목록</a>
                   <a class="dropdown-item" th:href="@{userInfo}"><i class="fas fa-fw fa-cog"></i> &nbsp; 회원정보관리</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; 로그아웃</a>
@@ -166,12 +165,11 @@
                <div class="channel-profile">
                   <img th:if="${profile.u_image != null}" class="channel-profile-img" alt="" th:src="@{../display3(u_path=${profile.u_path}, u_image=${profile.u_image})}">
                   <img th:if="${profile.u_image == null}" class="channel-profile-img" alt="" src="/img/default.png">
-                  <div class="social hidden-xs">
-                     Social &nbsp;
-                     <a class="fb" href="#">Facebook</a>
-                     <a class="tw" href="#">Twitter</a>
-                     <a class="gp" href="#">Google</a>
-                  </div>
+                  <p style="margin-right: 34%; width: 57%; float: right; margin-top: 25px;">
+				    <a th:href="@{followerList(u_id=${u_id})}"><button type="button" class="btn btn-primary btn-lg">팔로워   [[${follower}]]</button></a>
+				    <a th:href="@{followingList(u_id=${u_id})}"><button type="button" class="btn btn-default btn-lg">팔로잉   [[${following}]]</button></a>
+				  </p>
+                  
                </div>
             </div>
             <div class="single-channel-nav">

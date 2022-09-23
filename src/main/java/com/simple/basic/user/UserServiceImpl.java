@@ -36,14 +36,19 @@ public class UserServiceImpl implements UserService {
 	    
 	    try {
 	    	File saveImage= new File(imageSave);
-	    	
 	    	u_image.transferTo(saveImage);
 	    	
 	    } catch (Exception e) {
 	    	System.out.println("upload error 입니다.");
 	    }
 	    
-	    userMapper.userImageInsert(UserUploadDTO.builder().u_image(imageName).u_path(uploadPath).u_email(dto.getU_email()).build());
+	    if(imageName == null || imageName == "") {
+	    	userMapper.userImageInsert(UserUploadDTO.builder().u_email(dto.getU_email()).build());
+	    }
+	    else {
+	    	userMapper.userImageInsert(UserUploadDTO.builder().u_image(imageName).u_path(uploadPath).u_email(dto.getU_email()).build());
+	    }
+	    
 	    
 	    return result;
 		
@@ -90,11 +95,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<UserDTO> artistList() {
 		return userMapper.artistList();
-	}
-
-	@Override
-	public List<UserTotalDTO> artistImgList() {
-		return userMapper.artistImgList();
 	}
 
 	@Override

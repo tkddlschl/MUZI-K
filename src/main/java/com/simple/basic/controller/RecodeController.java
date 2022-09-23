@@ -11,14 +11,19 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.simple.basic.category.CategoryService;
 import com.simple.basic.command.CategoryDTO;
 import com.simple.basic.command.JoinDTO;
+import com.simple.basic.command.LikeDTO;
 import com.simple.basic.command.RecodeDTO;
 import com.simple.basic.command.UploadDTO;
+import com.simple.basic.follow.FollowService;
 import com.simple.basic.recode.RecodeService;
 
 @Controller
@@ -29,6 +34,9 @@ public class RecodeController {
 
 	@Autowired
 	CategoryService categoryService;
+	
+	@Autowired
+	FollowService followService;
 
 	@GetMapping("/recodeInsert") // 업로드 화면
 	public String recodeInsert(Model model) {
@@ -55,16 +63,22 @@ public class RecodeController {
 	}
 
 	@GetMapping("/recodeDetail")
-	public String recodeDetail(@RequestParam("r_num") int r_num, Model model) {
+	public String recodeDetail(@RequestParam("r_num") int r_num, @RequestParam("u_id") String u_id, Model model) {
 		List<JoinDTO> nickName = recodeService.nickName();
 		RecodeDTO dto1 = recodeService.recodeDetail1(r_num);
 		UploadDTO dto2 = recodeService.recodeDetail2(r_num);
 		List<CategoryDTO> list3 = categoryService.listAll();
+		int ilike = recodeService.ilike(r_num);
+		int follower = followService.followerCount(dto1.getU_id());
+		int isCheck = recodeService.checkLike(LikeDTO.builder().r_num(r_num).u_id(u_id).build());
 		
 		model.addAttribute("dto1", dto1);
 		model.addAttribute("dto2", dto2);
 		model.addAttribute("list3", list3);
 		model.addAttribute("nickName", nickName);
+		model.addAttribute("ilike", ilike);
+		model.addAttribute("follower", follower);
+		model.addAttribute("isCheck", isCheck);
 		return "/recodeDetail";
 	}
 
@@ -108,4 +122,29 @@ public class RecodeController {
 		boolean result = recodeService.recodeInsert(image, file, dto); // 정보, 음원, 음원이미지
 		return "redirect:/main";
 	}
+	
+	@PostMapping("/likeCount")
+	@ResponseBody
+	public int likeCount(@RequestBody LikeDTO likeDto) {
+		
+		int ilike = recodeService.ilike(likeDto.getR_num());
+		
+		return ilike;
+	}
+	
+	@PostMapping("/likeSwitch")
+	@ResponseBody
+	public int likeSwitch(@RequestBody LikeDTO likeDto) {
+		
+		int isCheck = recodeService.checkLike(likeDto);
+		
+		if (isCheck == 0) {
+			recodeService.like(likeDto);
+		} else {
+			recodeService.unlike(likeDto);
+		}
+		return isCheck;
+	}
+
 }
+

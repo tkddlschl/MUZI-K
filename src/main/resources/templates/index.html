@@ -19,6 +19,35 @@
       <!-- Owl Carousel -->
       <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
       <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!--       <script type="text/javascript">
+      $(document).ready(function(){
+    	  $('#follow').on('click', function(){
+    		  $.ajax({
+  	            url: "/followSwitch",
+  	            type: 'POST',
+  	            contentType: 'application/json;charset=utf-8',
+  	            dataType: 'json',
+  	            async: false,
+  	            data: JSON.stringify({                    
+  	                u_id: $('#u_id').val(),
+  	                f_passiveUser: $('#f_passiveUser').val()
+  	            }),
+  	            success: function (data) {
+  		               if(data == 0){
+  		            	   alert("0");
+  		               }
+  		               else{
+  		            	 alert("1");
+  		               }
+  		        },	            
+  	            error: function(ex)  {
+  	            	alert("error : " + ex);
+  	            } 
+  	          });
+    	  });
+      });
+      </script> -->
    </head>
    <body id="page-top">
       <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
@@ -94,8 +123,7 @@
                	  <input type="hidden" name="u_id1" class="form-control" th:value="${session.user.u_id}">
                   <button style="cursor:pointer" class="dropdown-item" th:href="@{mypage}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; 마이페이지</button>
                </form>
-                  <a class="dropdown-item" th:href="@{followList}"><i class="fas fa-fw fa-video"></i> &nbsp; 팔로우 목록</a>
-                  <a class="dropdown-item" th:href="@{userInfo}"><i class="fas fa-fw fa-cog"></i> &nbsp; 회원정보관리</a>
+                  <a class="dropdown-item" th:href="@{artistDetail(u_id=${session.user.u_id},u_nick=${session.user.u_nick})}"><i class="fas fa-fw fa-cog"></i> &nbsp; 상세 정보 페이지</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; 로그아웃</a>
                </div>
@@ -218,13 +246,15 @@
                      <div th:each="dto1 : ${list1}" class="col-xl-3 col-sm-6 mb-3">
                         <div class="video-card">
                            <div class="video-card-image">
-                              <a class="play-icon" th:href="@{recodeDetail(r_num=${dto1.r_num})}"><i class="fas fa-play-circle"></i></a>
+                           	  <a th:if="${session.user != null}" class="play-icon" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=${session.user.u_id})}"><i class="fas fa-play-circle"></i></a>
+                              <a th:unless="${session.user != null}" class="play-icon" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=null)}"><i class="fas fa-play-circle"></i></a>
                               <a th:each="dto2 : ${list2}" th:if="${dto1.r_num} == ${dto2.r_num}" href="#"><img class="img-fluid" th:src="@{../display(r_path=${dto2.r_path}, r_image=${dto2.r_image})}" alt=""></a>
                               <div class="time"></div>
                            </div>
                            <div class="video-card-body">
                               <div class="video-title">
-                                 <a th:href="@{recodeDetail(r_num=${dto1.r_num})}">[[${dto1.r_name}]]</a>
+                                 <a th:if="${session.user != null}" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=${session.user.u_id})}">[[${dto1.r_name}]]</a>
+                                 <a th:unless="${session.user != null}" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=null)}">[[${dto1.r_name}]]</a>
                               </div>
                               <div class="video-page text-success">
                                  [[${dto1.r_genre}]]  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
@@ -246,27 +276,26 @@
                            <h6>인기 아티스트</h6>
                         </div>
                      </div>
-                     <div th:each="art : ${art}"  class="col-xl-3 col-sm-6 mb-3">
-                        <div th:each="a_img : ${a_img}" th:if="${art.u_id} == ${a_img.u_id}" class="channels-card">
+                     <div th:each="art : ${art}" class="col-xl-3 col-sm-6 mb-3">
+                        <div class="channels-card">
                            <div class="channels-card-image">
-                              <a th:href="@{artistDetail(u_id=${art.u_id},u_nick=${art.u_nick})}">
-                              <img th:if="${a_img.u_image != null}" class="img-fluid" th:src="@{../display3(u_path=${a_img.u_path}, u_image=${a_img.u_image})}" alt="">
-                              <img th:if="${a_img.u_image == null}" alt="Avatar" src="/img/default.png">
+                              <a th:href="@{artistDetail(u_id=${art.follower},u_nick=${art.u_nick})}">
+                              <img th:if="${art.u_image != null}" class="img-fluid" th:src="@{../display3(u_path=${art.u_path}, u_image=${art.u_image})}" alt="">
+                              <img th:if="${art.u_image == null}" alt="Avatar" src="/img/default.png">
                               </a>
                               
                               <form action="mainForm" method="post">
                               <input th:if="${session.user != null}" type="hidden" name="u_id" th:value="${session.user.u_id}">
-                              <input th:if="${session.user != null}" type="hidden" name="f_passiveUser" th:value="${art.u_id}">
-                              <div th:if="${session.user != null} and ${session.user.u_id} != ${art.u_id} and ${param.isFollow != null}" class="channels-card-image-btn"><button type="submit" class="btn btn-outline-danger btn-sm">팔로우</button></div>
-                              <div th:if="${session.user != null} and ${session.user.u_id} != ${art.u_id} and ${param.isFollow != null}" class="channels-card-image-btn"><button type="submit" class="btn btn-outline-danger btn-sm">팔로우 취소</button></div>
+                              <input th:if="${session.user != null}" type="hidden" name="f_passiveUser" th:value="${art.follower}">
+                              <div th:if="${session.user != null} and ${session.user.u_id} != ${art.follower}" class="channels-card-image-btn"><button type="submit" class="btn btn-outline-danger btn-sm">팔로우</button></div>
                               </form>
                            </div>
                            <div class="channels-card-body">
                               <div class="channels-title">
-                                 <a th:href="@{artistDetail(u_id=${art.u_id},u_nick=${art.u_nick})}">[[${art.u_nick}]]</a>
+                                 <a th:href="@{artistDetail(u_id=${art.follower},u_nick=${art.u_nick})}">[[${art.u_nick}]]</a>
                               </div>
                               <div class="channels-view">
-                                 [[${art.u_id}]]
+                                 [[${art.followerCount}]] 팔로워
                               </div>
                            </div>
                         </div>

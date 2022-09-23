@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.simple.basic.command.JoinDTO;
+import com.simple.basic.command.LikeDTO;
 import com.simple.basic.command.RecodeDTO;
 import com.simple.basic.command.UploadDTO;
 @Mapper
@@ -19,4 +20,9 @@ public interface RecodeMapper {
 	public boolean recodeDelete(int r_num);
 	public boolean recodeUpdate(RecodeDTO dto);
 	public List<JoinDTO> nickName();
+	
+	public int checkLike(LikeDTO dto);
+	public boolean like(LikeDTO dto);
+	public boolean unlike(LikeDTO dto);
+	public int ilike(int r_num);
 }

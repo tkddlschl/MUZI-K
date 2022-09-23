@@ -6,12 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-public class JoinDTO {
-	public String u_nick;
-	public String u_id;
-	public String u_path;
-	public String u_image;
+@NoArgsConstructor
+@AllArgsConstructor
+public class LikeDTO {
+
+   
+   private int like_num;
+   private String u_id;
+   private int r_num;
+   
 }
