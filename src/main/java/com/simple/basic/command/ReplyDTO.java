@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ReplyDTO {
-	private int reply_num;
-	private int c_num;
-	private String u_id;
-	private String reply_contents;
-	private LocalDateTime reply_date;
+   private int reply_num; //pk
+   private int c_num; //게시물 번호
+   private String u_id; // 작성자
+   private String reply_contents; //내용
+   private LocalDateTime reply_date; //작성일자
 }

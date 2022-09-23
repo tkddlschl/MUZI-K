@@ -1,5 +1,16 @@
 package com.simple.basic.reply;
 
-public interface ReplyService {
+import java.util.List;
 
+import com.simple.basic.command.ReplyDTO;
+
+public interface ReplyService {
+	
+	public boolean replyRegist(ReplyDTO dto);
+
+	public List<ReplyDTO> replyList(int c_num);
+
+	public List<ReplyDTO> replyCount();
+
+	public boolean replyUpdate(ReplyDTO dto);
 }
