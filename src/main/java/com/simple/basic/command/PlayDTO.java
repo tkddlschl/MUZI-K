@@ -13,4 +13,5 @@ public class PlayDTO {
 	private int pl_num;
 	private String u_id;
 	private int r_num;
+	// 깃 푸시용
 }
