@@ -63,13 +63,14 @@ public class RecodeController {
 	}
 
 	@GetMapping("/recodeDetail")
-	public String recodeDetail(@RequestParam("r_num") int r_num, Model model) {
+	public String recodeDetail(@RequestParam("r_num") int r_num, @RequestParam("u_id") String u_id, Model model) {
 		List<JoinDTO> nickName = recodeService.nickName();
 		RecodeDTO dto1 = recodeService.recodeDetail1(r_num);
 		UploadDTO dto2 = recodeService.recodeDetail2(r_num);
 		List<CategoryDTO> list3 = categoryService.listAll();
 		int ilike = recodeService.ilike(r_num);
 		int follower = followService.followerCount(dto1.getU_id());
+		int isCheck = recodeService.checkLike(LikeDTO.builder().r_num(r_num).u_id(u_id).build());
 		
 		model.addAttribute("dto1", dto1);
 		model.addAttribute("dto2", dto2);
@@ -77,6 +78,7 @@ public class RecodeController {
 		model.addAttribute("nickName", nickName);
 		model.addAttribute("ilike", ilike);
 		model.addAttribute("follower", follower);
+		model.addAttribute("isCheck", isCheck);
 		return "/recodeDetail";
 	}
 
@@ -121,19 +123,13 @@ public class RecodeController {
 		return "redirect:/main";
 	}
 	
-	@PostMapping("/likeu")
-	public String likeu(LikeDTO dto, @RequestParam("u_id") String u_id, @RequestParam("r_num") int r_num,
-			RedirectAttributes ra) {
-		int check = recodeService.checkLike(dto);
-		if (check == 0) {
-			recodeService.like(dto);
-		} else {
-			recodeService.unlike(dto);
-		}
-
-		ra.addAttribute("r_num", r_num);
-		ra.addFlashAttribute("check", check);
-		return "redirect:/recodeDetail";
+	@PostMapping("/likeCount")
+	@ResponseBody
+	public int likeCount(@RequestBody LikeDTO likeDto) {
+		
+		int ilike = recodeService.ilike(likeDto.getR_num());
+		
+		return ilike;
 	}
 	
 	@PostMapping("/likeSwitch")
@@ -141,26 +137,14 @@ public class RecodeController {
 	public int likeSwitch(@RequestBody LikeDTO likeDto) {
 		
 		int isCheck = recodeService.checkLike(likeDto);
-		System.out.println("ischeck : " + isCheck);
+		
+		if (isCheck == 0) {
+			recodeService.like(likeDto);
+		} else {
+			recodeService.unlike(likeDto);
+		}
 		return isCheck;
 	}
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

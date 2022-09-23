@@ -7,12 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.simple.basic.category.CategoryService;
 import com.simple.basic.command.CategoryDTO;
 import com.simple.basic.command.FollowDTO;
+import com.simple.basic.command.LikeDTO;
 import com.simple.basic.command.RecodeDTO;
 import com.simple.basic.command.UploadDTO;
 import com.simple.basic.command.UserDTO;
@@ -61,10 +64,20 @@ public class MainController {
 			followService.unfollow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
 			ra.addFlashAttribute("isFollowDelete", isFollow);
 		}
-		
-//		List<FollowDTO> list = followService.followUnfollowList(u_id);
-//		
-//		model.addAttribute("list", list);
 		return "redirect:/main";
+	}
+	
+	@PostMapping("/followSwitch")
+	@ResponseBody
+	public int followSwitch(@RequestBody FollowDTO followDto) {
+		
+		int isFollowCheck = followService.isFollow(followDto);
+		
+		if (isFollowCheck == 0) {
+			followService.follow(followDto);
+		} else {
+			followService.unfollow(followDto);
+		}
+		return isFollowCheck;
 	}
 }

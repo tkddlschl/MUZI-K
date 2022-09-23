@@ -41,6 +41,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	//마이바티스
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
+	// 이메일 전송
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '2.5.1'
+	// 타임리프(이메일 내용 화면)
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	
 }
 
