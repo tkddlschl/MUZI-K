@@ -94,6 +94,7 @@
                	  <input type="hidden" name="u_id1" class="form-control" th:value="${session.user.u_id}">
                   <button style="cursor:pointer" class="dropdown-item" th:href="@{mypage}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; 마이페이지</button>
                </form>
+                  <a class="dropdown-item" th:href="@{followList}"><i class="fas fa-fw fa-video"></i> &nbsp; 팔로우 목록</a>
                   <a class="dropdown-item" th:href="@{userInfo}"><i class="fas fa-fw fa-cog"></i> &nbsp; 회원정보관리</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; 로그아웃</a>
@@ -145,7 +146,7 @@
                <div class="dropdown-menu">
                   <a class="dropdown-item" th:href="@{communityList}">모든 게시글</a>
                   <a th:if="${session.user != null}" class="dropdown-item" th:href="@{communityMypost(u_id=${session.user.u_id})}">나의 게시글</a>
-                  <a class="dropdown-item" th:href="@{noticeList}">공지글 게시판</a>
+                   <a class="dropdown-item" th:href="@{noticeList}">공지글</a>
                </div>
             </li>
                 <li class="nav-item" th:if="${session.user != null} and ${session.user.u_type} == 'm'">
@@ -179,32 +180,25 @@
 									<a><img src="img/logo.png"></img></a>
 									<form name="actionForm" action="####" method="####">
 										<div class="mb-3">
-											<input type="hidden" name="c_num" th:value="${CommunityDTO.c_num}">
+											<input type="hidden" name="n_num" th:value="${NoticeDTO.n_num}">
 										</div>
 										<div class="mb-3">
-											<label for="reg_id">작성자</label> <input type="text" class="form-control" name="u_id" th:value="${CommunityDTO.u_id}" readonly />
+											<label for="reg_id">관리자 ID</label> <input type="text" class="form-control" name="u_id" th:value="${NoticeDTO.u_id}" readonly />
 										</div>
 										<div class="mb-3">
-											<label for="reg_id">제목</label> <input type="text" class="form-control" name="c_title" th:value="${CommunityDTO.c_title}">
+											<label for="reg_id">제목</label> <input type="text" class="form-control" name="n_title" th:value="${NoticeDTO.n_title}">
 										</div>
 										<div class="mb-3">
 											<label for="content">내용</label>
-											<textarea class="form-control" rows="5" name="c_contents" style="height: 400px;">[[${CommunityDTO.c_contents}]]</textarea>
-
-										</div>
-										<div class="btn_area2">                                                                                                                       
-                                                                                                                                                      	
-                                            </div>                                                                              
-                                     
-                                   
+											<textarea class="form-control" rows="5" name="n_contents" style="height: 400px;">[[${NoticeDTO.n_contents}]]</textarea>
+										</div>                                   
                                             <div class="btn_area">       
-                                                <a th:if="${session.user != null} and ${session.user.u_id} == ${CommunityDTO.u_id}" href="#" class="save" th:onclick="|commu_update()|">저장</a>                                                                                 
-                                                <a th:href="communityList" class="revise">목록</a>                                       
-
-                                                <a th:if="${session.user != null} and ${session.user.u_id} == ${CommunityDTO.u_id}" href="#" class="delete" th:onclick="|commu_delete()|">삭제</a>                                          	
+                                                <a th:if="${session.user != null} and ${session.user.u_id} == ${NoticeDTO.u_id}" href="#" class="save" th:onclick="|commu_update()|">저장</a>                                                                                 
+                                                <a th:href="noticeList" class="revise">목록</a>                                       
+                                                <a th:if="${session.user != null} and ${session.user.u_id} == ${NoticeDTO.u_id}" href="#" class="delete" th:onclick="|commu_delete()|">삭제</a>                                          	
                                             </div>
 									</form>
-									<div
+									
 									<table class="container">
 									<tr>
                                                 <th colspan="2">여러분의 의견을 남겨주세요</th>
