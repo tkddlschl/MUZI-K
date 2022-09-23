@@ -11,7 +11,9 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -21,6 +23,7 @@ import com.simple.basic.command.JoinDTO;
 import com.simple.basic.command.LikeDTO;
 import com.simple.basic.command.RecodeDTO;
 import com.simple.basic.command.UploadDTO;
+import com.simple.basic.follow.FollowService;
 import com.simple.basic.recode.RecodeService;
 
 @Controller
@@ -31,6 +34,9 @@ public class RecodeController {
 
 	@Autowired
 	CategoryService categoryService;
+	
+	@Autowired
+	FollowService followService;
 
 	@GetMapping("/recodeInsert") // 업로드 화면
 	public String recodeInsert(Model model) {
@@ -63,12 +69,14 @@ public class RecodeController {
 		UploadDTO dto2 = recodeService.recodeDetail2(r_num);
 		List<CategoryDTO> list3 = categoryService.listAll();
 		int ilike = recodeService.ilike(r_num);
+		int follower = followService.followerCount(dto1.getU_id());
 		
 		model.addAttribute("dto1", dto1);
 		model.addAttribute("dto2", dto2);
 		model.addAttribute("list3", list3);
 		model.addAttribute("nickName", nickName);
 		model.addAttribute("ilike", ilike);
+		model.addAttribute("follower", follower);
 		return "/recodeDetail";
 	}
 
@@ -124,7 +132,35 @@ public class RecodeController {
 		}
 
 		ra.addAttribute("r_num", r_num);
-		ra.addAttribute("check", check);
+		ra.addFlashAttribute("check", check);
 		return "redirect:/recodeDetail";
 	}
+	
+	@PostMapping("/likeSwitch")
+	@ResponseBody
+	public int likeSwitch(@RequestBody LikeDTO likeDto) {
+		
+		int isCheck = recodeService.checkLike(likeDto);
+		System.out.println("ischeck : " + isCheck);
+		return isCheck;
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

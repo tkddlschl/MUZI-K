@@ -23,7 +23,6 @@
 	    rel="stylesheet"
 	    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
 	  />
-      <script src="js/jquery-3.6.0.js"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
       <script type="text/javascript">
       $(document).keydown( function(event) {
@@ -32,7 +31,37 @@
     			//기능구현
     		}
     	});
-      </script>
+      
+      $(document).ready(function() {
+    	  
+    	   
+    	  $('#like1').on('click', function() {
+	         $.ajax({
+	            url: "/likeSwitch",
+	            type: 'POST',
+	            contentType: 'application/json;charset=utf-8',
+	            dataType: 'json',
+	            data: JSON.stringify({                    
+	                u_id: $('#u_id').val(),
+	                r_num: $('#r_num').val()
+	            }),
+	            success: function (data) {
+	               if(data == 0){
+	            	   alert("1");
+	            	   //$('.fas fa-heart-circle-plus').attr('class', 'fas fa-heart-circle-minus');
+	               }
+	               else{
+	            	   //$('.fas fa-heart-circle-minus').attr('class', 'fas fa-heart-circle-plus');
+	               }
+		        },	            
+	            error: function(ex)  {
+	            	alert("error : " + ex);
+	            } 
+	         }); 
+      	});     
+      });
+      
+     </script>
    </head>
    <body id="page-top">
       <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
@@ -195,9 +224,9 @@
                               	<a href="#">[[${dto1.r_name}]]-[[${dto3.u_nick}]]</a>
                               	<form action="likeu" name ="like" id="like" method="post"> 
 	                              	<div class="float-right">
-	                              		<input th:if="${session.user != null}" type ="hidden" name ="u_id" th:value="${session.user.u_id}">
-                                 		<input th:if="${session.user != null}" type = "hidden" name = "r_num" th:value="${param.r_num}">
-	                              		<button style="margin-top: -20px;" th:if="${session.user != null}" class="btn btn btn-outline-danger" type="submit"><i class="fas fa-heart-circle-plus"></i>&nbsp<i> [[${ilike}]]</i></button>
+	                              		<input th:if="${session.user != null}" type ="hidden" id="u_id" name ="u_id" th:value="${session.user.u_id}">
+                                 		<input th:if="${session.user != null}" type = "hidden" id="r_num" name = "r_num" th:value="${param.r_num}">
+	                              		<button style="margin-top: -20px;" th:if="${session.user != null}" id="like1" class="btn btn btn-outline-danger" type="submit"><i id="likeImg" class="fas fa-heart-circle-plus"></i>&nbsp<i> [[${ilike}]]</i></button>
 	                              	</div>
 	                            </form>
                               </h2>
@@ -205,7 +234,7 @@
                               
                            </div>
                            <div th:each = "dto3 : ${nickName}" th:if = "${dto1.u_id} == ${dto3.u_id}" class="single-video-author box mb-3">
-                              <div class="float-right"><a style="color: white;cursor:default;" class="btn btn-danger" type="button">3 <strong>Followers</strong></a></div>
+                              <div class="float-right"><a style="color: white;cursor:default;" class="btn btn-danger" type="button">[[${follower}]] <strong>Followers</strong></a></div>
                               <img th:if="${dto3.u_image != null}" class="img-fluid" th:src="@{../display3(u_path=${dto3.u_path}, u_image=${dto3.u_image})}" alt="">
                               <img th:if="${dto3.u_image == null}" alt="Avatar" src="/img/default.png">
                               <p><a th:href="@{artistDetail(u_id=${dto3.u_id}, u_nick=${dto3.u_nick})}"><strong>[[${dto3.u_nick}]]</strong></a> <span title="" data-placement="top" data-toggle="tooltip" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></span></p>
@@ -625,6 +654,9 @@
               }
           }
       });
+      
+      
+      
       </script>
       
       <!-- <script>
