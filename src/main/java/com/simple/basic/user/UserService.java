@@ -22,4 +22,5 @@ public interface UserService {
 	public boolean userDelete(String u_id); //회원 삭제
 	public List<UserDTO> artistList();// 아티스트 정보 가져오기
 	public UserUploadDTO artistImgDetail(String u_id); // 아티스트 각 프로필 이미지 가져오기
+	public String createCode();
 }
