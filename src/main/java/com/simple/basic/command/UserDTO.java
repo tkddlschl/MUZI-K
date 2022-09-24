@@ -30,4 +30,5 @@ public class UserDTO {
 	private String u_image; // 유저 프로필 사진
 	private String u_path; // 유저 프로필 사진 저장 주소
 	private int followerCount; // 팔로워 숫자
+	private int isFollow; //로그인 한 사람 다른 아티스트 팔로우 여부
 }

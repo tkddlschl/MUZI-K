@@ -101,4 +101,9 @@ public class UserServiceImpl implements UserService {
 	public UserUploadDTO artistImgDetail(String u_id) {
 		return userMapper.artistImgDetail(u_id);
 	}
+
+	@Override
+	public List<UserDTO> loginArtistList(String u_id) {
+		return userMapper.loginArtistList(u_id);
+	}
 }

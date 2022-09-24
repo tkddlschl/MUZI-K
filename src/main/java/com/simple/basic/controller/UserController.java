@@ -14,6 +14,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -76,27 +77,35 @@ public class UserController {
 	}
 	
 	@GetMapping("/artistList")
-	public String artistList(Model model) {
-		List<UserDTO> art= userService.artistList();
+	public String artistList(Model model, HttpSession session) {
+		UserTotalDTO user = (UserTotalDTO)session.getAttribute("user");
+		if(user != null) {
+			String u_id = user.getU_id();
+			List<UserDTO> art= userService.loginArtistList(u_id);
+			model.addAttribute("art", art);
+		}
+		else {
+			List<UserDTO> art = userService.artistList();
+			model.addAttribute("art", art);
+		}
 		List<CategoryDTO> list3 = categoryService.listAll();
 		
 		
-		model.addAttribute("art", art);
 		model.addAttribute("list3", list3);
 		return "artistList";
 	}
-	
-	@PostMapping("/artistListForm")
-	public String artistFollowForm(@RequestParam("u_id")String u_id, @RequestParam("f_passiveUser")String f_passiveUser) {
-		int isFollow = followService.isFollow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
-		if(isFollow == 0) {
-			followService.follow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
-		}
-		else {
-			followService.unfollow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
-		}
-		return "redirect:/artistList";
-	}
+//	
+//	@PostMapping("/artistListForm")
+//	public String artistFollowForm(@RequestParam("u_id")String u_id, @RequestParam("f_passiveUser")String f_passiveUser) {
+//		int isFollow = followService.isFollow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
+//		if(isFollow == 0) {
+//			followService.follow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
+//		}
+//		else {
+//			followService.unfollow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
+//		}
+//		return "redirect:/artistList";
+//	}
 	
 	
 	@GetMapping("/artistDetail")
@@ -174,9 +183,9 @@ public class UserController {
 	public String userDelete(@RequestParam("u_id") String u_id, RedirectAttributes ra, HttpSession session) {
 		boolean b = userService.userDelete(u_id);
 		if(b) {
-			ra.addFlashAttribute("msg", "수정이 완료되었습니다.");
+			ra.addFlashAttribute("msg", "삭제가 완료되었습니다.");
 		}else {
-			ra.addFlashAttribute("msg", "오류로 인해 수정이 실패되었습니다.");
+			ra.addFlashAttribute("msg", "오류로 인해 삭제가 실패되었습니다.");
 		}
 		session.invalidate();
 		return "redirect:/main";
@@ -227,5 +236,29 @@ public class UserController {
 	public int nickCheck(String u_nick) {
 		int result = userService.nickCheck(u_nick);
 		return result;
+	}
+	
+	@PostMapping("/followSwitch_a")
+	@ResponseBody
+	public int followSwitch(@RequestBody FollowDTO followDto) {
+		
+		int isFollowCheck = followService.isFollow(followDto);
+		
+		if (isFollowCheck == 0) {
+			followService.follow(followDto);
+		} else {
+			followService.unfollow(followDto);
+		}
+		return isFollowCheck;
+	}
+	
+	
+	@PostMapping("/followCount_a")
+	@ResponseBody
+	public int followCount(@RequestBody FollowDTO followDto) {
+		
+		int followCount = followService.followerCount(followDto.getU_id());
+
+		return followCount;
 	}
 }

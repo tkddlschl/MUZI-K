@@ -20,7 +20,7 @@
   	where u_id = #{u_id} and f_passiveUser = #{f_passiveUser}
   </select>
   
-  <select id="selectActiveUserList" resultType="FollowDTO">
+  <select id="selectActiveUserList" parameterType="String" resultType="FollowDTO">
   	select  u.u_id as follower, u.u_nick, i.u_path, i.u_image, 
 	(select count(*)
 	from follow f1
