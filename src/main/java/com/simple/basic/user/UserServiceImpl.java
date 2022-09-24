@@ -3,6 +3,7 @@ package com.simple.basic.user;
 
 import java.io.File;
 import java.util.List;
+import java.util.Random;
 
 import javax.transaction.Transactional;
 
@@ -101,4 +102,26 @@ public class UserServiceImpl implements UserService {
 	public UserUploadDTO artistImgDetail(String u_id) {
 		return userMapper.artistImgDetail(u_id);
 	}
+
+	@Override
+	 public String createCode() {
+       // 인증 코드 생성 
+   	 StringBuilder code = new StringBuilder();
+        Random rnd = new Random();
+        for (int i = 0; i < 7; i++) {
+            int rIndex = rnd.nextInt(3);
+            switch (rIndex) {
+                case 0:
+                    code.append((char) (rnd.nextInt(26) + 97));
+                    break;
+                case 1:
+                    code.append((char) (rnd.nextInt(26) + 65));
+                    break;
+                case 2:
+                    code.append((rnd.nextInt(10)));
+                    break;
+            }
+        }
+        return code.toString();
+   }
 }

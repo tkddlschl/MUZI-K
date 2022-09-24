@@ -14,6 +14,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +29,7 @@ import com.simple.basic.command.UploadDTO;
 import com.simple.basic.command.UserDTO;
 import com.simple.basic.command.UserTotalDTO;
 import com.simple.basic.command.UserUploadDTO;
+import com.simple.basic.email.EmailService;
 import com.simple.basic.follow.FollowService;
 import com.simple.basic.user.UserService;
 
@@ -43,6 +46,9 @@ public class UserController {
 	
 	@Autowired
 	FollowService followService;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	
 	@GetMapping("/login")
@@ -228,4 +234,22 @@ public class UserController {
 		int result = userService.nickCheck(u_nick);
 		return result;
 	}
+	
+	@PostMapping("/sendCode")
+	@ResponseBody
+	public String sendCode(String u_email) throws Exception {
+		String e_code = userService.createCode();
+		System.out.println("인증코드 : " + e_code);
+		System.out.println("email 주소 : " + u_email);
+		emailService.sendEmailMessage(u_email, e_code);
+		 
+		return e_code;
+	}
+	
+	@PostMapping("/checkCode")
+	@ResponseBody
+	public String checkCode(String e_code){
+		return e_code;
+	}
+
 }
