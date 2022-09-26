@@ -22,4 +22,8 @@ public class UserTotalDTO {
 	private char u_type;
 	private String u_image;
 	private String u_path;
+	
+	private String follower; // 내가 팔로우한 사람
+	private int followerCount; // 팔로워 숫자
+	private int isFollow; //로그인 한 사람 다른 아티스트 팔로우 여부
 }
