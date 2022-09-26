@@ -30,6 +30,12 @@
   	where u_nick = #{u_nick}
   </select>
   
+  <select id="emailCheck" resultType="int">
+  	select count(*)
+  	from user
+  	where u_email = #{u_email}
+  </select>
+  
   <select id="login" resultType="UserTotalDTO">
   	select u.u_id, u.u_pw, u.u_email, u.u_nick, u.u_type, u_img.u_path, u_img.u_image
   	from user u right join u_imgupload u_img on u.u_id = u_img.u_id

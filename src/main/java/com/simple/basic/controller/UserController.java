@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +26,7 @@ import com.simple.basic.command.UploadDTO;
 import com.simple.basic.command.UserDTO;
 import com.simple.basic.command.UserTotalDTO;
 import com.simple.basic.command.UserUploadDTO;
+import com.simple.basic.email.EmailService;
 import com.simple.basic.follow.FollowService;
 import com.simple.basic.user.UserService;
 
@@ -44,6 +43,9 @@ public class UserController {
 	
 	@Autowired
 	FollowService followService;
+	
+	@Autowired
+	EmailService emailService;
 	
 	
 	@GetMapping("/login")
@@ -192,34 +194,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/userForm")
-	public String userForm(@Valid UserDTO dto, Errors errors, Model model, String u_id, String u_nick,
-						   @RequestParam("u_image1") MultipartFile image) {
-		if(errors.hasErrors()) {
-			List<FieldError> list = errors.getFieldErrors();
-			for (FieldError err : list) {
-				if(err.isBindingFailure()) {
-					model.addAttribute("valid_" + err.getField(), "유형 선택은 필수입니다.");
-				}
-				else {
-					model.addAttribute("valid_" + err.getField(), err.getDefaultMessage());
-				}
-			}
-			
-			// 다시 회원가입 화면으로
-			model.addAttribute("dto", dto);
-			return "register";
-		}
-//		if(image.getContentType().contains("image") == false) {
-//			model.addAttribute("dto", dto);
-//			model.addAttribute("valid_image", "이미지형식만 등록가능합니다");
-//			return "register";
-//		}
-		int idResult = userService.idCheck(u_id);
-		int nickResult = userService.nickCheck(u_nick);
-		
-		if(idResult == 1 || nickResult == 1) {
-			return "register";
-		}
+	public String userForm(@Valid UserDTO dto, @RequestParam("u_image1") MultipartFile image) {
 		boolean b = userService.userInsert(dto, image);
 		return "redirect:/main";
 	}
@@ -235,6 +210,13 @@ public class UserController {
 	@ResponseBody
 	public int nickCheck(String u_nick) {
 		int result = userService.nickCheck(u_nick);
+		return result;
+	}
+	
+	@PostMapping("/emailCheck")
+	@ResponseBody
+	public int emailCheck(String u_email) {
+		int result = userService.emailCheck(u_email);
 		return result;
 	}
 	
@@ -260,5 +242,22 @@ public class UserController {
 		int followCount = followService.followerCount(followDto.getU_id());
 
 		return followCount;
+	}
+	
+	@PostMapping("/sendCode")
+	@ResponseBody
+	public String sendCode(String u_email) throws Exception {
+		String e_code = userService.createCode();
+		System.out.println("인증코드 : " + e_code);
+		System.out.println("email 주소 : " + u_email);
+		emailService.sendEmailMessage(u_email, e_code);
+		 
+		return e_code;
+	}
+	
+	@PostMapping("/checkCode")
+	@ResponseBody
+	public String checkCode(String e_code){
+		return e_code;
 	}
 }
