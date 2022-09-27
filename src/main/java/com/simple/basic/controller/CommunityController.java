@@ -42,6 +42,7 @@ public class CommunityController {
 	
 	@GetMapping("/communityList")
 	public String commuList(Model model, @ModelAttribute("cri") Criteria cri) {
+		
 		List<CategoryDTO> list3 = categoryService.listAll();
 		List<CommunityDTO> list = communityService.getList(cri); //데이터
 		int total = communityService.getTotal(cri); //전체게시글수
