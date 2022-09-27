@@ -19,6 +19,60 @@
       <!-- Owl Carousel -->
       <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
       <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script type="text/javascript">
+      $(document).ready(function(){
+   	  
+    	  $('.channels-card #follow').on('click', function() {
+    		  
+              let f_passiveUser = $(this).parents('.channels-card-image').find('#f_passiveUser').val();
+              let follow = $(this).parents('.channels-card').find('.channels-view');
+    		  $.ajax({
+  	            url: "/followSwitch_a",
+  	            type: 'POST',
+  	            contentType: 'application/json;charset=utf-8',
+  	            dataType: 'json',
+  	            async: false,
+  	            data: JSON.stringify({                    
+  	                u_id: $('#u_id').val(),
+  	                f_passiveUser: f_passiveUser
+  	            }),
+  	            context: this,
+  	            success: function (data) {
+	  		           if(data == 0){
+	  		               $(this).html("팔로우 취소");
+	  		           }
+	  		            	 
+	  		           else{
+	  		               $(this).html("팔로우");
+	  		           }
+  		        },	            
+  	            error: function(ex)  {
+  	            	alert("error : " + ex);
+  	            } 
+  	          });
+    		  
+    		  $.ajax({
+    	            url: "/followCount_a",
+    	            type: 'POST',
+    	            contentType: 'application/json;charset=utf-8',
+    	            dataType: 'json',
+    	            async: false,
+    	            data: JSON.stringify({                    
+    	            	u_id: f_passiveUser
+    	            }),
+    	            success: function (data) {
+    	            	console.log(data);
+  	  		             $(follow).html(data + "&nbsp팔로워");
+    		        },	            
+    	            error: function(ex)  {
+    	            	alert("error : " + ex);
+    	            } 
+    	          });
+		  
+    	  });
+      });
+      </script>
    </head>
    <body id="page-top">
       <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
@@ -187,13 +241,10 @@
                               <img th:if="${art.u_image != null}" class="img-fluid" th:src="@{../display3(u_path=${art.u_path}, u_image=${art.u_image})}" alt="">
                               <img th:if="${art.u_image == null}" alt="Avatar" src="/img/default.png">
                               </a>
-                              <form action="artistListForm" method="post">
-                              <input th:if="${session.user != null}" type="hidden" name="u_id" th:value="${session.user.u_id}">
-                              <input th:if="${session.user != null}" type="hidden" name="f_passiveUser" th:value="${art.follower}">
-                              <div th:if="${session.user != null} and ${session.user.u_id} != ${art.follower}" class="channels-card-image-btn">
-                              	<button type="submit" class="btn btn-outline-danger btn-sm">팔로우</button>
-                              </div>
-                              </form>
+                              <input th:if="${session.user != null}" type="hidden" id="u_id" name="u_id" th:value="${session.user.u_id}">
+                              <input th:if="${session.user != null}" type="hidden" id="f_passiveUser" name="f_passiveUser" th:value="${art.follower}">
+                              <div th:if="${session.user != null} and ${session.user.u_id} != ${art.follower} and ${art.isFollow == 0}" class="channels-card-image-btn"><button id="follow" th:name="${art.u_nick}" type="button" class="btn btn-outline-danger btn-sm">팔로우</button></div>
+                              <div th:if="${session.user != null} and ${session.user.u_id} != ${art.follower} and ${art.isFollow == 1}" class="channels-card-image-btn"><button id="follow" th:name="${art.u_nick}" type="button" class="btn btn-outline-danger btn-sm">팔로우 취소</button></div>
                            </div>
                            <div class="channels-card-body">
                               <div class="channels-title">

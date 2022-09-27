@@ -10,10 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +28,7 @@ import com.simple.basic.command.UploadDTO;
 import com.simple.basic.command.UserDTO;
 import com.simple.basic.command.UserTotalDTO;
 import com.simple.basic.command.UserUploadDTO;
+import com.simple.basic.email.EmailService;
 import com.simple.basic.follow.FollowService;
 import com.simple.basic.user.UserService;
 
@@ -43,6 +45,10 @@ public class UserController {
 	
 	@Autowired
 	FollowService followService;
+	
+	@Autowired
+	EmailService emailService;
+
 	
 	
 	@GetMapping("/login")
@@ -76,27 +82,35 @@ public class UserController {
 	}
 	
 	@GetMapping("/artistList")
-	public String artistList(Model model) {
-		List<UserDTO> art= userService.artistList();
+	public String artistList(Model model, HttpSession session) {
+		UserTotalDTO user = (UserTotalDTO)session.getAttribute("user");
+		if(user != null) {
+			String u_id = user.getU_id();
+			List<UserDTO> art= userService.loginArtistList(u_id);
+			model.addAttribute("art", art);
+		}
+		else {
+			List<UserDTO> art = userService.artistList();
+			model.addAttribute("art", art);
+		}
 		List<CategoryDTO> list3 = categoryService.listAll();
 		
 		
-		model.addAttribute("art", art);
 		model.addAttribute("list3", list3);
 		return "artistList";
 	}
-	
-	@PostMapping("/artistListForm")
-	public String artistFollowForm(@RequestParam("u_id")String u_id, @RequestParam("f_passiveUser")String f_passiveUser) {
-		int isFollow = followService.isFollow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
-		if(isFollow == 0) {
-			followService.follow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
-		}
-		else {
-			followService.unfollow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
-		}
-		return "redirect:/artistList";
-	}
+//	
+//	@PostMapping("/artistListForm")
+//	public String artistFollowForm(@RequestParam("u_id")String u_id, @RequestParam("f_passiveUser")String f_passiveUser) {
+//		int isFollow = followService.isFollow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
+//		if(isFollow == 0) {
+//			followService.follow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
+//		}
+//		else {
+//			followService.unfollow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
+//		}
+//		return "redirect:/artistList";
+//	}
 	
 	
 	@GetMapping("/artistDetail")
@@ -174,43 +188,16 @@ public class UserController {
 	public String userDelete(@RequestParam("u_id") String u_id, RedirectAttributes ra, HttpSession session) {
 		boolean b = userService.userDelete(u_id);
 		if(b) {
-			ra.addFlashAttribute("msg", "수정이 완료되었습니다.");
+			ra.addFlashAttribute("msg", "삭제가 완료되었습니다.");
 		}else {
-			ra.addFlashAttribute("msg", "오류로 인해 수정이 실패되었습니다.");
+			ra.addFlashAttribute("msg", "오류로 인해 삭제가 실패되었습니다.");
 		}
 		session.invalidate();
 		return "redirect:/main";
 	}
 	
 	@PostMapping("/userForm")
-	public String userForm(@Valid UserDTO dto, Errors errors, Model model, String u_id, String u_nick,
-						   @RequestParam("u_image1") MultipartFile image) {
-		if(errors.hasErrors()) {
-			List<FieldError> list = errors.getFieldErrors();
-			for (FieldError err : list) {
-				if(err.isBindingFailure()) {
-					model.addAttribute("valid_" + err.getField(), "유형 선택은 필수입니다.");
-				}
-				else {
-					model.addAttribute("valid_" + err.getField(), err.getDefaultMessage());
-				}
-			}
-			
-			// 다시 회원가입 화면으로
-			model.addAttribute("dto", dto);
-			return "register";
-		}
-//		if(image.getContentType().contains("image") == false) {
-//			model.addAttribute("dto", dto);
-//			model.addAttribute("valid_image", "이미지형식만 등록가능합니다");
-//			return "register";
-//		}
-		int idResult = userService.idCheck(u_id);
-		int nickResult = userService.nickCheck(u_nick);
-		
-		if(idResult == 1 || nickResult == 1) {
-			return "register";
-		}
+	public String userForm(@Valid UserDTO dto, @RequestParam("u_image1") MultipartFile image) {
 		boolean b = userService.userInsert(dto, image);
 		return "redirect:/main";
 	}
@@ -227,5 +214,54 @@ public class UserController {
 	public int nickCheck(String u_nick) {
 		int result = userService.nickCheck(u_nick);
 		return result;
+	}
+
+	@PostMapping("/emailCheck")
+	@ResponseBody
+	public int emailCheck(String u_email) {
+		int result = userService.emailCheck(u_email);
+		return result;
+	}
+	
+	@PostMapping("/followSwitch_a")
+	@ResponseBody
+	public int followSwitch(@RequestBody FollowDTO followDto) {
+		
+		int isFollowCheck = followService.isFollow(followDto);
+		
+		if (isFollowCheck == 0) {
+			followService.follow(followDto);
+		} else {
+			followService.unfollow(followDto);
+		}
+		return isFollowCheck;
+	}
+	
+	
+	@PostMapping("/followCount_a")
+	@ResponseBody
+	public int followCount(@RequestBody FollowDTO followDto) {
+		
+		int followCount = followService.followerCount(followDto.getU_id());
+
+		return followCount;
+	}
+	
+
+	@PostMapping("/sendCode")
+	@ResponseBody
+	public String sendCode(String u_email) throws Exception {
+		String e_code = userService.createCode();
+		System.out.println("인증코드 : " + e_code);
+		System.out.println("email 주소 : " + u_email);
+		emailService.sendEmailMessage(u_email, e_code);
+		 
+		return e_code;
+	}
+	
+	@PostMapping("/checkCode")
+	@ResponseBody
+	public String checkCode(String e_code){
+		return e_code;
 	}
 }
