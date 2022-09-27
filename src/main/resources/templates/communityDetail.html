@@ -19,8 +19,77 @@
       <!-- Owl Carousel -->
       <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
       <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+       <script th:inline="javascript">
+      $(document).ready(function(){
+    	  
+            $('#replycall').on('click', '#replySend', function() { 
+            	
+            	event.preventDefault();
+               let reply_no = $(this).attr("value");
+               let reply_con = $(this).parents('.left').find('#reply-update').val()
+               console.log("call")
+               $.ajax({
+                   url: "/replyUpdate" ,
+                   type: 'POST',
+                   contentType: 'application/json;charset=utf-8',
+                   dataType: 'json',
+                   data: JSON.stringify({
+                     reply_num: reply_no,
+                     reply_contents: reply_con
+                   }),
+
+                   success: function (data) {
+                	   location.reload()
+                      if (data == true) {
+                      }else console.log("x")
+                   }
+
+                 });
+            }); 
+        
+			$('#replycall').on('click', '#replyDel', function() { 
+            	
+            	event.preventDefault();
+               let reply_no = $(this).attr("value");
+               console.log("call")
+               $.ajax({
+                   url: "/replyDelete" ,
+                   type: 'POST',
+                   contentType: 'application/json;charset=utf-8',
+                   dataType: 'json',
+                   data: JSON.stringify({
+                     reply_num: reply_no,
+                   }),
+                   success: function (data) {
+                	   location.reload()
+                      if (data == true) {
+                      }else console.log("x")
+                   }
+
+                 });
+            });
+ 
+          });
+      
+     
+    
+      </script>
+      <style>
+      #replySend, #replyDel{
+      height : 30px;
+      width : 70px;
+      font-size: 8pt;
+      text-align: auto;
+      margin-top : 10px;
+      
+      
+      }
+      
+      </style>
    </head>
    <body id="page-top">
+   <div id="r1">
       <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
          &nbsp;&nbsp; 
          <button class="btn btn-link btn-sm text-secondary order-1 order-sm-0" id="sidebarToggle">
@@ -101,6 +170,7 @@
             </li>
          </ul>
       </nav>
+      
       <div id="wrapper">
          <!-- Sidebar -->
          <ul class="sidebar navbar-nav">
@@ -169,7 +239,7 @@
 								
 								
 								<article class ="d-flex">
-								<div class="container" role="main">
+								<div id="r2" class="container" role="main">
 									<a><img src="img/logo.png"></img></a>
 									<form name="actionForm" action="####" method="####">
 										<div class="mb-3">
@@ -201,12 +271,12 @@
                                             <tr th:if = "${session.user != null}">
                                                 <th>댓글등록</th>
                                                 <td>
-                                                    <form name="replyForm" action="replyForm" method="post">
+                                                    <form name="replyForm" action="replyForm" method="post" id="replyForm">
                                                     <input type="text" class="inputw290" name="u_id" th:value="${session.user.u_id}" style="margin-top:10px;">
                                                         <input type="hidden" class="inputw290" name="c_num" th:value = "${param.c_num}" >
                                                         <textarea  class="form-control" name="reply_contents" required style="height: 150px; margin-top:10px;"></textarea>
                                                         <div class="btn_area">
-                                                            <input type="submit" class="save" value="댓글등록">
+															<button class="btn btn-outline-primary" style = "cursor:pointer"; type="submit">댓글 등록</button>
                                                         </div>
                                                     </form>
                                                     <hr size= "10px">
@@ -214,27 +284,25 @@
                                             </tr>
                                             <!-- 댓글영역 -->
 
-                                           <tbody class="reply_container">
-                                    <hr size= "10px">                                                
+                                           <tbody id ="replycall" class="reply_container">
+                                   					 <hr size= "10px">                                               
                                                 <tr th:each = "list : ${list}">
-                                                   
+                                                   <th style="display:none" th:value ="${list.reply_num}"> [[${list.reply_num}]]</th>
                                                     <th >[[${list.u_id}]]</th>
                                                     <td class="mb-3">
                                                         <div class="left">
                                                             <span>[[${ #temporals.format(list.reply_date, 'yyyy-MM-dd-HH:mm')}]]</span>
                                                             <p>[[${list.reply_contents}]]</p>
-                                                            <a th:if="${session.user != null} and ${session.user.u_id} == ${list.u_id}" 
-                                                            th:href="@{replyDetail(reply_num=${list.reply_num}, c_num =${list.c_num}, u_id =${list.u_id}, reply_contents =${list.reply_contents}, reply_date =${list.reply_date})}" >댓글 수정</a> 
-                                                            <hr size= "10px">
-                                                             
-                                                        </div>
-                                                        
-                                                    </td>
-                                                   
-                                                </tr>
-                                                 
-                                            </tbody>
-                                            <!-- end댓글영역 -->
+                                                            <textarea class="form-control" 
+                                                            th:if="${session.user != null} and ${session.user.u_id} == ${list.u_id}"  
+                                                            id="reply-update" name="reply_contents" required style="height: 50px; margin-top: 10px;"></textarea>
+                                                            <button class="btn btn-outline-primary" style = "cursor:pointer;" th:value ="${list.reply_num}" id="replySend" th:if="${session.user != null} and ${session.user.u_id} == ${list.u_id}" >댓글 수정</button>
+                                                            <button class="btn btn-outline-primary" style = "cursor:pointer;" th:value ="${list.reply_num}" id="replyDel" th:if="${session.user != null} and ${session.user.u_id} == ${list.u_id}" >댓글 삭제</button>  
+                                                          <hr size= "10px">                                                             
+                                                        </div>                                                        
+                                                    </td>                                                
+                                                </tr>                                                 
+                                            </tbody>                                           
                                         </table>
 									</div>
 									</article>
@@ -286,6 +354,8 @@
             </div>
          </div>
       </div>
+    
+         </div>
       <!-- Bootstrap core JavaScript-->
       <script src="vendor/jquery/jquery.min.js"></script>
       <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -295,9 +365,12 @@
       <script src="vendor/owl-carousel/owl.carousel.js"></script>
       <!-- Custom scripts for all pages-->
       <script src="js/custom.js"></script>
+      
+     
+      
       <script th:inline="javascript">
 	function commu_update() {
-
+		
 		event.preventDefault(); 
 		document.actionForm.action = "communityUpdate";
 		document.actionForm.method = "post"; 

@@ -13,4 +13,9 @@ public interface ReplyService {
 	public List<ReplyDTO> replyCount();
 
 	public boolean replyUpdate(ReplyDTO dto);
+	
+	public ReplyDTO getReply(int reply_num);
+	
+	public boolean replyDelete(ReplyDTO dto);
+	
 }
