@@ -32,11 +32,5 @@
 	</update>
   	
   	
-  	<select id="getReply" resultType="ReplyDTO">
-  		SELECT *
-  		from reply
-  		where reply_num = #{reply_num}
   	
-  	
-  	</select>
   </mapper>

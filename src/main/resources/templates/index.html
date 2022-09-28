@@ -177,10 +177,15 @@
                </a>
             </li>
             <li class="nav-item">
-               <a class="nav-link" th:href="@{playlist}">
+               <a th:if="${session.user != null}" class="nav-link" th:href="@{playlist(u_id = ${session.user.u_id})}">
                <i class="fas fa-fw fa-history"></i>
                <span>플레이리스트</span>
                </a>
+               <a th:unless="${session.user != null}" class="nav-link" th:href="@{playlist}">
+               <i class="fas fa-fw fa-history"></i>
+               <span>플레이리스트</span>
+               </a>
+             
             </li>
             <li class="nav-item dropdown">
                <a class="nav-link dropdown-toggle" href="categories.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

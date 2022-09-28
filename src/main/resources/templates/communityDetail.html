@@ -276,7 +276,7 @@
                                                         <input type="hidden" class="inputw290" name="c_num" th:value = "${param.c_num}" >
                                                         <textarea  class="form-control" name="reply_contents" required style="height: 150px; margin-top:10px;"></textarea>
                                                         <div class="btn_area">
-															<button class="btn btn-outline-primary" style = "cursor:pointer"; type="submit">댓글 등록</button>
+															<button class="btn btn-outline-primary" style = "cursor:pointer" type="submit">댓글 등록</button>
                                                         </div>
                                                     </form>
                                                     <hr size= "10px">
@@ -285,7 +285,7 @@
                                             <!-- 댓글영역 -->
 
                                            <tbody id ="replycall" class="reply_container">
-                                   					 <hr size= "10px">                                               
+                                   					 <hr size= "10px">                                              
                                                 <tr th:each = "list : ${list}">
                                                    <th style="display:none" th:value ="${list.reply_num}"> [[${list.reply_num}]]</th>
                                                     <th >[[${list.u_id}]]</th>

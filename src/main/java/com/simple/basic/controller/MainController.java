@@ -41,7 +41,7 @@ public class MainController {
 	
 	@GetMapping("/main")
 	public String main(Model model, HttpSession session) {
-		
+		System.out.println(session);
 		UserTotalDTO user = (UserTotalDTO)session.getAttribute("user");
 		if(user != null) {
 			String u_id = user.getU_id();
@@ -60,7 +60,7 @@ public class MainController {
 		model.addAttribute("list1", list1);
 		model.addAttribute("list2", list2);
 		model.addAttribute("list3", list3);
-		return "index";
+		return "index";	
 	}
 	
 //	@PostMapping("/mainForm")
@@ -100,4 +100,6 @@ public class MainController {
 
 		return followCount;
 	}
+	
+	
 }

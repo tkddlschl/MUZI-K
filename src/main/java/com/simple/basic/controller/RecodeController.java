@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.simple.basic.category.CategoryService;
 import com.simple.basic.command.CategoryDTO;
@@ -38,6 +37,7 @@ public class RecodeController {
 	@Autowired
 	FollowService followService;
 
+	
 	@GetMapping("/recodeInsert") // 업로드 화면
 	public String recodeInsert(Model model) {
 
@@ -97,7 +97,9 @@ public class RecodeController {
 	@PostMapping("/recodeForm")
 	public String recodeForm(@Valid RecodeDTO dto, Errors errors, Model model,
 							 @RequestParam("r_file1") MultipartFile file,
-							 @RequestParam("r_image1") MultipartFile image){
+							 @RequestParam("r_image1") MultipartFile image,
+							 CategoryDTO dto2
+			){
 	    
 		if(errors.hasErrors()) {
 			List<FieldError> list = errors.getFieldErrors();
@@ -118,7 +120,7 @@ public class RecodeController {
 			return "/recodeInsert";
 		}
 			
-			
+		
 		boolean result = recodeService.recodeInsert(image, file, dto); // 정보, 음원, 음원이미지
 		return "redirect:/main";
 	}
