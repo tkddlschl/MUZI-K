@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.simple.basic.command.ReplyDTO;
 import com.simple.basic.reply.ReplyService;
@@ -19,22 +20,17 @@ public class ReplyController {
 	ReplyService replyService;
 	
 	@PostMapping("/replyForm")
-	public String replyForm(ReplyDTO dto) {
-
+	public String replyForm(@RequestParam("c_num")int c_num, ReplyDTO dto, RedirectAttributes ra) {
+		
 		boolean result = replyService.replyRegist(dto);
-
-		return "redirect:/communityList";
+		ra.addAttribute("c_num", c_num);
+		
+		
+		return "redirect:/communityDetail";
 	}
 	
 	
-//	@GetMapping("/replyDetail")
-//	public String replyDetail(@RequestParam("reply_num")int reply_num, Model model) {
-//		
-//		ReplyDTO dto = replyService.getReply(reply_num);
-//		
-//		model.addAttribute("dto", dto);
-//		return "/replyDetail";
-//	}
+
 	
 	
 	

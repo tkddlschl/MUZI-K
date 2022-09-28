@@ -37,12 +37,6 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public ReplyDTO getReply(int reply_num) {
-		// TODO Auto-generated method stub
-		return replyMapper.getReply(reply_num);
-	}
-
-	@Override
 	public boolean replyDelete(ReplyDTO dto) {
 		// TODO Auto-generated method stub
 		return replyMapper.replyDelete(dto);
