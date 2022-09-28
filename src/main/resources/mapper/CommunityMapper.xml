@@ -12,6 +12,7 @@
   	<select id="getList" resultType="CommunityDTO">
   		select *
   		from community
+  		limit #{pageStart}, #{amount}
   	</select>
   	
   	<select id="getMyPost" resultType="CommunityDTO" >

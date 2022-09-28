@@ -22,14 +22,11 @@ public class PageDTO {
 	
 	private List<Integer> pageList; 
 	
-	
-
 	public PageDTO(Criteria cri, int total) {
 		this.page = cri.getPage();
 		this.amount = cri.getAmount();
 		this.total = total;
 		this.cri = cri;
-
 		
 		this.end = (int)(Math.ceil( this.page / 10.0) ) * 10;
 		
@@ -43,13 +40,10 @@ public class PageDTO {
 			this.end = this.realEnd;
 		}
 		
-
 		this.prev = this.start > 1;
 		
-
 		this.next = this.realEnd > this.end;
 		
-
 		this.pageList = IntStream.rangeClosed(this.start, this.end).boxed().collect(Collectors.toList());
 		
 		
