@@ -71,6 +71,11 @@ public class RecodeServiceImpl implements RecodeService {
 	}
 
 	@Override
+	public boolean recodeUpdate(RecodeDTO dto) {
+		return recodeMapper.recodeUpdate(dto);
+	}
+	
+	@Override
 	public List<RecodeDTO> recodeList1() {
 		return recodeMapper.recodeList1();
 	}
@@ -95,10 +100,7 @@ public class RecodeServiceImpl implements RecodeService {
 		return recodeMapper.recodeDelete(r_num);
 	}
 
-	@Override
-	public boolean recodeUpdate(RecodeDTO dto) {
-		return recodeMapper.recodeUpdate(dto);
-	}
+	
 
 	@Override
 	public List<JoinDTO> nickName() {

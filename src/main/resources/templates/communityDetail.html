@@ -86,6 +86,11 @@
       
       }
       
+      
+      </style>
+      <style type = "text/css">
+      textarea{resize : none;}
+      
       </style>
    </head>
    <body id="page-top">
@@ -282,6 +287,7 @@
                                                     <hr size= "10px">
                                                 </td>
                                             </tr>
+                                            
                                             <!-- 댓글영역 -->
 
                                            <tbody id ="replycall" class="reply_container">
@@ -293,11 +299,16 @@
                                                         <div class="left">
                                                             <span>[[${ #temporals.format(list.reply_date, 'yyyy-MM-dd-HH:mm')}]]</span>
                                                             <p>[[${list.reply_contents}]]</p>
-                                                            <textarea class="form-control" 
-                                                            th:if="${session.user != null} and ${session.user.u_id} == ${list.u_id}"  
+                                                            <div th:if="${session.user != null} and ${session.user.u_id} == ${CommunityDTO.u_id}" >
+                                                            <button  th:if="${session.user != null} and ${session.user.u_id} == ${list.u_id}"  class="dropdown-toggle btn btn-outline-primary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">수정/삭제</button>
+																<div class="dropdown-menu">
+												                  <textarea class="form-control" cols="100" rows="100"
+                                                             
                                                             id="reply-update" name="reply_contents" required style="height: 50px; margin-top: 10px;"></textarea>
                                                             <button class="btn btn-outline-primary" style = "cursor:pointer;" th:value ="${list.reply_num}" id="replySend" th:if="${session.user != null} and ${session.user.u_id} == ${list.u_id}" >댓글 수정</button>
-                                                            <button class="btn btn-outline-primary" style = "cursor:pointer;" th:value ="${list.reply_num}" id="replyDel" th:if="${session.user != null} and ${session.user.u_id} == ${list.u_id}" >댓글 삭제</button>  
+                                                            <button class="btn btn-outline-primary" style = "cursor:pointer;" th:value ="${list.reply_num}" id="replyDel" th:if="${session.user != null} and ${session.user.u_id} == ${list.u_id}" >댓글 삭제</button>
+												               </div>
+                                                              </div>
                                                           <hr size= "10px">                                                             
                                                         </div>                                                        
                                                     </td>                                                

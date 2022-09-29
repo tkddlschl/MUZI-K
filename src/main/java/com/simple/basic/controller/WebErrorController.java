@@ -31,6 +31,8 @@ public class WebErrorController implements ErrorController{
 	                return "404";
 	            } else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
 	                return "500";
+	            } else if (statusCode == HttpStatus.METHOD_NOT_ALLOWED.value()) {
+	            	return "405";
 	            }
 	        }
 		  return "error/error";

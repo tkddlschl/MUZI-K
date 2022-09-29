@@ -5,8 +5,8 @@
   
   <mapper namespace="com.simple.basic.community.CommunityMapper">
   	<insert id="communityRegist">
-  		insert into community(u_id, c_title, c_contents)
-  		values(#{u_id},#{c_title},#{c_contents})
+  		insert into community(u_id, c_title, c_contents, c_date)
+  		values(#{u_id},#{c_title},#{c_contents}, now())
   	</insert>
   	
   	<select id="getList" resultType="CommunityDTO">
