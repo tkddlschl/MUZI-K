@@ -1,11 +1,12 @@
 package com.simple.basic.util;
 
 import com.simple.basic.command.CommunityDTO;
+import com.simple.basic.command.UserDTO;
 
 import lombok.Data;
 
 @Data //getter, setter, toString
-public class Criteria extends CommunityDTO {
+public class Criteria extends UserDTO {
 
 	private int page; //페이지번호
 	private int amount; //데이터 개수
