@@ -16,4 +16,8 @@ public interface ReplyMapper {
 	public List<ReplyDTO> replyCount();
 
 	public boolean replyUpdate(ReplyDTO dto);
+	
+	public boolean replyDelete(ReplyDTO dto);
+	
+	public boolean userReplyDelete(String u_id);
 }

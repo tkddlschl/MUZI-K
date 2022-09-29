@@ -4,6 +4,7 @@ package com.simple.basic.user;
 import java.io.File;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -75,6 +76,11 @@ public class UserServiceImpl implements UserService {
 	public UserTotalDTO login(UserTotalDTO user) {
 		return userMapper.login(user);
 	}
+	
+	@Override
+	public int isLogin(UserTotalDTO user) {
+		return userMapper.isLogin(user);
+	}
 
 	@Override
 	public List<RecodeDTO> myRecode1(String u_id) {
@@ -88,10 +94,41 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	@Override
-	public boolean userUpdate(UserTotalDTO dto) {
-		return userMapper.userUpdate(dto);
+	public boolean userUpdate(UserTotalDTO dto, MultipartFile u_image) {
+		boolean result = userMapper.userUpdate(dto);
+		
+		String imageOrigin = u_image.getOriginalFilename();
+	    String imageName = imageOrigin.substring(imageOrigin.lastIndexOf("\\") + 1);
+	    String uuid = UUID.randomUUID().toString();
+	    if(imageName == null || imageName == "") {
+	    	uuid = null;
+	    }
+	    String u_imageName = uuid + "_" + imageName;
+	    String imageSave = uploadPath + "\\" + uuid + "_" + imageName;
+	    if(imageName == null || imageName == "") {
+	    	imageSave = uploadPath + "\\" + imageName;
+	    }
+	    
+	    try {
+	    	File saveImage= new File(imageSave);
+	    	u_image.transferTo(saveImage);
+	    	
+	    } catch (Exception e) {
+	    	System.out.println("upload error 입니다.");
+	    }
+	    
+	    if(imageName == null || imageName == "") {
+	    	userMapper.userImgUpdate(UserUploadDTO.builder().u_email(dto.getU_email()).u_id(dto.getU_id()).build());
+	    }
+	    else {
+	    	userMapper.userImgUpdate(UserUploadDTO.builder().u_image(u_imageName).u_path(uploadPath).u_email(dto.getU_email()).u_id(dto.getU_id()).build());
+	    	dto.setU_path(uploadPath);
+	    	dto.setU_image(imageName);
+	    }
+		
+		return result;
 	}
-
+	
 	@Transactional
 	@Override
 	public boolean userDelete(String u_id) {

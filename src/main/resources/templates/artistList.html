@@ -84,7 +84,7 @@
          <!-- Navbar Search -->
          <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
             <div class="input-group">
-               <input type="text" class="form-control" placeholder="Search for...">
+               <input type="text" class="form-control" id="search" onkeyup="filter()" placeholder="Search for...">
                <div class="input-group-append">
                   <button class="btn btn-light" type="button">
                   <i class="fas fa-search"></i> 
@@ -144,10 +144,7 @@
                [[${session.user.u_nick}]]
                </a>
                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-               <form action ="mypageForm" method ="post">
-               	  <input type="hidden" name="u_id1" class="form-control" th:value="${session.user.u_id}">
-                  <button style="cursor:pointer" class="dropdown-item" th:href="@{mypage}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; 마이페이지</button>
-               </form>
+				  <a class="dropdown-item" th:href="@{mypage(u_id=${session.user.u_id})}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; 마이페이지</a>
                   <a class="dropdown-item" th:href="@{userInfo}"><i class="fas fa-fw fa-cog"></i> &nbsp; 회원정보관리</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; 로그아웃</a>
@@ -202,16 +199,6 @@
                   <a class="dropdown-item" th:href="@{noticeList}">공지글 게시판</a>               
                </div>
             </li>
-            <li class="nav-item channel-sidebar-list">
-               <h6>장르별 카테고리</h6>
-               <ul>
-                  <li>
-                     <a href="subscriptions.html">
-                     <img class="img-fluid" alt="" src="img/s1.png"> 힙합/랩
-                     </a>
-                  </li>
-               </ul>
-            </li>
          </ul>
 
          <div id="content-wrapper">
@@ -234,7 +221,7 @@
                         </div>
                      </div>
                      
-                     <div th:each="art : ${art}" class="col-xl-3 col-sm-6 mb-3">
+                     <div th:each="art : ${art}" class="col-xl-3 col-sm-6 mb-3 listInner">
                         <div class="channels-card">
                            <div class="channels-card-image">
                               <a th:href="@{artistDetail(u_id=${art.follower},u_nick=${art.u_nick})}">
@@ -248,12 +235,13 @@
                            </div>
                            <div class="channels-card-body">
                               <div class="channels-title">
-                                 <a th:href="@{artistDetail(u_id=${art.follower}, u_nick=${art.u_nick})}">[[${art.u_nick}]]<span title="" data-placement="top" data-toggle="tooltip" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></span></a>
+                                 <a class="artist-name" th:href="@{artistDetail(u_id=${art.follower}, u_nick=${art.u_nick})}">[[${art.u_nick}]]</a><span title="" data-placement="top" data-toggle="tooltip" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></span>
                               </div>
                               <div class="channels-view">
                                  [[${art.followerCount}]] 팔로워
                               </div>
                            </div>
+                           <span class="artist"></span>
                         </div>
                      </div>
                      
@@ -295,6 +283,26 @@
             </div>
             <!-- /.container-fluid -->
             <!-- Sticky Footer -->
+            <script>
+            function filter() {
+            	let search = document.getElementById("search").value.toLowerCase();
+    	        let listInner = document.getElementsByClassName("listInner");
+
+    	        for (let i = 0; i < listInner.length; i++) {
+    	          city = listInner[i].getElementsByClassName("artist");
+    	          country = listInner[i].getElementsByClassName("artist-name");
+    	          if (city[0].innerHTML.toLowerCase().indexOf(search) != -1 ||
+    	            country[0].innerHTML.toLowerCase().indexOf(search) != -1
+    	          ) {
+    	            listInner[i].style.display = ""
+    	          }
+    	          else {
+    	            listInner[i].style.display = "none"
+    	          }
+    	        }
+            	
+            }
+            </script>
             <footer class="sticky-footer">
                <div class="container">
                   <div class="row no-gutters">

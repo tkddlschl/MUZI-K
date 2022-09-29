@@ -5,24 +5,34 @@
   
   <mapper namespace="com.simple.basic.community.CommunityMapper">
   	<insert id="communityRegist">
-  		insert into community(u_id, c_title, c_contents)
-  		values(#{u_id},#{c_title},#{c_contents})
+  		insert into community(u_id, c_title, c_contents, c_date)
+  		values(#{u_id},#{c_title},#{c_contents}, now())
   	</insert>
   	
   	<select id="getList" resultType="CommunityDTO">
   		select *
   		from community
+  		order by c_num DESC
+  		limit #{pageStart}, #{amount}
   	</select>
   	
   	<select id="getMyPost" resultType="CommunityDTO" >
   		select * 
-  		from community
+	 	from community
 		where u_id = #{u_id}
+		order by c_num DESC
+		limit #{pageStart}, #{amount}
   	</select>
   	
   	<select id="getTotal" resultType="int">
  		select count(*) as total
  		from community
+ 	</select>
+ 	
+ 	<select id="getMyTotal" resultType="int">
+ 		select count(*) as total
+ 		from community
+ 		where u_id = #{u_id}
  	</select>
  	
   	<select id="getDetail" resultType="CommunityDTO" >
@@ -34,12 +44,21 @@
   	<update id="communityUpdate">
  		update community
  		set c_title = #{c_title},
- 			c_contents = #{c_contents}
+ 			c_contents = #{c_contents},
+ 			c_date = now()
  		where c_num = #{c_num}
  	</update>
  	
  	<delete id="communityDelete">
- 		delete from community
- 		where c_num = #{c_num}
+ 		delete c, r from community c
+ 		left join reply r
+ 		on (c.c_num = r.c_num)
+ 		where c.c_num = #{c_num}
+ 	</delete>
+ 	
+ 	<delete id="userCommunityDelete">
+ 		delete 
+  		from community
+		where u_id = #{u_id}
  	</delete>
   </mapper>

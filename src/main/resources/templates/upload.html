@@ -36,12 +36,6 @@
 		<form
 			class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
 			<div class="input-group">
-				<input type="text" class="form-control" placeholder="Search for...">
-				<div class="input-group-append">
-					<button class="btn btn-light" type="button">
-						<i class="fas fa-search"></i>
-					</button>
-				</div>
 			</div>
 		</form>
 		<!-- Navbar -->
@@ -102,10 +96,7 @@
 			</a>
 				<div class="dropdown-menu dropdown-menu-right"
 					aria-labelledby="userDropdown">
-					<form action ="mypageForm" method ="post">
-	               	  <input type="hidden" name="u_id1" class="form-control" th:value="${session.user.u_id}">
-	                  <button style="cursor:pointer" class="dropdown-item" th:href="@{mypage}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; 마이페이지</button>
-	                </form> 
+				    <a class="dropdown-item" th:href="@{mypage(u_id=${session.user.u_id})}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; 마이페이지</a>
 	                <a class="dropdown-item" th:href="@{userInfo}"><i
 						class="fas fa-fw fa-cog"></i> &nbsp; 회원정보관리</a>
 					<div class="dropdown-divider"></div>
@@ -150,14 +141,6 @@
                   <a class="dropdown-item" th:href="@{noticeList}">공지글 게시판</a>               
                </div>
             </li>
-			<li class="nav-item channel-sidebar-list">
-				<h6>장르별 카테고리</h6>
-				<ul>
-					<li><a href="subscriptions.html"> <img class="img-fluid"
-							alt="" src="img/s1.png"> 힙합/랩
-					</a></li>
-				</ul>
-			</li>
 		</ul>
 
 		<div id="content-wrapper">
@@ -173,14 +156,14 @@
 						</div>
 						<div class="col-lg-2">
 						<p>음악 파일을 선택해 주세요 </p> 
-						<input type="file" name="r_file1"> 
+						<input type="file" name="r_file1" accept="audio/*"> 
 						</div>
 					</div>
 					<hr>
 					<div>
 						<p>이미지를 선택해 주세요 </p> 
 						<img id="preview" style="width: 15%; height: auto;" /> <br>
-						<input type="file" name="r_image1" onchange="readURL(this);">
+						<input type="file" name="r_image1" onchange="readURL(this);" accept="image/*">
 						
 
 					</div>
@@ -211,8 +194,8 @@
 								<div class="row"></div>
 								<div class="col-lg-3">
 									<div class="form-group">
-										<label for="e4">Privacy Settings</label> <select id="e4"
-											class="custom-select" name="r_open">
+										<label for="e4">Privacy Settings</label> 
+										<select id="e4" class="custom-select" name="r_open">
 											<option value="o">공개</option>
 											<option value="c">비공개</option>
 										</select>

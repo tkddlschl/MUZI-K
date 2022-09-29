@@ -2,6 +2,7 @@ package com.simple.basic.recode;
 
 import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -29,7 +30,7 @@ public class RecodeServiceImpl implements RecodeService {
 	// 한번에 업로드 될 수 있게 transactional 사용
 	@Transactional(rollbackOn = Exception.class)
 	@Override
-	public boolean recodeInsert(MultipartFile image, MultipartFile file ,RecodeDTO dto) {
+	public boolean recodeInsert(MultipartFile image, MultipartFile file, RecodeDTO dto) {
 		// 레코드 데이터 업로드
 		boolean result = recodeMapper.recodeInsert(dto);
 		
@@ -37,15 +38,30 @@ public class RecodeServiceImpl implements RecodeService {
 		
 		String origin = file.getOriginalFilename();
 	    String filename = origin.substring(origin.lastIndexOf("\\") + 1);
-	    String save = musicPath + "\\"  + filename;
-	    
-	    System.out.println(save);
+	    String uuid = UUID.randomUUID().toString();
+	    if(filename == null || filename == "") {
+	    	uuid = null;
+	    }
+	    String r_fileName = uuid + "_" + filename;
+	    String save = musicPath + "\\"  + r_fileName;
+	    if(filename == null || filename == "") {
+	    	save = uploadPath + "\\" + filename;
+	    }
 	    
 	    
 	    String imageOrigin = image.getOriginalFilename();
 	    String imageName = imageOrigin.substring(origin.lastIndexOf("\\") + 1);
-	    String imageSave = uploadPath + "\\"  + imageName;
-	    System.out.println(imageSave);
+	    String uuid2 = UUID.randomUUID().toString();
+	    if(imageName == null || imageName == "") {
+	    	uuid2 = null;
+	    }
+	    
+	    String r_imageName = uuid2 + "_" + imageName;
+	    String imageSave = uploadPath + "\\" + uuid2 + "_" + imageName;
+	    if(imageName == null || imageName == "") {
+	    	imageSave = uploadPath + "\\" + imageName;
+	    }
+	    
 	    try {
 	    	File saveFile = new File(save);
 	    	File saveImage= new File(imageSave);
@@ -62,7 +78,7 @@ public class RecodeServiceImpl implements RecodeService {
 
 	    //파일 경로 db 업로드
 	    recodeMapper.recodeFileInsert(
-	    		UploadDTO.builder().r_file(filename).r_image(imageName).r_path(uploadPath).r_name(dto.getR_name()).build()
+	    		UploadDTO.builder().r_file(r_fileName).r_image(r_imageName).r_path(uploadPath).r_name(dto.getR_name()).build()
 	    		);
 	    
 	    
@@ -94,10 +110,53 @@ public class RecodeServiceImpl implements RecodeService {
 	public boolean recodeDelete(int r_num) {
 		return recodeMapper.recodeDelete(r_num);
 	}
-
+	
 	@Override
-	public boolean recodeUpdate(RecodeDTO dto) {
-		return recodeMapper.recodeUpdate(dto);
+	public boolean recodeUpdate(MultipartFile image, MultipartFile file, RecodeDTO dto) {
+		boolean result = recodeMapper.recodeUpdate(dto);
+		
+		String origin = file.getOriginalFilename();
+	    String filename = origin.substring(origin.lastIndexOf("\\") + 1);
+	    String uuid = UUID.randomUUID().toString();
+	    if(filename == null || filename == "") {
+	    	uuid = null;
+	    }
+	    String r_fileName = uuid + "_" + filename;
+	    String save = musicPath + "\\"  + r_fileName;
+	    if(filename == null || filename == "") {
+	    	save = uploadPath + "\\" + filename;
+	    }
+	    
+	    
+	    String imageOrigin = image.getOriginalFilename();
+	    String imageName = imageOrigin.substring(origin.lastIndexOf("\\") + 1);
+	    String uuid2 = UUID.randomUUID().toString();
+	    if(imageName == null || imageName == "") {
+	    	uuid2 = null;
+	    }
+	    
+	    String r_imageName = uuid2 + "_" + imageName;
+	    String imageSave = uploadPath + "\\" + uuid2 + "_" + imageName;
+	    if(imageName == null || imageName == "") {
+	    	imageSave = uploadPath + "\\" + imageName;
+	    }
+	    
+	    try {
+	    	File saveFile = new File(save);
+	    	File saveImage= new File(imageSave);
+	    	
+	    	file.transferTo(saveFile);
+	    	image.transferTo(saveImage);
+	    	
+	    } catch (Exception e) {
+	    	System.out.println("upload error 입니다.");
+	    }
+		
+		recodeMapper.recodeImgUpdate(
+				UploadDTO.builder().r_file(filename).r_image(imageName).r_path(uploadPath).r_name(dto.getR_name()).r_num(dto.getR_num()).build()
+				);
+		
+		return result;
 	}
 
 	@Override
@@ -123,8 +182,27 @@ public class RecodeServiceImpl implements RecodeService {
 
 	@Override
 	public boolean unlike(LikeDTO dto) {
-		// TODO Auto-generated method stub
 		return recodeMapper.unlike(dto);
+	}
+
+	@Override
+	public boolean deleteLike(int r_num) {
+		return recodeMapper.deleteLike(r_num);
+	}
+
+	@Override
+	public boolean userRecodeDelete(String u_id) {
+		return recodeMapper.userRecodeDelete(u_id);
+	}
+
+	@Override
+	public boolean userLikeDelete(String u_id) {
+		return recodeMapper.userLikeDelete(u_id);
+	}
+
+	@Override
+	public boolean userGiveLikeDelete(String u_id) {
+		return recodeMapper.userGiveLikeDelete(u_id);
 	}
 
 }

@@ -35,4 +35,15 @@ public class ReplyServiceImpl implements ReplyService {
 	public boolean replyUpdate(ReplyDTO dto) {
 		return replyMapper.replyUpdate(dto);
 	}
+
+	@Override
+	public boolean replyDelete(ReplyDTO dto) {
+		// TODO Auto-generated method stub
+		return replyMapper.replyDelete(dto);
+	}
+
+	@Override
+	public boolean userReplyDelete(String u_id) {
+		return replyMapper.userReplyDelete(u_id);
+	}
 }

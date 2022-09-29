@@ -26,8 +26,11 @@ import com.simple.basic.command.UploadDTO;
 import com.simple.basic.command.UserDTO;
 import com.simple.basic.command.UserTotalDTO;
 import com.simple.basic.command.UserUploadDTO;
+import com.simple.basic.community.CommunityService;
 import com.simple.basic.email.EmailService;
 import com.simple.basic.follow.FollowService;
+import com.simple.basic.recode.RecodeService;
+import com.simple.basic.reply.ReplyService;
 import com.simple.basic.user.UserService;
 
 
@@ -46,6 +49,15 @@ public class UserController {
 	
 	@Autowired
 	EmailService emailService;
+	
+	@Autowired
+	RecodeService recodeService;
+	
+	@Autowired
+	CommunityService communityService;
+	
+	@Autowired
+	ReplyService replyService;
 	
 	
 	@GetMapping("/login")
@@ -67,14 +79,26 @@ public class UserController {
 	}
 	
 	@GetMapping("/mypage")
-	public String userMypage() {
+	public String userMypage(@RequestParam("u_id") String u_id, Model model) {
+		List<RecodeDTO> list1 = userService.myRecode1(u_id);
+		List<UploadDTO> list2 = userService.myRecode2();
+		List<CategoryDTO> list3 = categoryService.listAll();
+		int follower = followService.followerCount(u_id);
+		int following = followService.followingCount(u_id);
 		
-		return "mypage";
+		model.addAttribute("list1", list1);
+		model.addAttribute("list2", list2);
+		model.addAttribute("list3", list3);
+		model.addAttribute("follower", follower);
+		model.addAttribute("following", following);
+		return "/mypage";
 	}
 	
 	@GetMapping("/userInfo")
-	public String userInfo() {
+	public String userInfo(Model model) {
+		List<CategoryDTO> list3 = categoryService.listAll();
 		
+		model.addAttribute("list3", list3);
 		return "userInfo";
 	}
 	
@@ -138,56 +162,67 @@ public class UserController {
 	@PostMapping("/login")
 	public String loginForm(UserTotalDTO dto, HttpServletRequest request, RedirectAttributes rttr, Model model) {
 		HttpSession session = request.getSession();
+		int isLogin = userService.isLogin(dto);
 		UserTotalDTO user = userService.login(dto);
 		
-		if(user == null) {
-			session.setAttribute("user", null);
-			model.addAttribute("msg", "아이디, 비밀번호가 일치하지 않습니다.");
+		if(isLogin == 0) {
+			model.addAttribute("msg", "아이디 또는 비밀번호가 일치하지 않습니다.");
+			model.addAttribute("msg2", "입력하신 내용을 다시 확인해주세요.");
 			return "login";
 		}
 		else {
 			session.setAttribute("user", user);
 		}
 		
-		//VO를 가지고 로그인 SQL 실행
-		//로그인 성공이라 가정
-				
 		return "redirect:/main";
 	}
 	
-	@PostMapping("/mypageForm")
-	public String mypageForm(@RequestParam("u_id1") String u_id, Model model) {
-		List<RecodeDTO> list1 = userService.myRecode1(u_id);
-		List<UploadDTO> list2 = userService.myRecode2();
-		List<CategoryDTO> list3 = categoryService.listAll();
-		int follower = followService.followerCount(u_id);
-		int following = followService.followingCount(u_id);
-		
-		model.addAttribute("list1", list1);
-		model.addAttribute("list2", list2);
-		model.addAttribute("list3", list3);
-		model.addAttribute("follower", follower);
-		model.addAttribute("following", following);
-		return "/mypage";
-	}
+//	@PostMapping("/mypageForm")
+//	public String mypageForm(@RequestParam("u_id1") String u_id, Model model) {
+//		List<RecodeDTO> list1 = userService.myRecode1(u_id);
+//		List<UploadDTO> list2 = userService.myRecode2();
+//		List<CategoryDTO> list3 = categoryService.listAll();
+//		int follower = followService.followerCount(u_id);
+//		int following = followService.followingCount(u_id);
+//		
+//		model.addAttribute("list1", list1);
+//		model.addAttribute("list2", list2);
+//		model.addAttribute("list3", list3);
+//		model.addAttribute("follower", follower);
+//		model.addAttribute("following", following);
+//		return "/mypage";
+//	}
 	
 	@PostMapping("/userUpdate")
-	public String userUpdate(HttpServletRequest request, UserTotalDTO dto) {
+	public String userUpdate(HttpServletRequest request, UserTotalDTO dto,
+							 @RequestParam("u_image1") MultipartFile u_image,
+							 RedirectAttributes ra,
+							 HttpSession session2) {
+		session2.invalidate();
 		HttpSession session = request.getSession();
-		boolean b = userService.userUpdate(dto);
+		boolean b = userService.userUpdate(dto, u_image);
 		UserTotalDTO user = dto;
 		session.setAttribute("user", user);
-		
-		return "redirect:/main";
+		ra.addAttribute("u_id", dto.getU_id());
+		return "redirect:/mypage";
 	}
 	
 	@PostMapping("/userDelete")
 	public String userDelete(@RequestParam("u_id") String u_id, RedirectAttributes ra, HttpSession session) {
-		boolean b = userService.userDelete(u_id);
+//		followService.deleteUserFollow(u_id); // 유저가 팔로우 했던 사람 목록에서 삭제
+//		followService.deleteP_userFollow(u_id); // 유저를 팔로우 했던 사람 목록에서 삭제
+//		recodeService.userRecodeDelete(u_id); // 유저가 만든 음원 삭제
+//		recodeService.userLikeDelete(u_id); // 유저가 만든 음원에 대한 좋아요 삭제
+//		recodeService.userGiveLikeDelete(u_id);// 유저가 좋아요를 누른 기록 삭제
+//		communityService.userCommunityDelete(u_id); // 유저가 작성한 게시글 삭제
+//		replyService.userReplyDelete(u_id); // 유저가 작성한 댓글 삭제
+		// cascade로 완료
+		
+		boolean b = userService.userDelete(u_id); // 유저 데이터 삭제
 		if(b) {
-			ra.addFlashAttribute("msg", "삭제가 완료되었습니다.");
+			ra.addFlashAttribute("msg", "탈퇴가 완료되었습니다.");
 		}else {
-			ra.addFlashAttribute("msg", "오류로 인해 삭제가 실패되었습니다.");
+			ra.addFlashAttribute("msg", "오류로 인해 탈퇴가 실패되었습니다.");
 		}
 		session.invalidate();
 		return "redirect:/main";
@@ -259,5 +294,17 @@ public class UserController {
 	@ResponseBody
 	public String checkCode(String e_code){
 		return e_code;
+	}
+	
+	@GetMapping("/forgot-id")
+	public String forgotId(){
+		
+		return "forgot-id";
+	}
+	
+	@GetMapping("/forgot-password")
+	public String forgotPw(){
+		
+		return "forgot-password";
 	}
 }

@@ -94,12 +94,19 @@ public class CommunityController {
 	}
 	
 	@GetMapping("/communityMypost")
-	public String commuMypost(@RequestParam("u_id") String u_id, Model model) {
+	public String commuMypost(@RequestParam("u_id") String u_id, @ModelAttribute("cri") Criteria cri ,Model model) {
+
 		List<CategoryDTO> list3 = categoryService.listAll();
-		List<CommunityDTO> list = communityService.getMyPost(u_id);
-		
+
+		cri.setU_id(u_id);
+		List<CommunityDTO> list = communityService.getMyPost(cri);	
+		int total = communityService.getMyTotal(cri); //전체게시글수
+		PageDTO pageDTO = new PageDTO(cri, total); //페이지네이션
+
 		model.addAttribute("list", list);
+		model.addAttribute("pageDTO", pageDTO);
 		model.addAttribute("list3", list3);
+
 		return "communityMypost";
 	}
 	

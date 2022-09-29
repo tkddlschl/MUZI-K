@@ -19,6 +19,7 @@
       <!-- Owl Carousel -->
       <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
       <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
    </head>
    <body id="page-top">
       <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
@@ -30,7 +31,12 @@
          <!-- Navbar Search -->
          <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
             <div class="input-group">
-               <input type="text" class="form-control" placeholder="Search for...">
+               <!-- <select id="e4" class="form-control" name="search">
+					<option value="id">아이디</option>
+					<option value="title">제목</option>
+			   </select>
+			   &nbsp&nbsp&nbsp -->
+               <input type="text" class="form-control" id="search" onkeyup="filter()" placeholder="Search for...">
                <div class="input-group-append">
                   <button class="btn btn-light" type="button">
                   <i class="fas fa-search"></i> 
@@ -90,10 +96,7 @@
                [[${session.user.u_nick}]]
                </a>
                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-               <form action ="mypageForm" method ="post">
-               	  <input type="hidden" name="u_id1" class="form-control" th:value="${session.user.u_id}">
-                  <button style="cursor:pointer" class="dropdown-item" th:href="@{mypage}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; 마이페이지</button>
-               </form>
+				  <a class="dropdown-item" th:href="@{mypage(u_id=${session.user.u_id})}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; 마이페이지</a>
                   <a class="dropdown-item" th:href="@{userInfo}"><i class="fas fa-fw fa-cog"></i> &nbsp; 회원정보관리</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; 로그아웃</a>
@@ -148,16 +151,6 @@
                   <a class="dropdown-item" th:href="@{noticeList}">공지글 게시판</a>
                </div>
             </li>
-            <li class="nav-item channel-sidebar-list">
-               <h6>장르별 카테고리</h6>
-               <ul>
-                  <li>
-                     <a href="subscriptions.html">
-                     <img class="img-fluid" alt="" src="img/s1.png"> 힙합/랩
-                     </a>
-                  </li>
-               </ul>
-            </li>
          </ul>
 
          <div id="content-wrapper">
@@ -197,45 +190,91 @@
                                                    </tr>
                                                  	<tr th:each="dto, status : ${list}">
 														<td>[[${dto.c_num}]]</td>
-													 	<td>[[${dto.u_id}]]</td> 
+													 	<td class="commu_id">[[${dto.u_id}]]</td> 
 														<td>	
-															<a title="상세보기(클릭)" th:href="@{communityDetail(c_num = ${dto.c_num} ) }">
+															<a class="commu_title" title="상세보기(클릭)" th:href="@{communityDetail(c_num = ${dto.c_num} ) }">
 																[[${dto.c_title}]]
 															</a>
 														</td>
 														<td>[[${ #temporals.format(dto.c_date, 'yyyy-MM-dd') }]]</td>
-													</tr> 
+													</tr>
                                                 </table>
-                                          </ul>
-                                    </ul>
+                                     </ul>
                                  </div>
                               </form>
                         </div>
                      </div> 
                   </div>
                   <nav aria-label="Page navigation example">
-                     <ul class="pagination justify-content-center pagination-sm mb-4">
-                        <li class="page-item disabled">
-                           <a class="page-link" href="#" tabindex="-1">Previous</a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                           <a class="page-link" href="#">Next</a></li>
-						  
-                     </ul>
-                     <center>
-                     <button th:if="${session.user != null}" type="button" class="btn btn-outline-primary" > 
-						  <a th:href="communityRegist" class="normal_btn purplebtn02">글 등록</a></button>
-					 </center>
-                  </nav>
+						<ul class="pagination justify-content-center pagination-sm mb-4">
+							<li class="page-item"><a class="page-link"
+								th:href="@{communityList(page=1,amount=${pageDTO.amount})}"
+								href="#" tabindex="-1">Previous</a></li>
+							<th:block th:each="num : ${pageDTO.pageList}">
+								<li th:class="${pageDTO.page == num ? 'on' : ''}" ><a class="page-link"
+									th:href="@{communityList(page=${num}, amount=${pageDTO.amount} )}">[[${num}]]</a>
+								</li>
+							</th:block>
+							<li class="page-item"><a class="page-link"
+								th:href="@{communityList(page=${pageDTO.realEnd},amount=${pageDTO.amount})}">Next</a>
+							</li>
+						</ul>
+						<center>
+							<a th:href="communityRegist" class="normal_btn purplebtn02">
+							<button th:if="${session.user != null}" type="button" class="btn btn-outline-primary">
+								글 등록
+							</button>
+							</a>
+						</center>
+					</nav>
                </div>
                <hr>
              
             </div>
             <!-- /.container-fluid -->
             <!-- Sticky Footer -->
+            <!-- <script>
+            function filter() {
+            	if($('#e4').val() == 'id'){
+            		let search = document.getElementById("search").value.toLowerCase();
+        	        let listInner = document.getElementsByClassName("listInner");
+
+        	        for (let i = 0; i < listInner.length; i++) {
+        	          city = listInner[i].getElementsByClassName("commu");
+        	          country = listInner[i].getElementsByClassName("commu_id");
+        	          if (city[0].innerText.toLowerCase().indexOf(search) != -1 ||
+        	            country[0].innerText.toLowerCase().indexOf(search) != -1
+        	          ) {
+        	            listInner[i].style.display = ""
+        	          }
+        	          else {
+        	            listInner[i].style.display = "none"
+        	          }
+        	        }
+            	}
+            	
+            	else if($('#e4').val() == 'title'){
+            		let a_search = document.getElementById("search").value.toLowerCase();
+        	        let a_listInner = document.getElementsByClassName("listInner");
+
+        	        for (let i = 0; i < a_listInner.length; i++) {
+        	          city = a_listInner[i].getElementsByClassName("commu");
+        	          country = a_listInner[i].getElementsByClassName("commu_title");
+        	          if (city[0].innerHTML.toLowerCase().indexOf(a_search) != -1 ||
+        	            country[0].innerHTML.toLowerCase().indexOf(a_search) != -1
+        	          ) {
+        	            a_listInner[i].style.display = ""
+        	          } else {
+        	            a_listInner[i].style.display = "none"
+        	          }
+        	        }
+            	}
+    	      }
+            $('#e4').on('change', function(){
+            	$('#search').val('')
+            	$(".listInner").css('display', '')
+            })
+            </script> -->
             <footer class="sticky-footer">
                <div class="container">
                   <div class="row no-gutters">

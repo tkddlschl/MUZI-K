@@ -19,6 +19,70 @@
       <!-- Owl Carousel -->
       <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
       <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+       <script th:inline="javascript">
+      $(document).ready(function(){
+         
+            $('#replycall').on('click', '#replySend', function() { 
+               
+               event.preventDefault();
+               let reply_no = $(this).attr("value");
+               let reply_con = $(this).parents('.left').find('#reply-update').val()
+               console.log("call")
+               $.ajax({
+                   url: "/replyUpdate" ,
+                   type: 'POST',
+                   contentType: 'application/json;charset=utf-8',
+                   dataType: 'json',
+                   data: JSON.stringify({
+                     reply_num: reply_no,
+                     reply_contents: reply_con
+                   }),
+
+                   success: function (data) {
+                      location.reload()
+                      if (data == true) {
+                      }else console.log("x")
+                   }
+
+                 });
+            }); 
+        
+         $('#replycall').on('click', '#replyDel', function() { 
+               
+               event.preventDefault();
+               let reply_no = $(this).attr("value");
+               console.log("call")
+               $.ajax({
+                   url: "/replyDelete" ,
+                   type: 'POST',
+                   contentType: 'application/json;charset=utf-8',
+                   dataType: 'json',
+                   data: JSON.stringify({
+                     reply_num: reply_no,
+                   }),
+                   success: function (data) {
+                      location.reload()
+                      if (data == true) {
+                      }else console.log("x")
+                   }
+
+                 });
+            });
+ 
+          });
+      </script>
+      <style>
+      #replySend, #replyDel{
+	      height : 30px;
+	      width : 70px;
+	      font-size: 8pt;
+	      text-align: auto;
+	      margin-top : 10px;
+      }
+      </style>
+      
+      
    </head>
    <body id="page-top">
       <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
@@ -30,12 +94,6 @@
          <!-- Navbar Search -->
          <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
             <div class="input-group">
-               <input type="text" class="form-control" placeholder="Search for...">
-               <div class="input-group-append">
-                  <button class="btn btn-light" type="button">
-                  <i class="fas fa-search"></i> 
-                  </button>
-               </div>
             </div>
          </form>
          <!-- Navbar -->
@@ -90,10 +148,7 @@
                [[${session.user.u_nick}]]
                </a>
                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-               <form action ="mypageForm" method ="post">
-               	  <input type="hidden" name="u_id1" class="form-control" th:value="${session.user.u_id}">
-                  <button style="cursor:pointer" class="dropdown-item" th:href="@{mypage}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; 마이페이지</button>
-               </form>
+				  <a class="dropdown-item" th:href="@{mypage(u_id=${session.user.u_id})}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; 마이페이지</a>
                   <a class="dropdown-item" th:href="@{userInfo}"><i class="fas fa-fw fa-cog"></i> &nbsp; 회원정보관리</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; 로그아웃</a>
@@ -148,65 +203,52 @@
                   <a class="dropdown-item" th:href="@{noticeList}">공지글 게시판</a>
                </div>
             </li>
-            <li class="nav-item channel-sidebar-list">
-               <h6>장르별 카테고리</h6>
-               <ul>
-                  <li>
-                     <a href="subscriptions.html">
-                     <img class="img-fluid" alt="" src="img/s1.png"> 힙합/랩
-                     </a>
-                  </li>
-               </ul>
-            </li>
          </ul>
 
          <div id="content-wrapper">
-			<div class="container-fluid pb-0">
-				<div class="video-block section-padding">
-					<div class="row">
-						<div class="col-md-12">
-							<div class="main-title">
-								
-								
-								<article class ="d-flex">
-								<div class="container" role="main">
-									<a><img src="img/logo.png"></img></a>
-									<form name="actionForm" action="####" method="####">
-										<div class="mb-3">
-											<input type="hidden" name="c_num" th:value="${CommunityDTO.c_num}">
-										</div>
-										<div class="mb-3">
-											<label for="reg_id">작성자</label> <input type="text" class="form-control" name="u_id" th:value="${CommunityDTO.u_id}" readonly />
-										</div>
-										<div class="mb-3">
-											<label for="reg_id">제목</label> <input type="text" class="form-control" name="c_title" th:value="${CommunityDTO.c_title}">
-										</div>
-										<div class="mb-3">
-											<label for="content">내용</label>
-											<textarea class="form-control" rows="5" name="c_contents" style="height: 400px;">[[${CommunityDTO.c_contents}]]</textarea>
-										</div>
-										<div class="btn_area2">                                                                                                                       
-                                                                                                                                                      	
-                                            </div>                                   
-                                            <div class="btn_area">       
-                                                <a th:if="${session.user != null} and ${session.user.u_id} == ${CommunityDTO.u_id}" href="#" class="btn btn-outline-primary" th:onclick="|commu_update()|">저장</a>                                                                                 
-                                                <a th:href="communityList" class="btn btn-outline-primary">목록</a>                                        
-                                                <a th:if="${session.user != null} and ${session.user.u_id} == ${CommunityDTO.u_id}" href="#" class="btn btn-outline-primary" th:onclick="|commu_delete()|">삭제</a>                                          	
-                                            </div>
-									</form>
-									<table class="container">
-                           					<tr>
+         <div class="container-fluid pb-0">
+            <div class="video-block section-padding">
+               <div class="row">
+                  <div class="col-md-12">
+                     <div class="main-title">
+                        
+                        <article class ="d-flex">
+                        <div id="r2" class="container" role="main">
+                           <a><img src="img/logo.png"></img></a>
+                           <form name="actionForm" action="###" method="post">
+                              <div class="mb-3">
+                                 <input type="hidden" name="c_num" th:value="${CommunityDTO.c_num}">
+                              </div>
+                              <div class="mb-3">
+                                 <label for="reg_id">작성자</label> <input type="text" class="form-control" name="u_id" th:value="${CommunityDTO.u_id}" readonly />
+                              </div>
+                              <div class="mb-3">
+                                 <label for="reg_id">제목</label> <input type="text" class="form-control" name="c_title" th:value="${CommunityDTO.c_title}">
+                              </div>
+                              <div class="mb-3">
+                                 <label for="content">내용</label>
+                                 <textarea class="form-control" rows="5" name="c_contents" style="height: 400px;">[[${CommunityDTO.c_contents}]]</textarea>
+                              </div>
+                                                               
+                              <div class="btn_area">       
+                                  <a th:if="${session.user != null} and ${session.user.u_id} == ${CommunityDTO.u_id}" href="#" class="btn btn-outline-primary" th:onclick="|commu_update()|">저장</a>                                                                                 
+                                  <a th:href="communityList" class="btn btn-outline-primary">목록</a>                                        
+                                  <a th:if="${session.user != null} and ${session.user.u_id} == ${CommunityDTO.u_id}" href="#" class="btn btn-outline-primary" th:onclick="|commu_delete()|">삭제</a>                                             
+                              </div>
+                              </form>
+                           <table class="container">
+                                          <tr>
                                                 <th colspan="2">여러분의 의견을 남겨주세요</th>
                                             </tr>
                                             <tr th:if = "${session.user != null}">
                                                 <th>댓글등록</th>
                                                 <td>
-                                                    <form name="replyForm" action="replyForm" method="post">
+                                                    <form name="replyForm" action="replyForm" method="post" id="replyForm">
                                                     <input type="text" class="inputw290" name="u_id" th:value="${session.user.u_id}" style="margin-top:10px;">
                                                         <input type="hidden" class="inputw290" name="c_num" th:value = "${param.c_num}" >
                                                         <textarea  class="form-control" name="reply_contents" required style="height: 150px; margin-top:10px;"></textarea>
                                                         <div class="btn_area">
-                                                            <input type="submit" class="save" value="댓글등록">
+                                             <button class="btn btn-outline-primary" style = "cursor:pointer;" type="submit">댓글 등록</button>
                                                         </div>
                                                     </form>
                                                     <hr size= "10px">
@@ -214,53 +256,56 @@
                                             </tr>
                                             <!-- 댓글영역 -->
 
-                                           <tbody class="reply_container">
-                                    <hr size= "10px">                                                
+                                           <tbody id ="replycall" class="reply_container">
+                                                   <hr size= "10px">                                              
                                                 <tr th:each = "list : ${list}">
-                                                   
+                                                   <th style="display:none" th:value ="${list.reply_num}"> [[${list.reply_num}]]</th>
                                                     <th >[[${list.u_id}]]</th>
                                                     <td class="mb-3">
                                                         <div class="left">
                                                             <span>[[${ #temporals.format(list.reply_date, 'yyyy-MM-dd-HH:mm')}]]</span>
                                                             <p>[[${list.reply_contents}]]</p>
-                                                            <a th:if="${session.user != null} and ${session.user.u_id} == ${list.u_id}" 
-                                                            th:href="@{replyDetail(reply_num=${list.reply_num}, c_num =${list.c_num}, u_id =${list.u_id}, reply_contents =${list.reply_contents}, reply_date =${list.reply_date})}" >댓글 수정</a> 
-                                                            <hr size= "10px">
+                                                            <div th:if="${session.user != null} and ${session.user.u_id} == ${CommunityDTO.u_id}" >
+                                                            <button th:if="${session.user != null} and ${session.user.u_id} == ${list.u_id}"  class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">댓글 수정</button>
+                                                <div class="dropdown-menu">
+                                                      <textarea class="form-control" cols="100" rows="100"
                                                              
-                                                        </div>
-                                                        
-                                                    </td>
-                                                   
-                                                </tr>
-                                                 
-                                            </tbody>
-                                            <!-- end댓글영역 -->
+                                                            id="reply-update" name="reply_contents" required style="height: 50px; margin-top: 10px;"></textarea>
+                                                            <button class="btn btn-outline-primary" style = "cursor:pointer;" th:value ="${list.reply_num}" id="replySend" th:if="${session.user != null} and ${session.user.u_id} == ${list.u_id}" >댓글 수정</button>
+                                                            <button class="btn btn-outline-primary" style = "cursor:pointer;" th:value ="${list.reply_num}" id="replyDel" th:if="${session.user != null} and ${session.user.u_id} == ${list.u_id}" >댓글 삭제</button>
+                                                   </div>
+                                                              </div>
+                                                          <hr size= "10px">                                                             
+                                                        </div>                                                        
+                                                    </td>                                                
+                                                </tr>                                                 
+                                            </tbody>                                            
                                         </table>
-									</div>
-									</article>
-								</div>
-								</div>
-							</div>
-						</div>
-						<hr>
+                           </div>
+                           </article>
+                        </div>
+                        </div>
+                     </div>
+                  </div>
+                  <hr>
 
-					</div>
-					<!-- /.container-fluid -->
-					<!-- Sticky Footer -->
-					<footer class="sticky-footer">
-						<div class="container">
-							<div class="row no-gutters">
-								<div class="col-lg-6 col-sm-6"></div>
-								<div class="col-lg-6 col-sm-6 text-right">
-									<div class="app">
-										<a href="#"><img alt="" src="img/google.png"></a> <a
-											href="#"><img alt="" src="img/apple.png"></a>
-									</div>
-								</div>
-							</div>
-						</div>
-					</footer>
-				</div>
+               </div>
+               <!-- /.container-fluid -->
+               <!-- Sticky Footer -->
+               <footer class="sticky-footer">
+                  <div class="container">
+                     <div class="row no-gutters">
+                        <div class="col-lg-6 col-sm-6"></div>
+                        <div class="col-lg-6 col-sm-6 text-right">
+                           <div class="app">
+                              <a href="#"><img alt="" src="img/google.png"></a> <a
+                                 href="#"><img alt="" src="img/apple.png"></a>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </footer>
+            </div>
          <!-- /.content-wrapper -->
       </div>
       <!-- /#wrapper -->
@@ -295,21 +340,22 @@
       <script src="vendor/owl-carousel/owl.carousel.js"></script>
       <!-- Custom scripts for all pages-->
       <script src="js/custom.js"></script>
+      
+     
+      
       <script th:inline="javascript">
-	function commu_update() {
-
-		event.preventDefault(); 
-		document.actionForm.action = "communityUpdate";
-		document.actionForm.method = "post"; 
-		document.actionForm.submit(); //서브밋
-	}
-	
-	function commu_delete() {
-		event.preventDefault();
-		document.actionForm.action = "communityDelete";
-		document.actionForm.method = "post"; 
-		document.actionForm.submit(); //서브밋
-	}
+   function commu_update() {
+      
+      event.preventDefault(); 
+      document.actionForm.action = "communityUpdate";
+      document.actionForm.submit(); //서브밋
+   }
+   
+   function commu_delete() {
+      event.preventDefault();
+      document.actionForm.action = "communityDelete";
+      document.actionForm.submit(); //서브밋
+   }
 </script>
    </body>
 

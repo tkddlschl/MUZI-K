@@ -42,6 +42,12 @@
   	where u.u_id = #{u_id} and u.u_pw = #{u_pw}
   </select>
   
+  <select id="isLogin" resultType="int">
+  	select count(*)
+  	from user
+  	where u_id = #{u_id} and u_pw = #{u_pw}
+  </select>
+  
   <select id="myRecode1" resultType="RecodeDTO">
   	select * from record where u_id = #{u_id}
   </select>
@@ -59,8 +65,18 @@
   	where u_id = #{u_id}
   </update>
   
+  <update id="userImgUpdate">
+  	update u_imgupload set u_path = #{u_path},
+  						   u_image = #{u_image}
+  					
+  	where u_id = #{u_id}
+  </update>
+  
   <delete id="userDelete">
-  	delete from user where u_id = #{u_id}
+  	delete u, i from user u 
+  	left join u_imgupload i
+  	on (u.u_id = i.u_id)
+  	where u.u_id = #{u_id}
   </delete>
   
   <select id ="artistList" resultType = "UserDTO">

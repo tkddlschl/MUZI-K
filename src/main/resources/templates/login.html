@@ -23,10 +23,26 @@
 	  <script>
 		    $(document).ready(function() {
 		        let message = "[[${msg}]]";
-		        if (message != "") {
-		            alert(message);
-		        }else {
-		        }
+		        let message2 = "[[${msg2}]]";
+		        if (message != "" && message2 != "") {
+		            $('#loginMsg').text(message).css('color', 'red');
+		            $('#loginMsg2').text(message2).css('color', 'red');
+		        }else{}
+		        
+		        if($('#u_id').val() == '' && $('#u_pw').val() == ''){
+					$('#loginBtn').attr('disabled', true);
+				}
+		        $('#u_id').on('propertychange change paste input', function(){
+		        	if($('#u_id').val() != '' && $('#u_pw').val() != ''){
+			        	$('#loginBtn').attr('disabled', false);
+			        }
+				})
+				$('#u_pw').on('propertychange change paste input', function(){
+					if($('#u_id').val() != '' && $('#u_pw').val() != ''){
+			        	$('#loginBtn').attr('disabled', false);
+			        }
+				})
+		    	
 		    })
 	  </script>
       
@@ -45,22 +61,27 @@
                      <form action="login" method="POST">
                         <div class="form-group">
                            <label>아이디</label>
-                           <input type="text" class="form-control" name="u_id" placeholder="아이디를 입력해주세요.">
+                           <input type="text" class="form-control" id="u_id" name="u_id" placeholder="아이디를 입력해주세요.">
                         </div>
                         <div class="form-group">
                            <label>비밀번호</label>
-                           <input type="password" class="form-control" name="u_pw" placeholder="비밀번호를 입력해주세요.">
+                           <input type="password" class="form-control" id="u_pw" name="u_pw" placeholder="비밀번호를 입력해주세요.">
                         </div>
                         <div class="mt-4">
                            <div class="row">
                               <div class="col-12">
-                                 <button type="submit" class="btn btn-outline-primary btn-block btn-lg">로그인</button>
-                                 
+                                 <button id="loginBtn" type="submit" class="btn btn btn-primary btn-block btn-lg">로그인</button>
+                                 <br>
+                                 <span id="loginMsg"></span>
+                                 <br>
+                                 <span id="loginMsg2"></span>
                               </div>
+                              
                            </div>
                         </div>
                      </form>
                      <div class="text-center mt-5">
+                     	<p class="light-gray"><a th:href="@{forgot-id}">아이디</a>/<a th:href="@{forgot-password}">비밀번호 찾기</a></p>
                         <p class="light-gray">아직 계정이 없으신가요? <a th:href="@{signUp}">회원가입</a></p>
                      </div>
                   </div>
