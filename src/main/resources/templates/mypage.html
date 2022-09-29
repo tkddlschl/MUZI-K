@@ -19,6 +19,15 @@
       <!-- Owl Carousel -->
       <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
       <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script>
+      $(document).ready(function(){
+    	  let message = "[[${msg}]]";
+    	  if (message != "") {
+	          alert(message);
+	      }
+      })
+      </script>
    </head>
    <body id="page-top">
       <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
@@ -30,12 +39,6 @@
          <!-- Navbar Search -->
          <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
             <div class="input-group">
-               <input type="text" class="form-control" placeholder="Search for...">
-               <div class="input-group-append">
-                  <button class="btn btn-light" type="button">
-                  <i class="fas fa-search"></i> 
-                  </button>
-               </div>
             </div>
          </form>
          <!-- Navbar -->
@@ -89,10 +92,7 @@
                [[${session.user.u_nick}]]
                </a>
                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-               <form action ="mypageForm" method ="post">
-               	  <input type="hidden" name="u_id1" class="form-control" th:value="${session.user.u_id}">
-                  <button style="cursor:pointer" class="dropdown-item" th:href="@{mypage}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; 마이페이지</button>
-               </form>
+                  <a class="dropdown-item" th:href="@{mypage(u_id=${session.user.u_id})}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; 마이페이지</a>
                   <a class="dropdown-item" th:href="@{userInfo}"><i class="fas fa-fw fa-cog"></i> &nbsp; 회원정보관리</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; 로그아웃</a>
@@ -146,16 +146,6 @@
                   <a th:if="${session.user != null}" class="dropdown-item" th:href="@{communityMypost(u_id=${session.user.u_id})}">나의 게시글</a>
                   <a class="dropdown-item" th:href="@{noticeList}">공지글 게시판</a>
                </div>
-            </li>
-            <li class="nav-item channel-sidebar-list">
-               <h6>장르별 카테고리</h6>
-               <ul>
-                  <li>
-                     <a href="subscriptions.html">
-                     <img class="img-fluid" alt="" src="img/s1.png"> 힙합/랩
-                     </a>
-                  </li>
-               </ul>
             </li>
          </ul>
 
@@ -287,8 +277,11 @@
                         </div>
                      </div>
                      <div th:each="dto1 : ${list1}" class="col-xl-3 col-sm-6 mb-3">
+                     <form action="recodeDelete" method="post">
                         <div class="video-card">
                            <div class="video-card-image">
+                              <input type="hidden" name="u_id" th:value="${session.user.u_id}">
+                              <input type="hidden" name="r_num" th:value="${dto1.r_num}">
                               <a th:if="${session.user != null}" class="play-icon" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=${session.user.u_id})}"><i class="fas fa-play-circle"></i></a>
                               <a th:each="dto2 : ${list2}" th:if="${dto1.r_num} == ${dto2.r_num}"><img class="img-fluid" th:src="@{../display(r_path=${dto2.r_path}, r_image=${dto2.r_image})}" alt=""></a>
                               <div class="time"></div>
@@ -297,16 +290,18 @@
                               <div class="video-title">
                                  <a th:if="${session.user != null}" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=${session.user.u_id})}">[[${dto1.r_name}]]</a>
                               </div>
-                              <div class="video-page text-success">
+                              <div class="video-page text-success" style="margin-right: 200px;">
                                  [[${dto1.r_genre}]]  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
                               </div>
+                              <button type="submit" style="float: right; margin-top: -21px" class="btn btn-outline-danger">삭제</button>
+                              <a style="float: right; margin-top: -21px; margin-right: 10px;" class="btn btn-outline-success" th:href="@{recodeModify(r_num = ${dto1.r_num})}">수정</a>
                               <div class="video-view">
                                  1.8M views &nbsp;<i class="fas fa-calendar-alt"></i> 11 Months ago
                               </div>
                            </div>
                         </div>
+                        </form>
                      </div>
-                     
                   </div>
                </div>
                <hr class="mt-0">
@@ -354,6 +349,25 @@
             </div>
          </div>
       </div>
+      
+      <!-- 음원 삭제 모달  -->
+      <div class="modal fade" id="r_DeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">이 음원을 삭제하시겠습니까?</h5>
+                  <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                  </button>
+               </div>
+               <div class="modal-body">음원 삭제를 원하시면 음원 삭제 버튼을 눌러주세요.</div>
+               <div class="modal-footer">
+                  <button class="btn btn-secondary" type="button" data-dismiss="modal">취소</button>
+                  <a class="btn btn-primary" style="color: white" th:onclick="|recode_delete()|">음원 삭제</a>
+               </div>
+            </div>
+         </div>
+      </div>
       <!-- Bootstrap core JavaScript-->
       <script src="vendor/jquery/jquery.min.js"></script>
       <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -363,6 +377,14 @@
       <script src="vendor/owl-carousel/owl.carousel.js"></script>
       <!-- Custom scripts for all pages-->
       <script src="js/custom.js"></script>
+      
+      <script>
+      	function recode_delete() {
+			event.preventDefault(); // 태그가 가진 기본 이벤트 중지
+			document.actionForm.action = "recodeDelete";
+			document.actionForm.submit();
+		}
+      </script>
    </body>
 
 </html>

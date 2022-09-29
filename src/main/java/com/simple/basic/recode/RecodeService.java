@@ -18,11 +18,15 @@ public interface RecodeService {
 	public RecodeDTO recodeDetail1(int r_num);
 	public UploadDTO recodeDetail2(int r_num);
 	public boolean recodeDelete(int r_num);
-	public boolean recodeUpdate(RecodeDTO dto);
+	public boolean recodeUpdate(MultipartFile image, MultipartFile file, RecodeDTO dto);
 	public List<JoinDTO> nickName();
 	
 	public int checkLike(LikeDTO dto);
 	public boolean like(LikeDTO dto);
 	public boolean unlike(LikeDTO dto);
 	public int ilike(int r_num);
+	public boolean deleteLike(int r_num);
+	public boolean userRecodeDelete(String u_id);
+	public boolean userLikeDelete(String u_id);
+	public boolean userGiveLikeDelete(String u_id);
 }

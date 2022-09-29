@@ -44,6 +44,11 @@ public class FollowServiceImpl implements FollowService {
 	}
 
 	@Override
+	public void deleteP_userFollow(String u_id) {
+		followMapper.deleteP_userFollow(u_id);
+	}
+	
+	@Override
 	public List<FollowDTO> followerList(String u_id) {
 		return followMapper.followerList(u_id);
 	}
@@ -57,4 +62,5 @@ public class FollowServiceImpl implements FollowService {
 	public int followerCount(String u_id) {
 		return followMapper.followerCount(u_id);
 	}
+
 }

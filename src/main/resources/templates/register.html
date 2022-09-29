@@ -211,7 +211,7 @@
 								<label>이메일<span class="required">*</span></label>
 								<input type="email" class="form-control" name="u_email" id="u_email" placeholder="이메일을 입력해주세요."
 								th:value="${dto == null ? '':dto.u_email}">
-								<button type="button" class="btn btn btn-primary btn-lg" id="sendCode" onclick="fn_sendCode()"
+								<button type="button" class="btn btn btn-primary" id="sendCode" onclick="fn_sendCode()"
 								style="font-size: 15px; padding: 5px 5px">인증 번호 전송</button>
 								<span id="emailCheck"></span>
 								<br>
@@ -221,7 +221,7 @@
 								<label>인증 번호 입력<span class="required">*</span></label>
 								<input type="text" class="form-control" name="e_code" id="e_code" placeholder="인증번호를 입력해주세요."
 								th:value="${e_code}">
-								<button type="button" class="btn btn btn-primary btn-lg" id="checkCode" onclick="fn_checkCode()"
+								<button type="button" class="btn btn btn-primary" id="checkCode" onclick="fn_checkCode()"
 								style="font-size: 15px; padding: 5px 5px">인증 번호 확인</button>
 								<span>[[${e_code}]]</span>
 								<span id="emailCertification"></span>
@@ -242,9 +242,9 @@
                         </div>
                         <hr>
                         <div class="form-group">
-							<label>프로필 사진을 선택해주세요. <span class="required">*</span></label>
+							<label>프로필 사진을 선택해주세요. <span class="required"></span></label>
 							<img id="preview" style="width: 60%; height: auto;" /> <br>
-							<input type="file" accept="image/gif, image/jpeg, image/png" id="u_image1" name="u_image1" onchange="readURL(this);">
+							<input type="file" accept="image/*" id="u_image1" name="u_image1" onchange="readURL(this);">
 							<span id="imageCheck"></span>
 						</div>
                         <div class="mt-4">

@@ -48,6 +48,16 @@
 	order by u.u_nick;
   </select>
   
+  <delete id="deleteUserFollow">
+  	delete from follow
+  	where u_id = #{u_id}
+  </delete>
+  
+  <delete id="deleteP_userFollow">
+  	delete from follow
+  	where f_passiveUser = #{u_id}
+  </delete>
+  
   <select id ="followerList" resultType = "FollowDTO">
      select *
      from follow
