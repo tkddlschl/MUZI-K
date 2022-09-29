@@ -10,9 +10,10 @@ public interface CommunityService {
 	public boolean communityRegist(CommunityDTO dto); //등록
 	
 	public List<CommunityDTO> getList(Criteria cri); //페이징 조회
-	public List<CommunityDTO> getMyPost(String u_id);
+	public List<CommunityDTO> getMyPost(Criteria cri);
 	
 	public int getTotal(Criteria cri); //전체게시글수
+	public int getMyTotal(Criteria cri); //전체게시글수
 	
 	public CommunityDTO getDetail(int c_num); //상세조회
 	

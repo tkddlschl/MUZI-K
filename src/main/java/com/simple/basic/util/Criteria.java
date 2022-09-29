@@ -10,10 +10,6 @@ public class Criteria extends CommunityDTO {
 	private int page; //페이지번호
 	private int amount; //데이터 개수
 	
-	//검색키워드 추가
-	private String searchId; 
-	private String searchTitle;
-	
 	private String id;
 	private String title;
 	private String content;

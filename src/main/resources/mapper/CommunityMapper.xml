@@ -12,17 +12,27 @@
   	<select id="getList" resultType="CommunityDTO">
   		select *
   		from community
+  		order by c_num DESC
+  		limit #{pageStart}, #{amount}
   	</select>
   	
   	<select id="getMyPost" resultType="CommunityDTO" >
-  		select * 
-  		from community
+	 	select * 
+	 	from community
 		where u_id = #{u_id}
+		order by c_num DESC
+		limit #{pageStart}, #{amount}
   	</select>
   	
   	<select id="getTotal" resultType="int">
  		select count(*) as total
  		from community
+ 	</select>
+ 	
+ 	<select id="getMyTotal" resultType="int">
+ 		select count(*) as total
+ 		from community
+ 		where u_id = #{u_id}
  	</select>
  	
   	<select id="getDetail" resultType="CommunityDTO" >

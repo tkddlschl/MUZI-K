@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import com.simple.basic.command.CommunityDTO;
 import com.simple.basic.util.Criteria;
 
@@ -48,7 +49,12 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	public List<CommunityDTO> getMyPost(String u_id) {
-		return communityMapper.getMyPost(u_id);
+	public List<CommunityDTO> getMyPost(Criteria cri) {		
+		return communityMapper.getMyPost( cri);
+	}
+
+	@Override
+	public int getMyTotal(Criteria cri) {
+		return communityMapper.getMyTotal(cri);
 	}
 }

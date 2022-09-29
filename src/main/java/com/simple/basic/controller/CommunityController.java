@@ -94,14 +94,34 @@ public class CommunityController {
 	}
 	
 	@GetMapping("/communityMypost")
-	public String commuMypost(@RequestParam("u_id") String u_id, Model model) {
+	public String commuMypost(@RequestParam("u_id") String u_id, @ModelAttribute("cri") Criteria cri ,Model model) {
+	
 		List<CategoryDTO> list3 = categoryService.listAll();
-		List<CommunityDTO> list = communityService.getMyPost(u_id);
 		
+		cri.setU_id(u_id);
+		List<CommunityDTO> list = communityService.getMyPost(cri);	
+		int total = communityService.getMyTotal(cri); //전체게시글수
+		PageDTO pageDTO = new PageDTO(cri, total); //페이지네이션
+	
 		model.addAttribute("list", list);
+		model.addAttribute("pageDTO", pageDTO);
 		model.addAttribute("list3", list3);
+		
 		return "communityMypost";
 	}
 	
+	/*
+	 * @GetMapping("/communityMypost") public String
+	 * commuMypost(@ModelAttribute("cri") Criteria cri ,Model model, HttpSession
+	 * session) { UserTotalDTO user = (UserTotalDTO)session.getAttribute("user");
+	 * if(user != null) { String u_id = user.getU_id(); List<CommunityDTO> list =
+	 * communityService.getMyPost(u_id,cri); System.out.println(u_id);
+	 * cri.setU_id(u_id); int total = communityService.getMyTotal(u_id); //유저게시글수
+	 * PageDTO pageDTO = new PageDTO(cri, total); //페이지네이션
+	 * 
+	 * model.addAttribute("pageDTO", pageDTO); model.addAttribute("list", list); }
+	 * List<CategoryDTO> list3 = categoryService.listAll();
+	 * model.addAttribute("list3", list3); return "communityMypost"; }
+	 */
 	
 }
