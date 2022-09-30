@@ -308,8 +308,8 @@
                               정렬 <i class="fa fa-caret-down" aria-hidden="true"></i>
                               </a>
                               <div class="dropdown-menu dropdown-menu-right">
-                                 <a class="dropdown-item" href="#"><i class="fas fa-fw fa-signal"></i> &nbsp; 시청순</a>
-                                 <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; 좋아요순</a>
+                                 <a id= "sortLike" class="dropdown-item" href="#"><i class="fas fa-fw fa-signal"></i> &nbsp; 시청순</a>
+                                 <a id ="sortBasic" class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; 좋아요순</a>
                               </div>
                            </div>
                            <h6>아티스트</h6>
@@ -386,6 +386,38 @@
             	$(".listInner").css('display', '')
             	$(".a_listInner").css('display', '')
             })
+            </script>
+            <script>
+           $('#sortLike').click(function(){
+        	  
+        	   $.ajax({
+     	            url: "/sortLike",
+     	            type: 'POST',
+     	            contentType: 'application/json;charset=utf-8',
+     	            dataType: 'json',
+     	            async: false,
+     	            data: JSON.stringify({                    
+     	                u_id: $('#u_id').val(),
+     	                f_passiveUser: f_passiveUser
+     	            }),
+     	            context: this,
+     	            success: function (data) {
+   	  		           if(data == 0){
+   	  		               $(this).html("팔로우 취소");
+   	  		           }
+   	  		            	 
+   	  		           else{
+   	  		               $(this).html("팔로우");
+   	  		           }
+     		        },	            
+     	            error: function(ex)  {
+     	            	alert("error : " + ex);
+     	            } 
+     	          });
+           }); 
+
+            
+            
             </script>
             <footer class="sticky-footer">
                <div class="container">

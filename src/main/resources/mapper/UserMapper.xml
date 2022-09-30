@@ -88,7 +88,7 @@
 	inner join u_imgupload i
 	on i.u_id = u.u_id 
 	where u.u_type = 'a'
-	order by u.u_nick
+	order by followerCount desc;
   </select>
   
   <select id="artistImgDetail" resultType="UserUploadDTO">

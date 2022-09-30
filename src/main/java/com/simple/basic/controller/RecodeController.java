@@ -24,6 +24,7 @@ import com.simple.basic.command.LikeDTO;
 import com.simple.basic.command.RecodeDTO;
 import com.simple.basic.command.UploadDTO;
 import com.simple.basic.follow.FollowService;
+import com.simple.basic.play.PlayService;
 import com.simple.basic.recode.RecodeService;
 
 @Controller
@@ -37,6 +38,9 @@ public class RecodeController {
 	
 	@Autowired
 	FollowService followService;
+	
+	@Autowired
+	PlayService playService;
 
 	
 	@GetMapping("/recodeInsert") // 업로드 화면
@@ -80,6 +84,8 @@ public class RecodeController {
 		model.addAttribute("ilike", ilike);
 		model.addAttribute("follower", follower);
 		model.addAttribute("isCheck", isCheck);
+		model.addAttribute("r_num", r_num);
+		model.addAttribute("u_id", u_id);
 		return "/recodeDetail";
 	}
 	
@@ -173,5 +179,7 @@ public class RecodeController {
 		return isCheck;
 	}
 
+	
+	
 }
 

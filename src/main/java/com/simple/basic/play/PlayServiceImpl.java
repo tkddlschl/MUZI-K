@@ -8,4 +8,10 @@ public class PlayServiceImpl implements PlayService {
 
 	@Autowired
 	PlayMapper playMapper;
+
+	@Override
+	public boolean addlist(int r_num, String u_id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

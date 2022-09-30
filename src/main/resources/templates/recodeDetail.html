@@ -209,7 +209,7 @@
                         <div class="single-video-left">
                            <div class="single-video">
                            <center>
-                              <a href="#"><img class="img-fluid" style="max-width: 60%; height: auto;" th:src="@{../display(r_path=${dto2.r_path}, r_image=${dto2.r_image})}" alt=""></a>
+                              <!-- <a href="#"><img class="img-fluid" style="max-width: 60%; height: auto;" th:src="@{../display(r_path=${dto2.r_path}, r_image=${dto2.r_image})}" alt=""></a> -->
                            </center>
                            </div>
                            <center>
@@ -247,8 +247,18 @@
                               <p>[[${dto1.r_genre}]]</p>
                               <h6>곡 설명 :</h6>
                               <p>[[${dto1.r_describe}]]</p>
+                              <p>[[${param.u_id}]]</p>
+                              <p>[[${param.r_num}]]</p>
+                           </div>
+                           
+                           <div>
                            </div>
                         </div>
+                        <form action ="playlistAdd" method="post">
+                           			<input type ="hidden" name= "u_id" th:value ="${param.u_id}">
+                           			<input type ="hidden" name ="r_num" th:value ="${param.r_num}">
+                           			<input type ="submit" value ="플리">
+                           	</form>
                      </div>
                      <div class="col-md-4">
                         <div class="single-video-right">
