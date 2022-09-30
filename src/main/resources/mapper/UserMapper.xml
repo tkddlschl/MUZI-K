@@ -10,12 +10,22 @@
   	values(#{u_id}, #{u_pw}, #{u_email}, #{u_nick}, #{u_type})
   </insert>
   
-   <insert id= "userImageInsert">
+  <insert id="pwInfo">
+  	insert into email(u_email, e_code)
+  	values(#{u_email}, #{e_code}) 
+  </insert>
+  
+   <insert id= "userImageInsert" >
   <selectKey resultType = "String" keyProperty="u_id" order ="BEFORE"> 
      select max(u_id) as u_id from user where u_email = #{u_email}
      </selectKey>
      insert into u_imgupload ( u_path, u_image, u_id, u_email)
      values(#{u_path},#{u_image},#{u_id},#{u_email})
+  </insert>
+  
+  <insert id="emailInsert" parameterType="String">
+  	insert into email(u_email, e_code)
+  	values(#{u_email}, #{e_code}) 
   </insert>
   
   <select id="idCheck" resultType="int">
@@ -59,6 +69,12 @@
   	where u_id = #{u_id}
   </update>
   
+    <update id="updatePwd">
+  	update user
+  	set u_pw = #{e_code}
+  	where u_email = #{u_email}
+  </update>
+  
   <delete id="userDelete">
   	delete from user where u_id = #{u_id}
   </delete>
@@ -73,6 +89,12 @@
 	on i.u_id = u.u_id 
 	where u.u_type = 'a'
 	order by u.u_nick
+  </select>
+  
+  <select id="findId" resultType="String">
+  	select u_id
+  	from user
+  	where u_email = #{u_email}
   </select>
   
   <select id="artistImgDetail" resultType="UserUploadDTO">

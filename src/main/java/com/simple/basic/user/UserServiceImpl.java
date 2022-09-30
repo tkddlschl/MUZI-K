@@ -1,6 +1,5 @@
 package com.simple.basic.user;
 
-
 import java.io.File;
 import java.util.List;
 import java.util.Random;
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.simple.basic.command.EmailDTO;
 import com.simple.basic.command.RecodeDTO;
 import com.simple.basic.command.UploadDTO;
 import com.simple.basic.command.UserDTO;
@@ -28,31 +28,30 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean userInsert(UserDTO dto, MultipartFile u_image) {
-		
+
 		boolean result = userMapper.userInsert(dto);
-		
+
 		String imageOrigin = u_image.getOriginalFilename();
-	    String imageName = imageOrigin.substring(imageOrigin.lastIndexOf("\\") + 1);
-	    String imageSave = uploadPath + "\\"  + imageName;
-	    
-	    try {
-	    	File saveImage= new File(imageSave);
-	    	u_image.transferTo(saveImage);
-	    	
-	    } catch (Exception e) {
-	    	System.out.println("upload error 입니다.");
-	    }
-	    
-	    if(imageName == null || imageName == "") {
-	    	userMapper.userImageInsert(UserUploadDTO.builder().u_email(dto.getU_email()).build());
-	    }
-	    else {
-	    	userMapper.userImageInsert(UserUploadDTO.builder().u_image(imageName).u_path(uploadPath).u_email(dto.getU_email()).build());
-	    }
-	    
-	    
-	    return result;
-		
+		String imageName = imageOrigin.substring(imageOrigin.lastIndexOf("\\") + 1);
+		String imageSave = uploadPath + "\\" + imageName;
+
+		try {
+			File saveImage = new File(imageSave);
+			u_image.transferTo(saveImage);
+
+		} catch (Exception e) {
+			System.out.println("upload error 입니다.");
+		}
+
+		if (imageName == null || imageName == "") {
+			userMapper.userImageInsert(UserUploadDTO.builder().u_email(dto.getU_email()).build());
+		} else {
+			userMapper.userImageInsert(
+					UserUploadDTO.builder().u_image(imageName).u_path(uploadPath).u_email(dto.getU_email()).build());
+		}
+
+		return result;
+
 	}
 
 	@Override
@@ -64,12 +63,12 @@ public class UserServiceImpl implements UserService {
 	public int nickCheck(String u_nick) {
 		return userMapper.nickCheck(u_nick);
 	}
-	
+
 	@Override
 	public int emailCheck(String u_email) {
 		return userMapper.emailCheck(u_email);
 	}
-	
+
 	@Transactional
 	@Override
 	public UserTotalDTO login(UserTotalDTO user) {
@@ -134,4 +133,18 @@ public class UserServiceImpl implements UserService {
 		}
 		return code.toString();
 	}
+
+	@Override
+	public void updatePwd(String e_code, String u_email) {
+		userMapper.updatePwd(e_code,u_email);
+	}
+
+	@Override
+	public String findId(String u_email) {
+		return userMapper.findId(u_email);
+	}
+
+
+
+
 }

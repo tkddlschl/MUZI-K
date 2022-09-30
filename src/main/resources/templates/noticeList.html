@@ -215,7 +215,7 @@
                    <nav aria-label="Page navigation example">
 						<ul class="pagination justify-content-center pagination-sm mb-4">
 							<li class="page-item"><a class="page-link"
-								th:href="@{noticelist(page=1,amount=${pageDTO.amount})}"
+								th:href="@{noticeList(page=1,amount=${pageDTO.amount})}"
 								href="#" tabindex="-1">Previous</a></li>
 							<th:block th:each="num : ${pageDTO.pageList}">
 								<li th:class="${pageDTO.page == num ? 'on' : ''}" class="page-item">

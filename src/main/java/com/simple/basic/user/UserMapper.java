@@ -2,6 +2,7 @@ package com.simple.basic.user;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.simple.basic.command.RecodeDTO;
 import com.simple.basic.command.UploadDTO;
@@ -24,5 +25,7 @@ public interface UserMapper {
 	public List<UserDTO> artistList();// 아티스트 정보 가져오기
 	public UserUploadDTO artistImgDetail(String u_id); // 아티스트 각 프로필 이미지 가져오기
 	public List<UserDTO> loginArtistList(String u_id);
+	public String findId(String u_email);
 	public String createCode();
+	public void updatePwd(@Param("e_code") String e_code,@Param("u_email") String u_email);
 }

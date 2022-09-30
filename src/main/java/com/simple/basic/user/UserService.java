@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.simple.basic.command.EmailDTO;
 import com.simple.basic.command.RecodeDTO;
 import com.simple.basic.command.UploadDTO;
 import com.simple.basic.command.UserDTO;
@@ -25,4 +26,7 @@ public interface UserService {
 	public UserUploadDTO artistImgDetail(String u_id); // 아티스트 각 프로필 이미지 가져오기
 	public List<UserDTO> loginArtistList(String u_id);
 	public String createCode();
+	public String findId(String u_email);
+	public void updatePwd(String e_code, String u_email);
+	
 }
