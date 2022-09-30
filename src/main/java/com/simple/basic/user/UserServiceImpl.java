@@ -144,7 +144,4 @@ public class UserServiceImpl implements UserService {
 		return userMapper.findId(u_email);
 	}
 
-
-
-
 }

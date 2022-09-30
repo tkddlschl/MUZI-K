@@ -276,7 +276,7 @@ public class UserController {
 	public String sendCode1(String u_email)
 			throws Exception {
 		String e_code = userService.createCode();
-		emailService.sendEmailMessage(u_email, e_code);
+		emailService.sendEmailMessage1(u_email, e_code);
 				
 		userService.updatePwd(e_code, u_email);	
 		return "redirect:/login";
