@@ -24,7 +24,70 @@
       <!-- Owl Carousel -->
       <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
       <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
-      <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script th:inline="javascript">
+      $(document).ready(function(){
+    	  
+    	  $("#u_nick").on('propertychange change paste input', function(){
+
+				$.ajax({
+					url: "/nickCheck",
+					type: "POST",
+					dataType: "JSON",
+					data: {"u_nick" : $("#u_nick").val()},
+					success: function(data){
+						var nickValid = /^[a-zA-Z가-힣0-9]{3,20}$/;
+						if(!nickValid.test($("#u_nick").val())){
+							$('#nickCheck').text('닉네임은 3~20자의 영문, 숫자만 사용 가능합니다.').css('color', 'red');
+							$('#u_update').attr('disabled', true);
+						}
+						else{
+							if(data == 1){
+								$('#nickCheck').text('중복된 닉네임입니다. 다시입력해주세요.').css('color', 'red');
+								$('#u_update').attr('disabled', true);
+							}
+							else if(data == 0){
+								$('#nickCheck').text('사용 가능한 닉네임입니다.').css('color', 'black');
+								if($('#u_pw').val() != '' && $('#u_nick').val() != '' && $('#u_type').val() != ''){
+									$('#u_update').attr('disabled', false);
+								}
+							}
+						}
+					}
+				})
+				
+			})
+			
+			$('#u_pw').on('propertychange change paste input', function(){
+					var pwValid = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~$@$!%*#?&])[A-Za-z\d~$@$!%*#?&]{6,20}$/;
+					if(!pwValid.test($("#u_pw").val())){
+						$('#pwCheck').text('비밀번호는 6~20자의 영문, 숫자, 특수문자를 조합하여 사용 가능합니다.').css('color', 'red');
+						$('#u_update').attr('disabled', true);
+					}
+					else{
+						$('#pwCheck').text('사용 가능한 비밀번호입니다.').css('color', 'black');
+						if($('#u_pw').val() != '' && $('#u_nick').val() != '' && $('#u_type').val() != ''){
+							$('#u_update').attr('disabled', false);
+						}
+					}
+			})
+			
+			$('#u_type').on('propertychange change paste input', function(){
+				if($('#u_type').val() == ''){
+					$('#typeCheck').text('가입 유형을 선택해주세요.').css('color', 'red');
+					$('#u_type').focus();
+					$('#u_update').attr('disabled', true);
+				}
+				else{
+					$('#typeCheck').text('');
+					if($('#u_pw').val() != '' && $('#u_nick').val() != '' && $('#u_type').val() != ''){
+						$('#u_update').attr('disabled', false);
+					}
+				}
+			})
+    	  
+      })
+      </script>
 
    </head>
    <body id="page-top">
@@ -168,7 +231,8 @@
                      <div class="col-sm-6">
                         <div class="form-group">
                            <label class="control-label">닉네임 <span class="required">*</span></label>
-                           <input class="form-control border-form-control" name="u_nick" th:value="${session.user.u_nick}" type="text">
+                           <input class="form-control border-form-control" id="u_nick" name="u_nick" th:value="${session.user.u_nick}" type="text">
+                           <span id="nickCheck"></span>
                         </div>
                      </div>
                   </div>
@@ -184,17 +248,19 @@
                      <div class="col-sm-6">
                         <div class="form-group">
                            <label class="control-label">유형 <span class="required">*</span></label>
-                           <select  class="custom-select" name="u_type">
+                           <select  class="custom-select" name="u_type" id="u_type">
                               <option value="">유형을 선택하세요.</option>
                               <option value="l" th:selected="${session.user.u_type} == 'l'">리스너</option>
                               <option value="a" th:selected="${session.user.u_type} == 'a'">아티스트</option>
                            </select>
+                           <span id="typeCheck"></span>
                         </div>
                      </div>
                      <div class="col-sm-6">
                         <div class="form-group">
                            <label class="control-label">비밀번호 <span class="required">*</span></label>
-                           <input class="form-control border-form-control" name="u_pw" th:value="${session.user.u_pw}" type="text">
+                           <input class="form-control border-form-control" id="u_pw" name="u_pw" th:value="${session.user.u_pw}" type="text">
+                           <span id="pwCheck"></span>
                         </div>
                      </div>
                      <div class="col-sm-6">
@@ -205,8 +271,8 @@
                         </div>
                      </div>
                      <div class="btn1">
-		                 <button type="button" class="btn btn-outline-primary" th:onclick="|user_update()|">정보 수정</button>
-		                 <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#deleteModal" >회원 탈퇴</button>
+		                 <button type="button" class="btn btn-success btn-lg border-none" style="margin-right: 30px;" id="u_update" th:onclick="|user_update()|">정보 수정</button>
+		                 <button type="button" class="btn btn-danger btn-lg border-none" data-toggle="modal" data-target="#deleteModal" >회원 탈퇴</button>
                      </div>
                   </div>
                </form>

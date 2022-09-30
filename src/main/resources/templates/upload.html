@@ -21,6 +21,57 @@
 <!-- Owl Carousel -->
 <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
 <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+	if($('#r_file1').val() == '' && $('#r_image1').val() == '' && $('#e1').val() == '' && $('#e2').val() == '' && $('#e4').val() == '' && $('input:radio[name=r_genre]:checked').val() == null){
+		$('#upload_btn').attr('disabled', true);
+	}
+
+	$('#e1').on('propertychange change paste input', function(){
+		if($('#e1').val() == ''){
+			$('#upload_btn').attr('disabled', true);
+		}
+		else{
+			if($('#e1').val() != '' && $('#e2').val() != '' && $('#e4').val() != '' && $('input:radio[name=r_genre]:checked').val() != null){
+				$('#upload_btn').attr('disabled', false);
+			}
+		}
+	})
+	
+	$('#e2').on('propertychange change paste input', function(){
+		if($('#e2').val() == ''){
+			$('#upload_btn').attr('disabled', true);
+		}
+		else{
+			if($('#e1').val() != '' && $('#e2').val() != '' && $('#e4').val() != '' && $('input:radio[name=r_genre]:checked').val() != null){
+				$('#upload_btn').attr('disabled', false);
+			}
+			
+		}
+	})
+	
+	$('#e4').on('propertychange change paste input', function(){
+		if($('#e4').val() == ''){
+			$('#upload_btn').attr('disabled', true);
+		}
+		else{
+			if($('#e1').val() != '' && $('#e2').val() != '' && $('#e4').val() != '' && $('input:radio[name=r_genre]:checked').val() != null){
+				$('#upload_btn').attr('disabled', false);
+			}
+		}
+	})
+	
+	$('input:radio[name=r_genre]').change(function(){
+		if($('input:radio[name=r_genre]:checked').val() == null){
+			$('#upload_btn').attr('disabled', true);
+		}
+		else if($('#e1').val() != '' && $('#e2').val() != '' && $('#e4').val() != '' && $('input:radio[name=r_genre]:checked').val() != null){
+			$('#upload_btn').attr('disabled', false);
+		}
+	})
+})
+</script>
 </head>
 <body id="page-top">
 	<nav
@@ -156,14 +207,14 @@
 						</div>
 						<div class="col-lg-2">
 						<p>음악 파일을 선택해 주세요 </p> 
-						<input type="file" name="r_file1" accept="audio/*"> 
+						<input type="file" name="r_file1" id="r_file1" accept="audio/*"> 
 						</div>
 					</div>
 					<hr>
 					<div>
 						<p>이미지를 선택해 주세요 </p> 
 						<img id="preview" style="width: 15%; height: auto;" /> <br>
-						<input type="file" name="r_image1" onchange="readURL(this);" accept="image/*">
+						<input type="file" name="r_image1" id="r_image1" onchange="readURL(this);" accept="image/*">
 						
 
 					</div>
@@ -196,6 +247,7 @@
 									<div class="form-group">
 										<label for="e4">Privacy Settings</label> 
 										<select id="e4" class="custom-select" name="r_open">
+											<option value="">공개 여부를 선택해주세요.</option>
 											<option value="o">공개</option>
 											<option value="c">비공개</option>
 										</select>
@@ -213,38 +265,37 @@
 							<div class="row category-checkbox">
 								<!-- checkbox 1col -->
 								<div class="col-lg-2 col-xs-6 col-4">
-									<div class="custom-control">
+									<div class="custom-control custom-radio">
 										<input type="radio" class="custom-control-input"
-											id="customCheck1" name="r_genre" value="랩/힙합"> <label
-											class="custom-control-label" for="customCheck1">랩/힙합</label>
+											id="customRadio1" name="r_genre" value="랩/힙합"> <label
+											class="custom-control-label" for="customRadio1">랩/힙합</label>
 									</div>
-									<div class="custom-control">
+									<div class="custom-control custom-radio">
 										<input type="radio" class="custom-control-input"
-											id="customCheck2" name="r_genre" value="발라드"> <label
-											class="custom-control-label" for="customCheck2">발라드</label>
+											id="customRadio2" name="r_genre" value="발라드"> <label
+											class="custom-control-label" for="customRadio2">발라드</label>
 									</div>
-									<div class="custom-control">
+									<div class="custom-control custom-radio">
 										<input type="radio" class="custom-control-input"
-											id="customCheck3" name="r_genre" value="밴드"> <label
-											class="custom-control-label" for="customCheck3">밴드</label>
+											id="customRadio3" name="r_genre" value="밴드"> <label
+											class="custom-control-label" for="customRadio3">밴드</label>
 									</div>
-									<div class="custom-control">
+									<div class="custom-control custom-radio">
 										<input type="radio" class="custom-control-input"
-											id="customCheck4" name="r_genre" value="락"> <label
-											class="custom-control-label" for="customCheck4">락</label>
+											id="customRadio4" name="r_genre" value="락"> <label
+											class="custom-control-label" for="customRadio4">락</label>
 									</div>
-									<div class="custom-control">
+									<div class="custom-control custom-radio">
 										<input type="radio" class="custom-control-input"
-											id="customCheck5" name="r_genre" value="인디"> <label
-											class="custom-control-label" for="customCheck5">인디</label>
+											id="customRadio5" name="r_genre" value="인디"> <label
+											class="custom-control-label" for="customRadio5">인디</label>
 									</div>
 								</div>
 
 							</div>
 						</div>
 						<div class="osahan-area text-center mt-3">
-							<input type="submit" class="btn btn-outline-primary"
-								value="save Changes">
+							<button type="submit" class="btn btn btn-primary btn-block btn-lg" id="upload_btn">업로드 하기</button>
 						</div>
 						<hr>
 					</div>

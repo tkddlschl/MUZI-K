@@ -19,7 +19,12 @@
   </insert>
   
   <select id="recodeList1" resultType="RecodeDTO">
-  	select * from record
+  	select r.*,
+	(select count(*)
+	from likey l
+	where l.r_num = r.r_num
+	) as likeCount
+    from record r;
   </select>
   
   <select id="recodeList2" resultType="UploadDTO">

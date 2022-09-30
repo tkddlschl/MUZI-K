@@ -173,63 +173,12 @@
 											<textarea class="form-control" rows="5" name="n_contents" style="height: 400px;">[[${NoticeDTO.n_contents}]]</textarea>
 										</div>                                   
                                             <div class="btn_area">       
-                                                <a th:if="${session.user != null} and ${session.user.u_id} == ${NoticeDTO.u_id}" href="#" class="save" th:onclick="|commu_update()|">저장</a>                                                                                 
-                                                <a th:href="noticeList" class="revise">목록</a>                                       
-                                                <a th:if="${session.user != null} and ${session.user.u_id} == ${NoticeDTO.u_id}" href="#" class="delete" th:onclick="|commu_delete()|">삭제</a>                                          	
+                                                <a th:if="${session.user != null} and ${session.user.u_id} == ${NoticeDTO.u_id} and ${session.user.u_type} == 'm'" href="#" class="btn btn-outline-primary" th:onclick="|commu_update()|">저장</a>                                                                                 
+                                                <a th:href="noticeList" class="btn btn-outline-primary">목록</a>                                       
+                                                <a th:if="${session.user != null} and ${session.user.u_id} == ${NoticeDTO.u_id} and ${session.user.u_type} == 'm'" href="#" class="btn btn-outline-primary" th:onclick="|commu_delete()|">삭제</a>                                          	
                                             </div>
 									</form>
 									
-									<table class="container">
-									<tr>
-                                                <th colspan="2">여러분의 의견을 남겨주세요</th>
-                                            </tr>
-                                            <tr>
-                                                <th>댓글등록</th>
-                                                <td>
-                                                    <form name="#####" action="#####" method="post">
-                                                        <input type="hidden" class="inputw290" name="####">
-                                                        <input type="text" class="inputw290" name="####" required placeholder="작성자" style="margin-top:10px;">
-                                                        <textarea  class="form-control" name="####" required style="height: 150px; margin-top:10px;"></textarea>
-                                                        <div class="btn_area">
-                                                            <input type="submit" class="save" value="댓글등록">
-                                                            <input type="button" class="delete" value="전체목록으로">
-                                                        </div>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            <!-- 댓글영역 -->
-
-                                            <tbody class="reply_container">
-                                                <tr>
-                                                    <th>user_1</th>
-                                                    <td class="mb-3">
-                                                        <div class="left">
-                                                            <span>작성일(2022-09-19)</span>
-                                                            <p>user_1 댓글 내용</p>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>user_2</th>
-                                                    <td class="mb-3">
-                                                        <div class="left">
-                                                            <span>작성일(2022-09-19)</span>
-                                                            <p>user_2 댓글 내용</p>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                     <th>user_3</th>
-                                                    <td class="mb-3">
-                                                        <div class="left">
-                                                            <span>작성일(2022-09-19)</span>
-                                                            <p>user_3 댓글 내용</p>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                            <!-- end댓글영역 -->
-                                        </table>
 									</div>
 									</article>
 								</div>
