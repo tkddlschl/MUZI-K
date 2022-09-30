@@ -25,4 +25,8 @@ public interface UserService {
 	public UserUploadDTO artistImgDetail(String u_id); // 아티스트 각 프로필 이미지 가져오기
 	public List<UserDTO> loginArtistList(String u_id);
 	public String createCode();
+	
+	
+	public List<UserDTO> sortList1();
+	
 }

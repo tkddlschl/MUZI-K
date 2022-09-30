@@ -95,4 +95,19 @@
 	where u.u_type = 'a'
 	order by u.u_nick
   </select>
+    <select id="sortList1" resultType="userDTO">
+  	select  u.u_id as follower, u.u_nick, i.u_path, i.u_image, 
+	(select count(*)
+	from follow f1
+	where f1.f_passiveUser = follower) as followerCount
+	from user u
+	inner join u_imgupload i
+	on i.u_id = u.u_id 
+	where u.u_type = 'a'
+	order by followerCount desc;
+  
+  </select>
+  
+  
+
   </mapper>

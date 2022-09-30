@@ -56,10 +56,11 @@ public class MainController {
 		List<RecodeDTO> list1 = recodeService.recodeList1();
 		List<UploadDTO> list2 = recodeService.recodeList2();
 		List<CategoryDTO> list3 = categoryService.listAll();
-		
+		List<UserDTO> sort1 = userService.sortList1();
 		model.addAttribute("list1", list1);
 		model.addAttribute("list2", list2);
 		model.addAttribute("list3", list3);
+		model.addAttribute("sort1", sort1);
 		return "index";	
 	}
 	

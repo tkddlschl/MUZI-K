@@ -134,4 +134,9 @@ public class UserServiceImpl implements UserService {
 		}
 		return code.toString();
 	}
+
+	@Override
+	public List<UserDTO> sortList1() {
+		return userMapper.sortList1();
+	}
 }
