@@ -23,4 +23,5 @@ public class RecodeDTO {
 	private double r_rate;
 	private String r_open;
 	private String r_genre;
+	private int likeCount;
 }

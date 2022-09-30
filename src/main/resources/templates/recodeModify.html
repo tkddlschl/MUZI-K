@@ -21,6 +21,36 @@
 <!-- Owl Carousel -->
 <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
 <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+	if($('#r_file1').val() == '' && $('#r_image1').val() == ''){
+		$('#update_btn').attr('disabled', true);
+	}
+	$('#r_file1').on('change', function(){
+		if($('#r_file1').val() == ''){
+			$('#update_btn').attr('disabled', true);
+		}
+		else{
+			if($('#r_file1').val() != '' && $('#r_image1').val() != ''){
+				$('#update_btn').attr('disabled', false);
+			}
+		} 
+	})
+	
+	$('#r_image1').on('change', function(){
+		if($('#r_image1').val() == ''){
+			$('#update_btn').attr('disabled', true);
+		}
+		else{
+			if($('#r_file1').val() != '' && $('#r_image1').val() != ''){
+				$('#update_btn').attr('disabled', false);
+			}
+		} 
+	})
+	
+})
+</script>
 </head>
 <body id="page-top">
 	<nav
@@ -157,7 +187,7 @@
 						</div>
 						<div class="col-lg-2">
 						<p>음악 파일을 선택해 주세요 </p> 
-						<input type="file" name="r_file1" accept="audio/*">
+						<input type="file" name="r_file1" id="r_file1" accept="audio/*">
 						<br><br>
 						<a>기존 음악 파일명: [[${upload.r_file}]]</a>
 						<input type="hidden" name="r_num" th:value="${recode.r_num}">
@@ -167,7 +197,7 @@
 					<div>
 						<p>이미지를 선택해 주세요 </p> 
 						<img id="preview" style="width: 15%; height: auto;" /> <br>
-						<input type="file" name="r_image1" onchange="readURL(this);" accept="image/*">
+						<input type="file" name="r_image1" id="r_image1" onchange="readURL(this);" accept="image/*">
 						<br><br>
 						<a>기존 음악 이미지명: [[${upload.r_image}]]</a>
 
@@ -248,8 +278,7 @@
 							</div>
 						</div>
 						<div class="osahan-area text-center mt-3">
-							<input type="submit" class="btn btn-outline-primary"
-								value="수정하기">
+							<button type="submit" class="btn btn btn-primary btn-block btn-lg" id="update_btn">수정 하기</button>
 						</div>
 						<hr>
 					</div>

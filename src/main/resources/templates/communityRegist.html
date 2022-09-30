@@ -19,6 +19,36 @@
       <!-- Owl Carousel -->
       <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
       <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script>
+      $(document).ready(function(){
+    	  if($('#c_title').val() == '' && $('#c_contents').val() == ''){
+				$('#regist_btn').attr('disabled', true);
+		  }
+    	  
+    	  $('#c_title').on('propertychange change paste input', function(){
+    		  if($('#c_title').val() == ''){
+    				$('#regist_btn').attr('disabled', true);
+    			}
+    			else{
+    				if($('#c_title').val() != '' && $('#c_contents').val() != ''){
+    					$('#regist_btn').attr('disabled', false);
+    				}
+    		  	}
+		  })
+		  
+		  $('#c_contents').on('propertychange change paste input', function(){
+    		  if($('#c_contents').val() == ''){
+    				$('#regist_btn').attr('disabled', true);
+    			}
+    			else{
+    				if($('#c_title').val() != '' && $('#c_contents').val() != ''){
+    					$('#regist_btn').attr('disabled', false);
+    				}
+    		  	}
+		  })
+      })
+      </script>
    </head>
    <body id="page-top">
       <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
@@ -165,18 +195,18 @@
 												</div>
 												<div class="mb-3">
 													<label for="title">제목</label> <input type="text"
-														class="form-control" name="c_title" th:value="${c_title}">
+														class="form-control" id="c_title" name="c_title" th:value="${c_title}">
 													<span>[[${c_title}]]</span>
 												</div>
 												<div class="mb-3">
 													<label for="title">내용</label>
-													<textarea class="form-control" rows="5" name="c_contents"
+													<textarea class="form-control" rows="5" id="c_contents" name="c_contents"
 														style="height: 400px;"></textarea>
 													<!-- th:value="${session.u_id}" -->
 												</div>
 												<div class="btn_area">
-													<input type="submit" class="save" value="등록"> <input
-														type="button" class="delete" value="목록"
+													<input type="submit" id="regist_btn" class="btn btn-success border-none" value="등록"> <input
+														type="button" class="btn btn-secondary border-none" value="목록"
 														onClick="location.href='communityList'">
 												</div>
 											</div>
