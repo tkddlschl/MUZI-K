@@ -126,35 +126,33 @@ public class RecodeController {
 	}
 
 	@PostMapping("/recodeForm")
-	public String recodeForm(@Valid RecodeDTO dto, Errors errors, Model model,
-							 @RequestParam("r_file1") MultipartFile file,
-							 @RequestParam("r_image1") MultipartFile image,
-							 CategoryDTO dto2
-			){
-	    
-		if(errors.hasErrors()) {
-			List<FieldError> list = errors.getFieldErrors();
-			for(FieldError err : list) {
-				if(err.isBindingFailure()) {
-					model.addAttribute("valid_" + err.getField(), "형식 일치");
-				} else {
-					model.addAttribute("valid_" + err.getField(), err.getDefaultMessage());
-				}
-			}
-			model.addAttribute("dto", dto);
-			return "/recodeInsert";
-		}
-			if(image.getContentType().contains("image") == false) { //이미지파일에 이미지가 아니면
-			
-			model.addAttribute("dto", dto);
-			model.addAttribute("valid_image", "이미지형식만 등록가능합니다");
-			return "/recodeInsert";
-		}
-			
-		
-		boolean result = recodeService.recodeInsert(image, file, dto); // 정보, 음원, 음원이미지
-		return "redirect:/main";
-	}
+	   public String recodeForm(@Valid RecodeDTO dto, Errors errors, Model model,
+	                      @RequestParam("r_file1") MultipartFile file,
+	                      @RequestParam("r_image1") MultipartFile image){
+	       
+	      if(errors.hasErrors()) {
+	         List<FieldError> list = errors.getFieldErrors();
+	         for(FieldError err : list) {
+	            if(err.isBindingFailure()) {
+	               model.addAttribute("valid_" + err.getField(), "형식 일치");
+	            } else {
+	               model.addAttribute("valid_" + err.getField(), err.getDefaultMessage());
+	            }
+	         }
+	         model.addAttribute("dto", dto);
+	         return "/recodeInsert";
+	      }
+	         if(image.getContentType().contains("image") == false) { //이미지파일에 이미지가 아니면
+	         
+	         model.addAttribute("dto", dto);
+	         model.addAttribute("valid_image", "이미지형식만 등록가능합니다");
+	         return "/recodeInsert";
+	      }
+	         
+	         
+	      boolean result = recodeService.recodeInsert(image, file, dto); // 정보, 음원, 음원이미지
+	      return "redirect:/main";
+	   }
 	
 	@PostMapping("/likeCount")
 	@ResponseBody
