@@ -7,6 +7,7 @@
   <insert id = "recodeInsert">
   	 insert into record (u_id, r_name, r_describe, r_open, r_genre)
   	 values(#{u_id}, #{r_name}, #{r_describe},  #{r_open}, #{r_genre})
+
   </insert>
   
   <insert id = "recodeFileInsert">
@@ -26,8 +27,34 @@
   	select * from upload
   </select>
   
+  <delete id="recodeDelete">
+  	delete r, u from record r
+  	left join upload u
+  	on (r.r_num = u.r_num)
+  	where r.r_num = #{r_num}
+  </delete>
+  
+  <update id="recodeUpdate">
+    update record set r_name = #{r_name},
+  					  r_describe = #{r_describe},
+  					  r_open = #{r_open},
+  					  r_genre = #{r_genre}
+  					
+  	where r_num = #{r_num}
+  </update>
+  
+  <update id="recodeImgUpdate">
+    update upload set r_path = #{r_path},
+  					  r_file = #{r_file},
+  					  r_image = #{r_image},
+  					  r_name = #{r_name}
+  					
+  	where r_num = #{r_num}
+  </update>
+  
   <select id="recodeDetail1" resultType="RecodeDTO">
-  	select * from record where r_num = #{r_num}
+  	select * from record 
+  	where r_num = #{r_num}
   </select>
   
   <select id="recodeDetail2" resultType="UploadDTO">
@@ -65,4 +92,28 @@
      from likey
      where r_num = #{r_num}
   </select>
+  
+  <delete id="deleteLike">
+     delete from likey
+     where r_num = #{r_num}
+  </delete>
+  
+  <delete id="userRecodeDelete">
+  	delete u from upload record r
+  	left join upload u
+  	on (r.r_num = u.r_num)
+  	where r.u_id = #{u_id}
+  </delete>
+  
+  <delete id="userLikeDelete">
+     delete r, l from record r
+     left join likey l
+     on (r.r_num = l.r_num)
+     where r.u_id = #{u_id}
+  </delete>
+  
+  <delete id="userGiveLikeDelete">
+     delete from likey
+     where u_id = #{u_id}
+  </delete>
   </mapper>

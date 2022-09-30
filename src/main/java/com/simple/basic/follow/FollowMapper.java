@@ -14,6 +14,7 @@ public interface FollowMapper {
 	public List<FollowDTO> selectActiveUserList(String u_id); // 팔로잉 리스트 조회
 	public List<FollowDTO> selectPassiveUserList(String f_passiveUser); // 팔로워 리스트 조회
 	public void deleteUserFollow(String u_id); // 회원 탈퇴시 팔로우 삭제
+	public void deleteP_userFollow(String u_id);
 	public List<FollowDTO> followerList(String u_id);
 	public int followingCount(String u_id); // 팔로잉 수 카운트
 	public int followerCount(String u_id); // 팔로워 수 카운트

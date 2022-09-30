@@ -16,38 +16,35 @@ import com.simple.basic.reply.ReplyService;
 @Controller
 public class ReplyController {
 
-	@Autowired
-	ReplyService replyService;
-	
-	@PostMapping("/replyForm")
-	public String replyForm(@RequestParam("c_num")int c_num, ReplyDTO dto, RedirectAttributes ra) {
-		
-		boolean result = replyService.replyRegist(dto);
-		ra.addAttribute("c_num", c_num);
-		
-		
-		return "redirect:/communityDetail";
-	}
-	
 	
 
-	
-	
-	
-	@PostMapping("/replyUpdate") 
-	@ResponseBody
-	public boolean replyUpdate(@RequestBody ReplyDTO dto) {
-		boolean reup = replyService.replyUpdate(dto);
-		
-		return reup;
-	}
-	 
-	@PostMapping("/replyDelete") 
-	@ResponseBody
-	public boolean replyDelete(@RequestBody ReplyDTO dto) {
-		boolean redel = replyService.replyDelete(dto);
-		
-		return redel;
-	}
-	
+   @Autowired
+   ReplyService replyService;
+   
+   @PostMapping("/replyForm")
+   public String replyForm(@RequestParam("c_num")int c_num, ReplyDTO dto, RedirectAttributes ra) {
+      
+      boolean result = replyService.replyRegist(dto);
+      ra.addAttribute("c_num", c_num);
+      
+      
+      return "redirect:/communityDetail";
+   }
+   
+   @PostMapping("/replyUpdate") 
+   @ResponseBody
+   public boolean replyUpdate(@RequestBody ReplyDTO dto) {
+      boolean reup = replyService.replyUpdate(dto);
+      
+      return reup;
+   }
+    
+   @PostMapping("/replyDelete") 
+   @ResponseBody
+   public boolean replyDelete(@RequestBody ReplyDTO dto) {
+      boolean redel = replyService.replyDelete(dto);
+      
+      return redel;
+   }
+   
 }

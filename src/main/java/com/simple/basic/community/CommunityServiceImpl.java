@@ -47,8 +47,17 @@ public class CommunityServiceImpl implements CommunityService {
 		return communityMapper.communityDelete(c_num);
 	}
 
+	public List<CommunityDTO> getMyPost(Criteria cri) {		
+		return communityMapper.getMyPost( cri);
+	}
+
 	@Override
-	public List<CommunityDTO> getMyPost(String u_id) {
-		return communityMapper.getMyPost(u_id);
+	public int getMyTotal(Criteria cri) {
+		return communityMapper.getMyTotal(cri);
+	}
+
+	@Override
+	public boolean userCommunityDelete(String u_id) {
+		return communityMapper.userCommunityDelete(u_id);
 	}
 }

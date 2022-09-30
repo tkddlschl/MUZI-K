@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.simple.basic.category.CategoryService;
 import com.simple.basic.command.CategoryDTO;
@@ -81,16 +82,40 @@ public class RecodeController {
 		model.addAttribute("isCheck", isCheck);
 		return "/recodeDetail";
 	}
-
+	
 	@PostMapping("/recodeDelete")
-	public String recodeDelete() {
-
+	public String recodeDelete(@RequestParam("r_num") int r_num, @RequestParam("u_id") String u_id, RedirectAttributes ra) {
+		boolean b = recodeService.recodeDelete(r_num);
+		recodeService.deleteLike(r_num);
+		if(b) {
+			ra.addFlashAttribute("msg", "음원 삭제가 완료되었습니다.");
+		}else {
+			ra.addFlashAttribute("msg", "오류로 인해 음원 삭제가 실패되었습니다.");
+		}
+		ra.addAttribute("u_id", u_id);
 		return "redirect:/mypage";
+	}
+	
+	@GetMapping("/recodeModify")
+	public String recodeModify(@RequestParam("r_num") int r_num, Model model) {
+		RecodeDTO recode = recodeService.recodeDetail1(r_num);
+		UploadDTO upload = recodeService.recodeDetail2(r_num);
+		List<CategoryDTO> list3 = categoryService.listAll();
+		
+		
+		model.addAttribute("recode", recode);
+		model.addAttribute("upload", upload);
+		model.addAttribute("list3", list3);
+		return "recodeModify";
 	}
 
 	@PostMapping("/recodeUpdate")
-	public String recodeUpdate() {
-
+	public String recodeUpdate(RecodeDTO dto, Model model,
+							   @RequestParam("r_file1") MultipartFile file,
+							   @RequestParam("r_image1") MultipartFile image,
+							   RedirectAttributes ra) {
+		boolean result = recodeService.recodeUpdate(image, file, dto);
+		ra.addAttribute("u_id", dto.getU_id());
 		return "redirect:/mypage";
 	}
 

@@ -12,6 +12,7 @@
   	<select id="getList" resultType="NoticeDTO">
   		select *
   		from notice
+  		limit #{pageStart}, #{amount}
   	</select> 	
   	
   	<select id="getTotal" resultType="int">
