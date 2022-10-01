@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.simple.basic.category.CategoryService;
@@ -45,6 +46,30 @@ public class MainController {
 		UserTotalDTO user = (UserTotalDTO)session.getAttribute("user");
 		if(user != null) {
 			String u_id = user.getU_id();
+			List<UserDTO> art= userService.f_loginArtistList(u_id);
+			model.addAttribute("art", art);
+		}
+		else {
+			List<UserDTO> art = userService.artistList();
+			model.addAttribute("art", art);
+		}
+
+		List<RecodeDTO> list1 = recodeService.recodeList();
+		List<CategoryDTO> list3 = categoryService.listAll();
+		
+		model.addAttribute("list1", list1);
+		model.addAttribute("list3", list3);
+		return "index";
+	}
+	
+	
+	
+	@GetMapping("/mainRecode")
+	public String main2(@RequestParam(value = "sort", required = false) String sort, Model model, HttpSession session) {
+		
+		UserTotalDTO user = (UserTotalDTO)session.getAttribute("user");
+		if(user != null) {
+			String u_id = user.getU_id();
 			List<UserDTO> art= userService.loginArtistList(u_id);
 			model.addAttribute("art", art);
 		}
@@ -52,30 +77,22 @@ public class MainController {
 			List<UserDTO> art = userService.artistList();
 			model.addAttribute("art", art);
 		}
+
+		if(sort.equals("like")) {
+			List<RecodeDTO> list1 = recodeService.sortLike();
+			model.addAttribute("list1", list1);
+		}
+		else if(sort.equals("title")) {
+			List<RecodeDTO> list1 = recodeService.sortName();
+			model.addAttribute("list1", list1);
+		}
 		
-		List<RecodeDTO> list1 = recodeService.recodeList1();
-		List<UploadDTO> list2 = recodeService.recodeList2();
 		List<CategoryDTO> list3 = categoryService.listAll();
 		
-		model.addAttribute("list1", list1);
-		model.addAttribute("list2", list2);
+
 		model.addAttribute("list3", list3);
 		return "index";
 	}
-	
-//	@PostMapping("/mainForm")
-//	public String mainForm(@RequestParam("u_id")String u_id, @RequestParam("f_passiveUser")String f_passiveUser, Model model, RedirectAttributes ra) {
-//		int isFollow = followService.isFollow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
-//		if(isFollow == 0) {
-//			followService.follow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
-//			ra.addFlashAttribute("isFollowInsert", isFollow);
-//		}
-//		else {
-//			followService.unfollow(FollowDTO.builder().u_id(u_id).f_passiveUser(f_passiveUser).build());
-//			ra.addFlashAttribute("isFollowDelete", isFollow);
-//		}
-//		return "redirect:/main";
-//	}
 	
 	@PostMapping("/followSwitch")
 	@ResponseBody
@@ -100,4 +117,5 @@ public class MainController {
 
 		return followCount;
 	}
+
 }

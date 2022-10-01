@@ -88,6 +88,29 @@
 	inner join u_imgupload i
 	on i.u_id = u.u_id 
 	where u.u_type = 'a'
+	order by followerCount desc, u_nick
+  </select>
+  
+  <select id ="a_basicSort" resultType = "UserDTO">
+  	select  u.u_id as follower, u.u_nick, i.u_path, i.u_image, 
+	(select count(*)
+	from follow f1
+	where f1.f_passiveUser = follower) as followerCount
+	from user u
+	inner join u_imgupload i
+	on i.u_id = u.u_id 
+	where u.u_type = 'a'
+  </select>
+  
+  <select id ="a_nameSort" resultType = "UserDTO">
+  	select  u.u_id as follower, u.u_nick, i.u_path, i.u_image, 
+	(select count(*)
+	from follow f1
+	where f1.f_passiveUser = follower) as followerCount
+	from user u
+	inner join u_imgupload i
+	on i.u_id = u.u_id 
+	where u.u_type = 'a'
 	order by u.u_nick
   </select>
   
@@ -109,6 +132,48 @@
 	inner join u_imgupload i
 	on i.u_id = u.u_id 
 	where u.u_type = 'a'
+  </select>
+  
+  <select id ="f_loginArtistList" resultType = "UserDTO">
+  	select  u.u_id as follower, u.u_nick, i.u_path, i.u_image, 
+	(select count(*)
+	from follow f1
+	where f1.f_passiveUser = follower) as followerCount,
+    (select count(*) 
+  	from follow
+  	where u_id = #{u_id} and f_passiveUser = follower) as isFollow
+	from user u
+	inner join u_imgupload i
+	on i.u_id = u.u_id 
+	where u.u_type = 'a'
+	order by followerCount desc, u_nick
+  </select>
+  
+  <select id ="n_loginArtistList" resultType = "UserDTO">
+  	select  u.u_id as follower, u.u_nick, i.u_path, i.u_image, 
+	(select count(*)
+	from follow f1
+	where f1.f_passiveUser = follower) as followerCount,
+    (select count(*) 
+  	from follow
+  	where u_id = #{u_id} and f_passiveUser = follower) as isFollow
+	from user u
+	inner join u_imgupload i
+	on i.u_id = u.u_id 
+	where u.u_type = 'a'
 	order by u.u_nick
   </select>
+  
+  <update id="updatePwd">
+  	update user
+  	set u_pw = #{e_code}
+  	where u_email = #{u_email}
+  </update>
+  
+  <select id="findId" resultType="String">
+  	select u_id
+  	from user
+  	where u_email = #{u_email}
+  </select>
+  
   </mapper>
