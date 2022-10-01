@@ -154,12 +154,11 @@
                         <div class="main-title">
                            <div class="btn-group float-right right-action">
                               <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Sort by <i class="fa fa-caret-down" aria-hidden="true"></i>
+                              정렬 <i class="fa fa-caret-down" aria-hidden="true"></i>
                               </a>
                               <div class="dropdown-menu dropdown-menu-right">
-                                 <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; Top Rated</a>
-                                 <a class="dropdown-item" href="#"><i class="fas fa-fw fa-signal"></i> &nbsp; Viewed</a>
-                                 <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; Close</a>
+                                 <a class="dropdown-item" th:href="@{recode_List(sort=like, cat_name=${cat_name})}"><i class="fas fa-fw fa-star"></i> &nbsp; 좋아요순</a>
+                                 <a class="dropdown-item" th:href="@{recode_List(sort=title, cat_name=${cat_name})}"><i class="fas fa-fw fa-signal"></i> &nbsp; 이름순</a>
                               </div>
                            </div>
                            <h6>장르: [[${cat_name}]]</h6>
@@ -171,7 +170,7 @@
                            <div class="video-card-image">
                               <a th:if="${session.user != null}" class="play-icon" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=${session.user.u_id})}"><i class="fas fa-play-circle"></i></a>
                               <a th:unless="${session.user != null}" class="play-icon" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=null)}"><i class="fas fa-play-circle"></i></a>
-                              <a th:each="dto2 : ${list2}" th:if="${dto1.r_num} == ${dto2.r_num}" href="#"><img class="img-fluid" th:src="@{../display(r_path=${dto2.r_path}, r_image=${dto2.r_image})}" alt=""></a>
+                              <a href="#"><img class="img-fluid" th:src="@{../display(r_path=${dto1.r_path}, r_image=${dto1.r_image})}" alt=""></a>
                               <div class="time"></div>
                            </div>
                            <div class="video-card-body">
@@ -182,7 +181,8 @@
                               <div class="video-page text-success">
                                  [[${dto1.r_genre}]]  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
                               </div>
-                              <div th:each = "dto3 : ${nickName}" th:if = "${dto1.u_id} == ${dto3.u_id}" class="video-view">
+                              <a style="margin-top: -5px; float: right; font-size: 15px" class=""><i class="fas fa-heart"></i>&nbsp<i>[[${dto1.likeCount}]]</i></a>
+                              <div th:each = "dto3 : ${nickName}" th:if = "${dto1.u_id} == ${dto3.u_id}" class="video-view" style="font-size: 12px;">
                                  [[${dto3.u_nick}]]
                               </div>
                            </div>
@@ -190,19 +190,6 @@
                         </div>
                      </div>
                   </div>
-                  <nav aria-label="Page navigation example">
-                     <ul class="pagination justify-content-center pagination-sm mb-0">
-                        <li class="page-item disabled">
-                           <a class="page-link" href="#" tabindex="-1">Previous</a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                           <a class="page-link" href="#">Next</a>
-                        </li>
-                     </ul>
-                  </nav>
                </div>
             </div>
             <!-- /.container-fluid -->

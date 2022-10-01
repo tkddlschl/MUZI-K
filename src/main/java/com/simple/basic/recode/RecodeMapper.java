@@ -13,8 +13,9 @@ public interface RecodeMapper {
  
 	public boolean recodeInsert(RecodeDTO dto);
 	public boolean recodeFileInsert(UploadDTO dto);
-	public List<RecodeDTO> recodeList1();
-	public List<UploadDTO> recodeList2();
+	public List<RecodeDTO> recodeList();
+	public List<RecodeDTO> sortLike();
+	public List<RecodeDTO> sortName();
 	public RecodeDTO recodeDetail1(int r_num);
 	public UploadDTO recodeDetail2(int r_num);
 	public boolean recodeDelete(int r_num);

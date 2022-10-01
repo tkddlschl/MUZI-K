@@ -111,8 +111,39 @@ public class UserController {
 			model.addAttribute("art", art);
 		}
 		else {
-			List<UserDTO> art = userService.artistList();
+			List<UserDTO> art = userService.a_basicSort();
 			model.addAttribute("art", art);
+		}
+		List<CategoryDTO> list3 = categoryService.listAll();
+		
+		
+		model.addAttribute("list3", list3);
+		return "artistList";
+	}
+	
+	@GetMapping("/artist_List")
+	public String artistList2(@RequestParam(value = "sort", required = false) String sort, Model model, HttpSession session) {
+		UserTotalDTO user = (UserTotalDTO)session.getAttribute("user");
+		if(user != null) {
+			String u_id = user.getU_id();
+			if(sort.equals("follower")) {
+				List<UserDTO> art= userService.f_loginArtistList(u_id);
+				model.addAttribute("art", art);
+			}
+			else if(sort.equals("name")) {
+				List<UserDTO> art= userService.n_loginArtistList(u_id);
+				model.addAttribute("art", art);
+			}
+		}
+		else {
+			if(sort.equals("follower")) {
+				List<UserDTO> art= userService.artistList();
+				model.addAttribute("art", art);
+			}
+			else if(sort.equals("name")) {
+				List<UserDTO> art= userService.a_nameSort();
+				model.addAttribute("art", art);
+			}
 		}
 		List<CategoryDTO> list3 = categoryService.listAll();
 		
@@ -306,5 +337,29 @@ public class UserController {
 	public String forgotPw(){
 		
 		return "forgot-password";
+	}
+	
+	@GetMapping("/sendCode1")
+	@ResponseBody
+	public String sendCode1(String u_email)
+			throws Exception {
+		String e_code = userService.createCode();
+		emailService.sendEmailMessage1(u_email, e_code);
+				
+		userService.updatePwd(e_code, u_email);	
+		System.out.println(e_code);
+		return "redirect:/login";
+	}
+		
+	@PostMapping("/emailCheck1")
+	@ResponseBody
+	public String emailCheck1(String u_email) {
+		int result = userService.emailCheck(u_email);
+		String str = null;
+		if(result == 1) {
+			str = userService.findId(u_email);
+			return str;
+		}
+		return str;
 	}
 }

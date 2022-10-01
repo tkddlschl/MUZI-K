@@ -24,4 +24,7 @@ public class RecodeDTO {
 	private String r_open;
 	private String r_genre;
 	private int likeCount;
+	
+	private Integer upload_no; //pk
+	private String r_path;
 }

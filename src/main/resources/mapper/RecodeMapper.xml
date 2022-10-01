@@ -18,17 +18,39 @@
   	values(#{r_path}, #{r_file},#{r_image},#{r_num},#{r_name})
   </insert>
   
-  <select id="recodeList1" resultType="RecodeDTO">
-  	select r.*,
+  <select id="recodeList" resultType="RecodeDTO">
+  	select r.*, u.*,
 	(select count(*)
 	from likey l
 	where l.r_num = r.r_num
 	) as likeCount
-    from record r;
+    from record r
+    left join upload u
+    on (r.r_num = u.r_num)
   </select>
   
-  <select id="recodeList2" resultType="UploadDTO">
-  	select * from upload
+  <select id="sortLike" resultType="RecodeDTO">
+  	select r.*, u.*,
+	(select count(*)
+	from likey l
+	where l.r_num = r.r_num
+	) as likeCount
+    from record r
+    left join upload u
+    on (r.r_num = u.r_num)
+    order by likeCount desc, r.r_name desc
+  </select>
+  
+  <select id="sortName" resultType="RecodeDTO">
+  	select r.*, u.*,
+	(select count(*)
+	from likey l
+	where l.r_num = r.r_num
+	) as likeCount
+    from record r
+    left join upload u
+    on (r.r_num = u.r_num)
+    order by r.r_name
   </select>
   
   <delete id="recodeDelete">
