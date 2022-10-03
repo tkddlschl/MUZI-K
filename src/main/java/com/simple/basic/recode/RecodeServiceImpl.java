@@ -205,4 +205,14 @@ public class RecodeServiceImpl implements RecodeService {
 		return recodeMapper.userGiveLikeDelete(u_id);
 	}
 
+	@Override
+	public List<RecodeDTO> recodeplay1(String u_id) {
+		return recodeMapper.recodeplay1(u_id);
+	}
+
+	@Override
+	public List<UploadDTO> recodeplay2(int r_num) {
+		return recodeMapper.recodeplay2(r_num);
+	}
+ // 레코드 매퍼 만들고, 플레이 컨트롤러 매퍼
 }

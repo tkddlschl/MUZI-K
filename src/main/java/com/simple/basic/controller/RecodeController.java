@@ -21,9 +21,11 @@ import com.simple.basic.category.CategoryService;
 import com.simple.basic.command.CategoryDTO;
 import com.simple.basic.command.JoinDTO;
 import com.simple.basic.command.LikeDTO;
+import com.simple.basic.command.PlayDTO;
 import com.simple.basic.command.RecodeDTO;
 import com.simple.basic.command.UploadDTO;
 import com.simple.basic.follow.FollowService;
+import com.simple.basic.play.PlayService;
 import com.simple.basic.recode.RecodeService;
 
 @Controller
@@ -37,6 +39,8 @@ public class RecodeController {
 	
 	@Autowired
 	FollowService followService;
+	@Autowired
+	PlayService playService;
 
 	@GetMapping("/recodeInsert") // 업로드 화면
 	public String recodeInsert(Model model) {
@@ -71,6 +75,9 @@ public class RecodeController {
 		int ilike = recodeService.ilike(r_num);
 		int follower = followService.followerCount(dto1.getU_id());
 		int isCheck = recodeService.checkLike(LikeDTO.builder().r_num(r_num).u_id(u_id).build());
+		List<PlayDTO> play = playService.playlist(u_id);
+		List<RecodeDTO> playlist1 = recodeService.recodeplay1(u_id);
+		List<UploadDTO> playlist2 = recodeService.recodeplay2(r_num);
 		
 		model.addAttribute("dto1", dto1);
 		model.addAttribute("dto2", dto2);
@@ -79,6 +86,14 @@ public class RecodeController {
 		model.addAttribute("ilike", ilike);
 		model.addAttribute("follower", follower);
 		model.addAttribute("isCheck", isCheck);
+		model.addAttribute("r_num", r_num);
+		model.addAttribute("u_id", u_id);
+		model.addAttribute("play", play);
+		model.addAttribute("playlist1", playlist1);
+		model.addAttribute("playlist2", playlist2);
+		
+		
+		
 		return "/recodeDetail";
 	}
 	
@@ -170,5 +185,6 @@ public class RecodeController {
 		return isCheck;
 	}
 
+	
 }
 
