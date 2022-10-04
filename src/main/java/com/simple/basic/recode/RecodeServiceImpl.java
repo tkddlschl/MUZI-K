@@ -216,8 +216,7 @@ public class RecodeServiceImpl implements RecodeService {
 	}
 
 	@Override
-	public List<UploadDTO> recodeplay2(int r_num) {
-		return recodeMapper.recodeplay2(r_num);
+	public List<UploadDTO> recodeplay2() {
+		return recodeMapper.recodeplay2();
 	}
- // 레코드 매퍼 만들고, 플레이 컨트롤러 매퍼
 }

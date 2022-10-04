@@ -149,14 +149,14 @@
   	select * 
 	from playlist p left join record r
 	on p.r_num = r.r_num
-	where r.u_id = #{u_id};
+	where p.u_id = #{u_id};
   </select>
   
   <select id="recodeplay2" resultType="UploadDTO">
   	select * 
 	from playlist p left join Upload u
 	on p.r_num = u.r_num 
-	where u.r_num = #{r_num};
+	
   </select>
   
   </mapper>

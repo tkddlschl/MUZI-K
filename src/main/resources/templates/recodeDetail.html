@@ -97,9 +97,11 @@
 	            success: function (data) {
 	            	 if(data == 0){
 		            	   $('#playImg').attr('class', 'fas fa-minus');
+		            	   location.reload();
 		               }
 		               else{
 		            	   $('#playImg').attr('class', 'fas fa-plus');
+		            	   location.reload();
 		               }
 		        },	            
 	            error: function(ex)  {
@@ -290,8 +292,8 @@
 	                              	<div>
                             	<input type="hidden" name = "r_num" th:value="${param.r_num}">
                             	<input type="hidden" name = "u_id" th:value="${param.u_id}" >
-                            	<button style="margin-top: 5px;" th:if="${session.user != null} and ${playCheck == 0}" id="play" class="btn btn btn-outline-danger" type="submit"><i id="playImg" class="fas fa-plus">&nbsp</i></button>
-	                            <button style="margin-top: 5px;" th:if="${session.user != null} and ${playCheck == 1}" id="play" class="btn btn btn-outline-danger" type="submit"><i id="playImg" class="fas fa-minus" >&nbsp</i></button>
+                            	<button style="margin-top: 5px;" th:if="${session.user != null} and ${playCheck == 0}" id="play" class="btn btn btn-outline-danger" type="submit"><i id="playImg" class="fas fa-plus">&nbsp 추가</i></button>
+	                            <button style="margin-top: 5px;" th:if="${session.user != null} and ${playCheck == 1}" id="play" class="btn btn btn-outline-danger" type="submit"><i id="playImg" class="fas fa-minus" >&nbsp 삭제</i></button>
                               	</div>
                              
                            </div>

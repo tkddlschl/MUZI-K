@@ -34,5 +34,5 @@ public interface RecodeMapper {
 	
 	
 	public List<RecodeDTO> recodeplay1(String u_id);
-	public List<UploadDTO> recodeplay2(int r_num);
+	public List<UploadDTO> recodeplay2();
 }

@@ -97,7 +97,7 @@ public class RecodeController {
 		int isCheck = recodeService.checkLike(LikeDTO.builder().r_num(r_num).u_id(u_id).build());
 		List<PlayDTO> play = playService.playlist(u_id);
 		List<RecodeDTO> playlist1 = recodeService.recodeplay1(u_id);
-		List<UploadDTO> playlist2 = recodeService.recodeplay2(r_num);
+		List<UploadDTO> playlist2 = recodeService.recodeplay2();
 		int playCheck = playService.listCheck(PlayDTO.builder().r_num(r_num).u_id(u_id).build());
 		model.addAttribute("dto1", dto1);
 		model.addAttribute("dto2", dto2);
