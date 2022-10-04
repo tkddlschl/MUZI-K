@@ -33,6 +33,8 @@ public class WebErrorController implements ErrorController{
 	                return "500";
 	            }else if (statusCode == HttpStatus.METHOD_NOT_ALLOWED.value()) {
 	                  return "405";
+	            }else if (statusCode == HttpStatus.BAD_REQUEST.value()) {
+	                  return "400";
 	            }
 	        }
 		  return "error/error";

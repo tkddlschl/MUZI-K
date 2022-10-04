@@ -185,8 +185,8 @@
                <span>음악 업로드</span>
                </a>
             </li>
-            <li class="nav-item">
-               <a class="nav-link" th:href="@{playlist}">
+            <li th:if="${session.user != null}" class="nav-item">
+               <a class="nav-link" th:href="@{playlist(u_id=${session.user.u_id})}">
                <i class="fas fa-fw fa-history"></i>
                <span>플레이리스트</span>
                </a>

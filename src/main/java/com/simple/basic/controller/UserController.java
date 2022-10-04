@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.simple.basic.category.CategoryService;
 import com.simple.basic.command.CategoryDTO;
 import com.simple.basic.command.FollowDTO;
+import com.simple.basic.command.PlayDTO;
 import com.simple.basic.command.RecodeDTO;
 import com.simple.basic.command.UploadDTO;
 import com.simple.basic.command.UserDTO;
@@ -31,6 +32,7 @@ import com.simple.basic.command.UserUploadDTO;
 import com.simple.basic.community.CommunityService;
 import com.simple.basic.email.EmailService;
 import com.simple.basic.follow.FollowService;
+import com.simple.basic.play.PlayService;
 import com.simple.basic.recode.RecodeService;
 import com.simple.basic.reply.ReplyService;
 import com.simple.basic.user.UserService;
@@ -62,6 +64,8 @@ public class UserController {
 	@Autowired
 	ReplyService replyService;
 	
+	@Autowired
+	PlayService playService;
 	
 	@GetMapping("/login")
 	public String userLogin() {
@@ -88,12 +92,19 @@ public class UserController {
 		List<CategoryDTO> list3 = categoryService.listAll();
 		int follower = followService.followerCount(u_id);
 		int following = followService.followingCount(u_id);
+		List<PlayDTO> play = playService.playlist(u_id);
+		List<RecodeDTO> playlist1 = recodeService.recodeplay1(u_id);
+		List<UploadDTO> playlist2 = recodeService.recodeplay2();
+		
 		
 		model.addAttribute("list1", list1);
 		model.addAttribute("list2", list2);
 		model.addAttribute("list3", list3);
 		model.addAttribute("follower", follower);
 		model.addAttribute("following", following);
+		model.addAttribute("play", play);
+		model.addAttribute("playlist1", playlist1);
+		model.addAttribute("playlist2", playlist2);
 		return "/mypage";
 	}
 	

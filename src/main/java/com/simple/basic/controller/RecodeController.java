@@ -40,6 +40,8 @@ public class RecodeController {
 	@Autowired
 	FollowService followService;
 	@Autowired
+	
+	
 	PlayService playService;
 
 	@GetMapping("/recodeInsert") // 업로드 화면

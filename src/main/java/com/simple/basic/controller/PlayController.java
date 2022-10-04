@@ -46,6 +46,19 @@ public class PlayController {
 		return playCheck;
 	}
 
-	
+	@GetMapping("/playlist")
+	public String playlist(@RequestParam("u_id")String u_id, Model model) {
+		
+		List<PlayDTO> play = playService.playlist(u_id);
+		List<RecodeDTO> playlist1 = recodeService.recodeplay1(u_id);
+		List<UploadDTO> playlist2 = recodeService.recodeplay2();
+
+		
+		model.addAttribute("play", play);
+		model.addAttribute("playlist1", playlist1);
+		model.addAttribute("playlist2", playlist2);
+		
+		return "/playlist";
+	}
 	
 }

@@ -146,17 +146,16 @@
   
   
   <select id="recodeplay1" resultType="RecodeDTO">
-  	select * 
+  	select r.*, p.pl_num 
 	from playlist p left join record r
 	on p.r_num = r.r_num
 	where p.u_id = #{u_id};
   </select>
   
   <select id="recodeplay2" resultType="UploadDTO">
-  	select * 
+  	select u.*,p.pl_num 
 	from playlist p left join Upload u
 	on p.r_num = u.r_num 
-	
   </select>
   
   </mapper>
