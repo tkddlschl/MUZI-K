@@ -87,13 +87,18 @@ public class RecodeServiceImpl implements RecodeService {
 	}
 
 	@Override
-	public List<RecodeDTO> recodeList1() {
-		return recodeMapper.recodeList1();
+	public List<RecodeDTO> recodeList() {
+		return recodeMapper.recodeList();
 	}
 
 	@Override
-	public List<UploadDTO> recodeList2() {
-		return recodeMapper.recodeList2();
+	public List<RecodeDTO> sortLike() {
+		return recodeMapper.sortLike();
+	}
+
+	@Override
+	public List<RecodeDTO> sortName() {
+		return recodeMapper.sortName();
 	}
 	
 	@Override

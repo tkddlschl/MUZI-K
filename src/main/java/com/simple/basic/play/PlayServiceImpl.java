@@ -13,13 +13,25 @@ public class PlayServiceImpl implements PlayService {
 	@Autowired
 	PlayMapper playMapper;
 
-	@Override
-	public boolean addlist(PlayDTO dto) {
-		return playMapper.addlist(dto);
-	}
-
+	
 	@Override
 	public List<PlayDTO> playlist(String u_id) {
 		return playMapper.playlist(u_id);
+	}
+
+	@Override
+	public int listCheck(PlayDTO dto) {
+		return playMapper.listCheck(dto);
+	}
+
+	@Override
+	public boolean addList(PlayDTO dto) {
+		
+		return playMapper.addList(dto);
+	}
+
+	@Override
+	public boolean rmList(PlayDTO dto) {
+		return playMapper.rmList(dto);
 	}
 }

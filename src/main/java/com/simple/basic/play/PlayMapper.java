@@ -8,6 +8,9 @@ import com.simple.basic.command.PlayDTO;
 
 @Mapper
 public interface PlayMapper {
-	boolean addlist(PlayDTO dto);
 	List<PlayDTO> playlist(String u_id);
+	public int listCheck(PlayDTO dto);
+	
+	public boolean addList(PlayDTO dto);
+	public boolean rmList(PlayDTO dto);
 }

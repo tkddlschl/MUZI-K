@@ -7,9 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.simple.basic.category.CategoryService;
+import com.simple.basic.command.LikeDTO;
 import com.simple.basic.command.PlayDTO;
 import com.simple.basic.command.RecodeDTO;
 import com.simple.basic.command.UploadDTO;
@@ -27,14 +30,22 @@ public class PlayController {
 	@Autowired
 	RecodeService recodeService;
 	
-	@PostMapping("/addlist")
-	public String addlist(PlayDTO dto) {
-		
-		boolean result = playService.addlist(dto);
-		
-		return "redirect:/main";
 	
+	
+	@PostMapping("/playSwitch")
+	@ResponseBody
+	public int playSwitch(@RequestBody PlayDTO playDto) {
+		
+		int playCheck = playService.listCheck(playDto);
+		
+		if (playCheck == 0) {
+			playService.addList(playDto);
+		} else {
+			playService.rmList(playDto);
+		}
+		return playCheck;
 	}
+
 	
 	
 }

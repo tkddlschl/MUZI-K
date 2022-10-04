@@ -6,15 +6,25 @@
   <mapper namespace="com.simple.basic.play.PlayMapper">
   
   
-  <insert id="addlist">
+  <insert id="addList">
   insert into playlist(r_num, u_id)
   values(#{r_num}, #{u_id})
   </insert>
+  
+  <delete id="rmList">
+  delete from playlist
+    where u_id = #{u_id} and r_num = #{r_num}
+  </delete>
   
   <select id="playlist" resultType="playDTO">
   select * from playlist where u_id = #{u_id}
   </select>
   
+  <select id="listCheck" resultType="int">
+  	select count(pl_num)
+  	from playlist
+  	where u_id = #{u_id} and r_num = #{r_num}
+  </select>
   
   
   </mapper>

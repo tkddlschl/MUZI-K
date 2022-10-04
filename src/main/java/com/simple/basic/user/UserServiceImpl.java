@@ -141,6 +141,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public List<UserDTO> a_basicSort() {
+		return userMapper.a_basicSort();
+	}
+
+	@Override
+	public List<UserDTO> a_nameSort() {
+		return userMapper.a_nameSort();
+	}
+	
+	@Override
 	public UserUploadDTO artistImgDetail(String u_id) {
 		return userMapper.artistImgDetail(u_id);
 	}
@@ -150,6 +160,16 @@ public class UserServiceImpl implements UserService {
 		return userMapper.loginArtistList(u_id);
 	}
 
+
+	@Override
+	public List<UserDTO> f_loginArtistList(String u_id) {
+		return userMapper.f_loginArtistList(u_id);
+	}
+
+	@Override
+	public List<UserDTO> n_loginArtistList(String u_id) {
+		return userMapper.n_loginArtistList(u_id);
+	}
 	@Override
 	public String createCode() {
 		// 인증 코드 생성
@@ -171,4 +191,15 @@ public class UserServiceImpl implements UserService {
 		}
 		return code.toString();
 	}
+	
+	@Override
+	public void updatePwd(String e_code, String u_email) {
+		userMapper.updatePwd(e_code,u_email);
+	}
+
+	@Override
+	public String findId(String u_email) {
+		return userMapper.findId(u_email);
+	}
+
 }

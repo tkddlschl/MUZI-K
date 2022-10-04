@@ -54,12 +54,32 @@ public class RecodeController {
 	public String recodeList(@RequestParam("cat_name") String cat_name, Model model) {
 
 		List<JoinDTO> nickName = recodeService.nickName();
-		List<RecodeDTO> list1 = recodeService.recodeList1();
-		List<UploadDTO> list2 = recodeService.recodeList2();
+		List<RecodeDTO> list1 = recodeService.recodeList();
 		List<CategoryDTO> list3 = categoryService.listAll();
 		
 		model.addAttribute("list1", list1);
-		model.addAttribute("list2", list2);
+		model.addAttribute("list3", list3);
+		model.addAttribute("cat_name", cat_name);
+		model.addAttribute("nickName", nickName);
+		return "/recodelist";
+	}
+	
+	@GetMapping("/recode_List")
+	public String recodeList2(@RequestParam(value = "sort", required = false) String sort, @RequestParam("cat_name") String cat_name, Model model) {
+
+		List<JoinDTO> nickName = recodeService.nickName();
+		
+		if(sort.equals("like")) {
+			List<RecodeDTO> list1 = recodeService.sortLike();
+			model.addAttribute("list1", list1);
+		}
+		else if(sort.equals("title")) {
+			List<RecodeDTO> list1 = recodeService.sortName();
+			model.addAttribute("list1", list1);
+		}
+		
+		List<CategoryDTO> list3 = categoryService.listAll();
+		
 		model.addAttribute("list3", list3);
 		model.addAttribute("cat_name", cat_name);
 		model.addAttribute("nickName", nickName);
@@ -78,7 +98,7 @@ public class RecodeController {
 		List<PlayDTO> play = playService.playlist(u_id);
 		List<RecodeDTO> playlist1 = recodeService.recodeplay1(u_id);
 		List<UploadDTO> playlist2 = recodeService.recodeplay2(r_num);
-		
+		int playCheck = playService.listCheck(PlayDTO.builder().r_num(r_num).u_id(u_id).build());
 		model.addAttribute("dto1", dto1);
 		model.addAttribute("dto2", dto2);
 		model.addAttribute("list3", list3);
@@ -91,7 +111,7 @@ public class RecodeController {
 		model.addAttribute("play", play);
 		model.addAttribute("playlist1", playlist1);
 		model.addAttribute("playlist2", playlist2);
-		
+		model.addAttribute("playCheck", playCheck);
 		
 		
 		return "/recodeDetail";

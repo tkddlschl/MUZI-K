@@ -79,6 +79,45 @@
       	});     
       });
       
+      
+ $(document).ready(function() {
+    	  
+    	  $('#play').on('click', function() {
+    		  
+    		  $.ajax({
+	            url: "/playSwitch",
+	            type: 'POST',
+	            contentType: 'application/json;charset=utf-8',
+	            dataType: 'json',
+	            async: false,
+	            data: JSON.stringify({                    
+	                u_id: $('#u_id').val(),
+	                r_num: $('#r_num').val()
+	            }),
+	            success: function (data) {
+	            	 if(data == 0){
+		            	   $('#playImg').attr('class', 'fas fa-minus');
+		               }
+		               else{
+		            	   $('#playImg').attr('class', 'fas fa-plus');
+		               }
+		        },	            
+	            error: function(ex)  {
+	            	alert("error : " + ex);
+	            } 
+	          });
+    		
+      	});     
+      });
+ 
+ 
+	 setInterval(function(){
+	    if($(".audio").prop("ended")){
+	      //종료 후 진행할 함수 입력부분
+	      
+	      
+	    }
+	  },200);
      </script>
    </head>
    <body id="page-top">
@@ -247,14 +286,14 @@
                               <p>[[${dto1.r_genre}]]</p>
                               <h6>곡 설명 :</h6>
                               <p>[[${dto1.r_describe}]]</p>
-                              
-                               <form action="addlist" method="post">
+                              <h6>플레이리스트</h6>
+	                              	<div>
                             	<input type="hidden" name = "r_num" th:value="${param.r_num}">
                             	<input type="hidden" name = "u_id" th:value="${param.u_id}" >
-                            	<button>전송</button>
-                            </form>
-                              [[${param.r_num}]]
-                              [[${param.u_id}]]
+                            	<button style="margin-top: 5px;" th:if="${session.user != null} and ${playCheck == 0}" id="play" class="btn btn btn-outline-danger" type="submit"><i id="playImg" class="fas fa-plus">&nbsp</i></button>
+	                            <button style="margin-top: 5px;" th:if="${session.user != null} and ${playCheck == 1}" id="play" class="btn btn btn-outline-danger" type="submit"><i id="playImg" class="fas fa-minus" >&nbsp</i></button>
+                              	</div>
+                             
                            </div>
                         </div>
 	                       
@@ -276,14 +315,8 @@
                                     <div class="video-card-body">
                                        <div class="btn-group float-right right-action">
                                           <a class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>[[${dto1.r_name}]]
                                           </a>
-                                           
-                                          <div class="dropdown-menu dropdown-menu-right">
-                                             <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; Top Rated</a>
-                                             <a class="dropdown-item" href="#"><i class="fas fa-fw fa-signal"></i> &nbsp; Viewed</a>
-                                             <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; Close</a>
-                                          </div>
+                                         
                                        </div>
                                        <div class="video-title">
                                           <a href="#">[[${dto1.r_name}]]</a>
@@ -298,7 +331,6 @@
                                  </div>
                              </div>
                               </div>
-                           </div>
                         </div>
                      </div>
                   </div>
