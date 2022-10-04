@@ -170,7 +170,7 @@
                         </li>
                      </ul>
                      <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control form-control-sm mr-sm-1" type="search" placeholder="Search" aria-label="Search"><button class="btn btn-outline-success btn-sm my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+                        <input class="form-control form-control-sm mr-sm-1" type="search" id="search" onkeyup="filter()" placeholder="Search" aria-label="Search"><button class="btn btn-outline-success btn-sm my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
                      </form>
                   </div>
                </nav>
@@ -195,7 +195,7 @@
                      </div>
                     
                     
-                     <div th:each ="dto1: ${list1}" class="col-xl-3 col-sm-6 mb-3">
+                     <div th:each ="dto1: ${list1}" class="col-xl-3 col-sm-6 mb-3 listInner">
                         <div  class="video-card">
                            <div class="video-card-image">
                               <a th:if="${session.user != null}" class="play-icon" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=${session.user.u_id})}"><i class="fas fa-play-circle"></i></a>
@@ -205,8 +205,8 @@
                            </div>
                            <div class="video-card-body">
                               <div class="video-title">
-                                 <a th:if="${session.user != null}" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=${session.user.u_id})}">[[${dto1.r_name}]]</a>
-                                 <a th:unless="${session.user != null}" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=null)}">[[${dto1.r_name}]]</a>
+                                 <a th:if="${session.user != null}" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=${session.user.u_id})}" class="recode-name">[[${dto1.r_name}]]</a>
+                                 <a th:unless="${session.user != null}" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=null)}" class="recode-name">[[${dto1.r_name}]]</a>
                               </div>
                               <div class="video-page text-success">
                                 [[${dto1.r_genre}]]  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
@@ -214,6 +214,7 @@
                               <div class="video-view">
                                  1.8M views &nbsp;<i class="fas fa-calendar-alt"></i> 11 Months ago
                               </div>
+                              <span class="recode"></span>
                            </div>
                         </div>
                      </div>
@@ -235,6 +236,27 @@
             </div>
             <!-- /.container-fluid -->
             <!-- Sticky Footer -->
+            <script>
+            function filter() {
+            	let search = document.getElementById("search").value.toLowerCase();
+    	        let listInner = document.getElementsByClassName("listInner");
+
+    	        for (let i = 0; i < listInner.length; i++) {
+    	          city = listInner[i].getElementsByClassName("recode");
+    	          country = listInner[i].getElementsByClassName("recode-name");
+    	          if (city[0].innerHTML.toLowerCase().indexOf(search) != -1 ||
+    	            country[0].innerHTML.toLowerCase().indexOf(search) != -1
+    	          ) {
+    	            listInner[i].style.display = ""
+    	          }
+    	          else {
+    	            listInner[i].style.display = "none"
+    	          }
+    	        }
+            	
+            }
+            </script>
+            
             <footer class="sticky-footer ml-0">
                <div class="container">
                   <div class="row no-gutters">

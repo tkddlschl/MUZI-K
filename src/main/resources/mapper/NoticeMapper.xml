@@ -12,12 +12,18 @@
   	<select id="getList" resultType="NoticeDTO">
   		select *
   		from notice
+  		<if test="keyword != null">
+  			where n_title like concat('%', #{keyword}, '%')
+  		</if>
   		limit #{pageStart}, #{amount}
   	</select> 	
   	
   	<select id="getTotal" resultType="int">
  		select count(*) as total
  		from notice
+ 		<if test="keyword != null">
+  			where n_title like concat('%', #{keyword}, '%')
+  		</if>
  	</select>
  	
   	<select id="getDetail" resultType="NoticeDTO" >

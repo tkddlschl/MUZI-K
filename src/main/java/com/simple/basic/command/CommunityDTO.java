@@ -21,4 +21,5 @@ public class CommunityDTO {
 	@NotBlank(message = "게시글 내용은 필수입니다.")
 	private String c_contents;
 	private LocalDateTime c_date;
+	private String u_nick;
 }

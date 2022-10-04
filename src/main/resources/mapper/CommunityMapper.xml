@@ -10,16 +10,28 @@
   	</insert>
   	
   	<select id="getList" resultType="CommunityDTO">
-  		select *
-  		from community
+  		select c.*, u.u_nick
+  		from community c
+  		left join user u
+  		on (c.u_id = u.u_id)
+  		<if test="keyword != null">
+  			where c_title like concat('%', #{keyword}, '%')
+  		</if>
   		order by c_num DESC
   		limit #{pageStart}, #{amount}
   	</select>
   	
   	<select id="getMyPost" resultType="CommunityDTO" >
-  		select * 
-	 	from community
-		where u_id = #{u_id}
+  		select c.*, u.u_nick
+  		from community c
+  		left join user u
+  		on (c.u_id = u.u_id)
+  		<if test="keyword != null">
+  			where c_title like concat('%', #{keyword}, '%') and c.u_id = #{u_id}
+  		</if>
+  		<if test="keyword == null">
+  			where c.u_id = #{u_id}
+  		</if>
 		order by c_num DESC
 		limit #{pageStart}, #{amount}
   	</select>
@@ -27,17 +39,27 @@
   	<select id="getTotal" resultType="int">
  		select count(*) as total
  		from community
+ 		<if test="keyword != null">
+ 			where c_title like concat('%', #{keyword}, '%')
+ 		</if>
  	</select>
  	
  	<select id="getMyTotal" resultType="int">
  		select count(*) as total
  		from community
- 		where u_id = #{u_id}
+ 		<if test="keyword != null">
+  			where c_title like concat('%', #{keyword}, '%') and u_id = #{u_id}
+  		</if>
+  		<if test="keyword == null">
+  			where u_id = #{u_id}
+  		</if>
  	</select>
  	
   	<select id="getDetail" resultType="CommunityDTO" >
-  		select * 
-  		from community
+  		select c.*, u.u_nick
+  		from community c
+  		left join user u
+  		on (c.u_id = u.u_id)
   		where c_num = #{c_num}
   	</select>
   	

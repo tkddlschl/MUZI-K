@@ -220,7 +220,8 @@
                                  <input type="hidden" name="c_num" th:value="${CommunityDTO.c_num}">
                               </div>
                               <div class="mb-3">
-                                 <label for="reg_id">작성자</label> <input type="text" class="form-control" name="u_id" th:value="${CommunityDTO.u_id}" readonly />
+                                 <label for="reg_id">작성자</label> <input type="text" class="form-control" name="u_nick" th:value="${CommunityDTO.u_nick}" readonly />
+                                 <input type="hidden" class="form-control" name="u_id" th:value="${CommunityDTO.u_id}" readonly />
                               </div>
                               <div class="mb-3">
                                  <label for="reg_id">제목</label> <input type="text" class="form-control" name="c_title" th:value="${CommunityDTO.c_title}">
@@ -231,7 +232,7 @@
                               </div>
                                                                
                               <div class="btn_area">       
-                                  <a th:if="${session.user != null} and ${session.user.u_id} == ${CommunityDTO.u_id}" href="#" class="btn btn-outline-primary" th:onclick="|commu_update()|">저장</a>                                                                                 
+                                  <a th:if="${session.user != null} and ${session.user.u_id} == ${CommunityDTO.u_id}" href="#" class="btn btn-outline-primary" th:onclick="|commu_update()|">수정</a>                                                                                 
                                   <a th:href="communityList" class="btn btn-outline-primary">목록</a>                                        
                                   <a th:if="${session.user != null} and ${session.user.u_id} == ${CommunityDTO.u_id}" href="#" class="btn btn-outline-primary" th:onclick="|commu_delete()|">삭제</a>                                             
                               </div>
@@ -244,7 +245,8 @@
                                                 <th>댓글등록</th>
                                                 <td>
                                                     <form name="replyForm" action="replyForm" method="post" id="replyForm">
-                                                    <input type="text" class="inputw290" name="u_id" th:value="${session.user.u_id}" style="margin-top:10px;">
+                                                    <input type="text" class="inputw290" name="u_nick" th:value="${session.user.u_nick}" style="margin-top:10px;" readonly="readonly">
+                                                    <input type="hidden" class="inputw290" name="u_id" th:value="${session.user.u_id}" style="margin-top:10px;" readonly="readonly">
                                                         <input type="hidden" class="inputw290" name="c_num" th:value = "${param.c_num}" >
                                                         <textarea  class="form-control" name="reply_contents" required style="height: 150px; margin-top:10px;"></textarea>
                                                         <div class="btn_area">
@@ -260,7 +262,7 @@
                                                    <hr size= "10px">                                              
                                                 <tr th:each = "list : ${list}">
                                                    <th style="display:none" th:value ="${list.reply_num}"> [[${list.reply_num}]]</th>
-                                                    <th >[[${list.u_id}]]</th>
+                                                    <th >[[${list.u_nick}]]</th>
                                                     <td class="mb-3">
                                                         <div class="left">
                                                             <span>[[${ #temporals.format(list.reply_date, 'yyyy-MM-dd-HH:mm')}]]</span>

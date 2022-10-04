@@ -17,4 +17,5 @@ public class ReplyDTO {
    private String u_id; // 작성자
    private String reply_contents; //내용
    private LocalDateTime reply_date; //작성일자
+   private String u_nick;
 }

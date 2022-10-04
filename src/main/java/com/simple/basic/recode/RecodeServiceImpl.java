@@ -209,5 +209,15 @@ public class RecodeServiceImpl implements RecodeService {
 	public boolean userGiveLikeDelete(String u_id) {
 		return recodeMapper.userGiveLikeDelete(u_id);
 	}
+	
+	@Override
+	public List<RecodeDTO> recodeplay1(String u_id) {
+		return recodeMapper.recodeplay1(u_id);
+	}
+
+	@Override
+	public List<UploadDTO> recodeplay2() {
+		return recodeMapper.recodeplay2();
+	}
 
 }

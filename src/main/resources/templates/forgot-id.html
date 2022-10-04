@@ -35,10 +35,17 @@
                         <div class="form-group">
                            <label>이메일</label>
                          <input type="email" id="u_email" class="form-control" placeholder="이메일을 입력해주세요.">
+                         <button type="button" id="checkEmail" onclick="fn_sendCode()" class="btn btn-outline-primary btn-block btn-lg">인증번호 전송</button>
+							<br>
+							<label>인증 번호 입력<span class="required">*</span></label>
+							<input type="text" class="form-control" name="e_code" id="e_code" placeholder="인증번호를 입력해주세요."
+							th:value="${e_code}">
+							<button type="button" id="checkCode" onclick="fn_checkCode()" class="btn btn-outline-primary btn-block btn-lg"
+							style="font-size: 15px; padding: 5px 5px">인증 번호 확인</button>
+							<span>[[${e_code}]]</span>
+							<span id="emailCertification"></span>
                         </div>
-                        <div class="mt-4">
-                           <button type="button" id="checkEmail" class="btn btn-outline-primary btn-block btn-lg">아이디 확인</button>
-                        </div>
+                        
                      </form>       
                      <div class="text-center mt-5">
                         <p class="light-gray">로그인 하러 가기 <a th:href="@{login}">로그인</a></p>
@@ -87,29 +94,65 @@
       <!-- Custom scripts for all pages-->
       <script src="js/custom.js"></script>
       <script>
-      $("#checkEmail").click(function () {
-          const u_email = $("#u_email").val();
-           $.ajax({
-              type: 'post',
-              url: "/emailCheck1",
-              data: {
-                  'u_email': u_email
-              },
-              dataType: "text",
-              success: function (str) {
-            	  console.log(str);
-            	  
-                  if(str == ''){
-                	  alert('가입되지 않은 이메일입니다.');                   
-                  }else{
-                	  alert('회원님의 아이디는 '+ str +' 입니다.');        
-                  }
-
-              },error: function () {
-                  console.log('에러 체크!!')
-              }
-          })   
-      });
+	  var f_code;
+      var f_email;
+     
+      function fn_sendCode() {
+			$.ajax({
+				url : "/sendCode",
+				type : "POST",
+				astnc : false,
+				dataType : "text",
+				data : {
+					"u_email" : $("#u_email").val()
+				},
+				 success : function(data){
+					 $('#emailSend').text("해당 이메일로 인증번호 발송이 완료되었습니다.").css('color', 'black');
+			         f_code = data;
+			         f_email = u_email;
+			         console.log("f_code : "+f_code);
+			         console.log("data : "+data);
+			         console.log("f_email : "+f_email);
+			         console.log("u_email : "+u_email);		         
+					}
+			})
+		}
+    
+		function fn_checkCode(){
+			$.ajax({
+				url : "/checkCode",
+				type : "POST",
+				dataType : "text",
+				data : { 
+					"e_code" : $("#e_code").val()
+				},
+				success : function(data){
+					if(data == f_code){
+						$('#emailCertification').text("인증 성공!").css('color', 'black');
+						// findId controller 끌어오면
+						$.ajax({
+							url : "/findId",
+							type : "POST",
+							dataType : "text",
+							data : {
+								"u_email" : $("#u_email").val()
+							},
+							success : function(data){
+								if(data == null){
+									alert('해당 이메일로 가입된 아이디가 없습니다.')
+								}else{
+									alert('해당 이메일의 아이디는 '+data+'입니다.')
+								}
+							}
+						})
+					}else{
+						$('#emailCertification').text("인증 실패! 다시 시도해주세요.").css('color', 'red');
+					}
+					console.log("f_code : "+ f_code);
+					console.log("data : "+ data);
+				}
+			})
+		}
       
       </script>
    </body>

@@ -30,13 +30,20 @@
          <!-- Navbar Search -->
          <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
             <div class="input-group">
-               <input type="text" class="form-control" placeholder="Search for...">
+               <input th:if="${session.user != null}" type="hidden" class="form-control" name="u_id" th:value="${session.user.u_id}">
+               <input type="text" class="form-control" name="keyword" th:value="${pageDTO.cri.keyword}" placeholder="Search for...">
                <div class="input-group-append">
-                  <button class="btn btn-light" type="button">
-                  <i class="fas fa-search"></i> 
+                  <button id="myCommuSearch" class="btn btn-light" type="button">
+                  <i id="myCommuSearch" class="fas fa-search"></i> 
                   </button>
                </div>
             </div>
+         </form>
+         <form id="communityMypost" method="get">
+         	<input th:if="${session.user != null}" type="hidden" id="u_id" name="u_id" th:value="${session.user.u_id}">
+         	<input type="hidden" name="pageNum" th:value="${pageDTO.cri.page}">
+         	<input type="hidden" name="amount" th:value="${pageDTO.cri.amount}">
+         	<input type="hidden" name="keyword" th:value="${pageDTO.cri.keyword}">
          </form>
          <!-- Navbar -->
          <ul class="navbar-nav ml-auto ml-md-0 osahan-right-navbar">
@@ -176,14 +183,12 @@
                                     <ul class="navbar-nav ml-auto ml-md-0 osahan-right-navbar">
                                                 <table cellpadding="0" cellspacing="0" class="table table-striped" width="100%;">
                                                    <tr>
-                                                      <th>번호(PK)</th>
-                                                      <th>아이디</th>
+                                                      <th>닉네임</th>
                                                       <th>제목</th>
                                                       <th>등록일</th>
                                                    </tr>
                                                    <tr th:each="dto, status : ${list} ">
-													  <td>[[${dto.c_num}]]</td>
-													  <td>[[${dto.u_id}]]</td>
+													  <td>[[${dto.u_nick}]]</td>
 													  <td><a th:href="@{communityDetail(c_num = ${dto.c_num} )}">[[${dto.c_title}]]</a></td>
 													  <td>[[${#temporals.format(dto.c_date , 'yyyy-MM-dd') }]]</td>
 												   </tr> 
@@ -199,15 +204,15 @@
                   <nav aria-label="Page navigation example">
 						<ul class="pagination justify-content-center pagination-sm mb-4">
 							<li class="page-item"><a class="page-link"
-								th:href="@{communityMypost(u_id=${session.user.u_id}, page=1,amount=${pageDTO.amount})}"
+								th:href="@{communityMypost(u_id=${session.user.u_id}, keyword=${pageDTO.cri.keyword}, page=1,amount=${pageDTO.amount})}"
 								href="#" tabindex="-1">Previous</a></li>
 							<th:block th:each="num : ${pageDTO.pageList}">
 								<li th:class="${pageDTO.page == num ? 'on' : ''}" class="page-item">
-								<a class="page-link" th:href="@{communityMypost(u_id=${session.user.u_id}, page=${num}, amount=${pageDTO.amount} )}">[[${num}]]</a>
+								<a class="page-link" th:href="@{communityMypost(u_id=${session.user.u_id}, keyword=${pageDTO.cri.keyword}, page=${num}, amount=${pageDTO.amount} )}">[[${num}]]</a>
 								</li>
 							</th:block>
 							<li class="page-item"><a class="page-link"
-								th:href="@{communityMypost(u_id=${session.user.u_id}, page=${pageDTO.realEnd},amount=${pageDTO.amount})}">Next</a>
+								th:href="@{communityMypost(u_id=${session.user.u_id}, keyword=${pageDTO.cri.keyword}, page=${pageDTO.realEnd},amount=${pageDTO.amount})}">Next</a>
 							</li>
 						</ul>
 						<center>
@@ -225,6 +230,18 @@
             </div>
             <!-- /.container-fluid -->
             <!-- Sticky Footer -->
+            
+            <script>
+            $('#myCommuSearch').on("click", function(e){
+            	e.preventDefault();
+            	let val = $("input[name='keyword']").val();
+            	myCommunityList.find("input[name='keyword']").val(val);
+            	myCommunityList.find("input[name='page']").val(1);
+            	myCommunityList.submit();
+            	//$('.form-control').focus();
+            })
+            </script>
+            
             <footer class="sticky-footer">
                <div class="container">
                   <div class="row no-gutters">

@@ -31,18 +31,18 @@
          <!-- Navbar Search -->
          <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
             <div class="input-group">
-               <!-- <select id="e4" class="form-control" name="search">
-					<option value="id">아이디</option>
-					<option value="title">제목</option>
-			   </select>
-			   &nbsp&nbsp&nbsp -->
-               <input type="text" class="form-control" id="search" onkeyup="filter()" placeholder="Search for...">
+               <input type="text" class="form-control" name="keyword" th:value="${pageDTO.cri.keyword}" placeholder="Search for...">
                <div class="input-group-append">
-                  <button class="btn btn-light" type="button">
-                  <i class="fas fa-search"></i> 
+                  <button id="commuSearch" class="btn btn-light" type="button">
+                  <i id="commuSearch" class="fas fa-search"></i> 
                   </button>
                </div>
             </div>
+         </form>
+         <form id="communityList" method="get">
+         	<input type="hidden" name="pageNum" th:value="${pageDTO.cri.page}">
+         	<input type="hidden" name="amount" th:value="${pageDTO.cri.amount}">
+         	<input type="hidden" name="keyword" th:value="${pageDTO.cri.keyword}">
          </form>
          <!-- Navbar -->
          <ul class="navbar-nav ml-auto ml-md-0 osahan-right-navbar">
@@ -159,16 +159,6 @@
                   <div class="row">
                      <div class="col-md-12">
                         <div class="main-title">
-                           <div class="btn-group float-right right-action">
-                              <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Sort by <i class="fa fa-caret-down" aria-hidden="true"></i>
-                              </a>
-                              <div class="dropdown-menu dropdown-menu-right">
-                                 <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; Top Rated</a>
-                                 <a class="dropdown-item" href="#"><i class="fas fa-fw fa-signal"></i> &nbsp; Viewed</a>
-                                 <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; Close</a>
-                              </div>
-                           </div>
                            <h6>커뮤니티</h6>
                           
                            <form name="#" action="#" method="get" >   
@@ -183,14 +173,14 @@
                                     <ul class="navbar-nav ml-auto ml-md-0 osahan-right-navbar">
                                                 <table cellpadding="0" cellspacing="0" class="table table-striped" width="100%;">
                                                    <tr>
-                                                      <th>번호(PK)</th>
-                                                      <th>아이디</th>
+                                                      <th>번호</th>
+                                                      <th>닉네임</th>
                                                       <th>제목</th>
                                                       <th>등록일</th>
                                                    </tr>
                                                  	<tr th:each="dto, status : ${list}">
-														<td>[[${dto.c_num}]]</td>
-													 	<td class="commu_id">[[${dto.u_id}]]</td> 
+                                                 		<td>[[${status.count}]]</td>
+													 	<td class="commu_id">[[${dto.u_nick}]]</td> 
 														<td>	
 															<a class="commu_title" title="상세보기(클릭)" th:href="@{communityDetail(c_num = ${dto.c_num} ) }">
 																[[${dto.c_title}]]
@@ -208,15 +198,15 @@
                   <nav aria-label="Page navigation example">
 						<ul class="pagination justify-content-center pagination-sm mb-4">
 							<li class="page-item"><a class="page-link"
-								th:href="@{communityList(page=1,amount=${pageDTO.amount})}"
+								th:href="@{communityList(keyword=${pageDTO.cri.keyword}, page=1,amount=${pageDTO.amount})}"
 								href="#" tabindex="-1">Previous</a></li>
 							<th:block th:each="num : ${pageDTO.pageList}">
 								<li th:class="${pageDTO.page == num ? 'on' : ''}" ><a class="page-link"
-									th:href="@{communityList(page=${num}, amount=${pageDTO.amount} )}">[[${num}]]</a>
+									th:href="@{communityList(keyword=${pageDTO.cri.keyword}, page=${num}, amount=${pageDTO.amount} )}">[[${num}]]</a>
 								</li>
 							</th:block>
 							<li class="page-item"><a class="page-link"
-								th:href="@{communityList(page=${pageDTO.realEnd},amount=${pageDTO.amount})}">Next</a>
+								th:href="@{communityList(keyword=${pageDTO.cri.keyword}, page=${pageDTO.realEnd},amount=${pageDTO.amount})}">Next</a>
 							</li>
 						</ul>
 						<center>
@@ -233,48 +223,16 @@
             </div>
             <!-- /.container-fluid -->
             <!-- Sticky Footer -->
-            <!-- <script>
-            function filter() {
-            	if($('#e4').val() == 'id'){
-            		let search = document.getElementById("search").value.toLowerCase();
-        	        let listInner = document.getElementsByClassName("listInner");
-
-        	        for (let i = 0; i < listInner.length; i++) {
-        	          city = listInner[i].getElementsByClassName("commu");
-        	          country = listInner[i].getElementsByClassName("commu_id");
-        	          if (city[0].innerText.toLowerCase().indexOf(search) != -1 ||
-        	            country[0].innerText.toLowerCase().indexOf(search) != -1
-        	          ) {
-        	            listInner[i].style.display = ""
-        	          }
-        	          else {
-        	            listInner[i].style.display = "none"
-        	          }
-        	        }
-            	}
-            	
-            	else if($('#e4').val() == 'title'){
-            		let a_search = document.getElementById("search").value.toLowerCase();
-        	        let a_listInner = document.getElementsByClassName("listInner");
-
-        	        for (let i = 0; i < a_listInner.length; i++) {
-        	          city = a_listInner[i].getElementsByClassName("commu");
-        	          country = a_listInner[i].getElementsByClassName("commu_title");
-        	          if (city[0].innerHTML.toLowerCase().indexOf(a_search) != -1 ||
-        	            country[0].innerHTML.toLowerCase().indexOf(a_search) != -1
-        	          ) {
-        	            a_listInner[i].style.display = ""
-        	          } else {
-        	            a_listInner[i].style.display = "none"
-        	          }
-        	        }
-            	}
-    	      }
-            $('#e4').on('change', function(){
-            	$('#search').val('')
-            	$(".listInner").css('display', '')
+            <script>
+            $('#commuSearch').on("click", function(e){
+            	e.preventDefault();
+            	let val = $("input[name='keyword']").val();
+            	communityList.find("input[name='keyword']").val(val);
+            	communityList.find("input[name='page']").val(1);
+            	communityList.submit();
+            	//$('.form-control').focus();
             })
-            </script> -->
+            </script>
             <footer class="sticky-footer">
                <div class="container">
                   <div class="row no-gutters">

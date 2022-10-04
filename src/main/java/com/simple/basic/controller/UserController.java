@@ -362,4 +362,12 @@ public class UserController {
 		}
 		return str;
 	}
+	
+	@PostMapping("/findId")
+	@ResponseBody
+	public String findId(String u_email) {
+		String id = userService.findId(u_email);
+
+		return id;
+	}
 }

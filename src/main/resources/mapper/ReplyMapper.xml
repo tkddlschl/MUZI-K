@@ -10,8 +10,10 @@
 	</insert>
 
 	<select id="replyList" resultType="ReplyDTO">
-		select *
-		from reply
+		select r.*, u.u_nick
+		from reply r
+		left join user u
+		on (r.u_id = u.u_id)
 		where c_num = #{c_num}
 	</select>
 
