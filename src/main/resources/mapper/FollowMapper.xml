@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.simple.basic.follow.FollowMapper">
+  <insert id="follow">
+  	insert into follow(u_id, f_passiveUser)
+  	values(#{u_id}, #{f_passiveUser});
+  </insert>
+  
+  <delete id="unfollow">
+  	delete from follow 
+  	where u_id = #{u_id} and f_passiveUser = #{f_passiveUser}
+  </delete>
+  
+  <select id="isFollow" resultType="int">
+  	select count(*) 
+  	from follow
+  	where u_id = #{u_id} and f_passiveUser = #{f_passiveUser}
+  </select>
+  
+  <select id="selectActiveUserList" parameterType="String" resultType="FollowDTO">
+  	select  u.u_id as follower, u.u_nick, i.u_path, i.u_image, 
+	(select count(*)
+	from follow f1
+	where f1.f_passiveUser = follower) as followerCount
+	from user u
+	inner join u_imgupload i
+	on i.u_id = u.u_id 
+	where u.u_id in (select f_passiveUser 
+			  		from follow f
+			  		where f.u_id = #{u_id})
+	order by u.u_nick
+  </select>
+  
+  <select id="selectPassiveUserList" resultType="FollowDTO">
+  	select  u.u_id as follower, u.u_nick, i.u_path, i.u_image, 
+	(select count(*)
+	from follow f1
+	where f1.f_passiveUser = follower) as followerCount
+	from user u
+	inner join u_imgupload i
+	on i.u_id = u.u_id 
+	where u.u_id in (select f.u_id 
+					  from follow f
+					  where f.f_passiveUser = #{u_id})
+	order by u.u_nick;
+  </select>
+  
+  <delete id="deleteUserFollow">
+  	delete from follow
+  	where u_id = #{u_id}
+  </delete>
+  
+  <delete id="deleteP_userFollow">
+  	delete from follow
+  	where f_passiveUser = #{u_id}
+  </delete>
+  
+  <select id ="followerList" resultType = "FollowDTO">
+     select *
+     from follow
+     where f_passiveUser = #{u_id}
+  </select>
+  
+  
+  <select id ="followingCount" resultType = "int">
+	  select count(*)
+	  from follow
+	  where u_id = #{u_id}
+  </select>
+  
+  <select id ="followerCount" resultType = "int">
+	  select count(*)
+	  from follow
+	  where f_passiveUser = #{u_id}
+  </select>
+  
+  <select id ="indivFollowerCount" resultType = "Integer">
+     select count(*)
+     from follow
+     where f_passiveUser = #{u_id}
+  </select>
+  
+  </mapper>

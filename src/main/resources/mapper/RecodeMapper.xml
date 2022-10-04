@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.simple.basic.recode.RecodeMapper">
+  <insert id = "recodeInsert">
+  	 insert into record (u_id, r_name, r_describe, r_open, r_genre)
+  	 values(#{u_id}, #{r_name}, #{r_describe}, #{r_open}, #{r_genre})
+  </insert>
+  
+  <insert id = "recodeFileInsert">
+  	<!-- 셀렉트로 전달된 값을 int로 받고 r_num으로 저장하겠다 -->
+  	<selectKey resultType = "int" keyProperty="r_num" order ="BEFORE"> 
+  	select max(r_num) as r_num from record where r_name = #{r_name}
+  	</selectKey>
+  	insert into upload (r_path, r_file, r_image, r_num, r_name)
+  	values(#{r_path}, #{r_file},#{r_image},#{r_num},#{r_name})
+  </insert>
+  
+  <select id="recodeList" resultType="RecodeDTO">
+  	select r.*, u.*,
+	(select count(*)
+	from likey l
+	where l.r_num = r.r_num
+	) as likeCount
+    from record r
+    left join upload u
+    on (r.r_num = u.r_num)
+  </select>
+  
+  <select id="sortLike" resultType="RecodeDTO">
+  	select r.*, u.*,
+	(select count(*)
+	from likey l
+	where l.r_num = r.r_num
+	) as likeCount
+    from record r
+    left join upload u
+    on (r.r_num = u.r_num)
+    order by likeCount desc, r.r_name desc
+  </select>
+  
+  <select id="sortName" resultType="RecodeDTO">
+  	select r.*, u.*,
+	(select count(*)
+	from likey l
+	where l.r_num = r.r_num
+	) as likeCount
+    from record r
+    left join upload u
+    on (r.r_num = u.r_num)
+    order by r.r_name
+  </select>
+  
+  <delete id="recodeDelete">
+  	delete r, u from record r
+  	left join upload u
+  	on (r.r_num = u.r_num)
+  	where r.r_num = #{r_num}
+  </delete>
+  
+  <update id="recodeUpdate">
+    update record set r_name = #{r_name},
+  					  r_describe = #{r_describe},
+  					  r_open = #{r_open},
+  					  r_genre = #{r_genre}
+  					
+  	where r_num = #{r_num}
+  </update>
+  
+  <update id="recodeImgUpdate">
+    update upload set r_path = #{r_path},
+  					  r_file = #{r_file},
+  					  r_image = #{r_image},
+  					  r_name = #{r_name}
+  					
+  	where r_num = #{r_num}
+  </update>
+  
+  <select id="recodeDetail1" resultType="RecodeDTO">
+  	select * from record 
+  	where r_num = #{r_num}
+  </select>
+  
+  <select id="recodeDetail2" resultType="UploadDTO">
+  	select * from upload where r_num = #{r_num}
+  </select>
+  
+  <select id="nickName" resultType="JoinDTO">
+     select distinct r.u_id, u_nick, i.u_path, i.u_image
+     from user u 
+     left join record r 
+     on(u.u_id= r.u_id)
+     left join u_imgupload i
+     on(i.u_id = u.u_id)
+  </select>
+  
+   <insert id = "like" >
+      insert into likey(u_id, r_num)
+      values(#{u_id}, #{r_num})
+   </insert>  
+  
+  <delete id="unlike">
+     delete from likey
+     where u_id = #{u_id} and r_num = #{r_num}
+  </delete>
+  
+ 
+  <select id="checkLike" resultType="int">
+     select count(like_num)
+     from likey
+     where u_id = #{u_id} and r_num = #{r_num}
+  </select>
+  
+   <select id="ilike" resultType = "int">
+     select count(*)
+     from likey
+     where r_num = #{r_num}
+  </select>
+  
+  <delete id="deleteLike">
+     delete from likey
+     where r_num = #{r_num}
+  </delete>
+  
+  <delete id="userRecodeDelete">
+  	delete u from upload record r
+  	left join upload u
+  	on (r.r_num = u.r_num)
+  	where r.u_id = #{u_id}
+  </delete>
+  
+  <delete id="userLikeDelete">
+     delete r, l from record r
+     left join likey l
+     on (r.r_num = l.r_num)
+     where r.u_id = #{u_id}
+  </delete>
+  
+  <delete id="userGiveLikeDelete">
+     delete from likey
+     where u_id = #{u_id}
+  </delete>
+  
+  <select id="recodeplay1" resultType="RecodeDTO">
+    select * 
+   	from playlist p left join record r
+   	on p.r_num = r.r_num
+   	where p.u_id = #{u_id};
+  </select>
+  
+  <select id="recodeplay2" resultType="UploadDTO">
+    select * 
+   	from playlist p left join Upload u
+   	on p.r_num = u.r_num 
+  </select>
+  </mapper>

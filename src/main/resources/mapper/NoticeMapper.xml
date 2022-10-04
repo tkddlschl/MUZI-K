@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.simple.basic.notice.NoticeMapper">
+  <insert id="noticeRegist">
+  		insert into notice(u_id, n_title, n_contents)
+  		values(#{u_id},#{n_title},#{n_contents})
+  	</insert>
+  	
+  	<select id="getList" resultType="NoticeDTO">
+  		select *
+  		from notice
+  		<if test="keyword != null">
+  			where n_title like concat('%', #{keyword}, '%')
+  		</if>
+  		limit #{pageStart}, #{amount}
+  	</select> 	
+  	
+  	<select id="getTotal" resultType="int">
+ 		select count(*) as total
+ 		from notice
+ 		<if test="keyword != null">
+  			where n_title like concat('%', #{keyword}, '%')
+  		</if>
+ 	</select>
+ 	
+  	<select id="getDetail" resultType="NoticeDTO" >
+  		select * 
+  		from notice
+  		where n_num = #{n_num}
+  	</select>
+  	
+  	<update id="noticeUpdate">
+ 		update notice
+ 		set c_title = #{n_title},
+ 			c_contents = #{n_contents}
+ 		where n_num = #{n_num}
+ 	</update>
+ 	
+ 	<delete id="noticeDelete">
+ 		delete from notice
+ 		where n_num = #{n_num}
+ 	</delete>
+  </mapper>
