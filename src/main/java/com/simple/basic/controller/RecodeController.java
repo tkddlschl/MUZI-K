@@ -9,9 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -202,6 +202,12 @@ public class RecodeController {
 			recodeService.unlike(likeDto);
 		}
 		return isCheck;
+	}
+	
+	@ExceptionHandler(value = Exception.class)
+	public String controllerExceptionHandler(Exception e, Model model) {
+		model.addAttribute("error", e);
+		return "/error/500";
 	}
 
 }
