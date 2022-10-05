@@ -26,7 +26,7 @@ public class AjaxController {
 	@GetMapping("/display")
 	public byte[] display(@RequestParam("r_image") String r_image) {
 		
-		String saveImage = uploadPath + "\\" + r_image;
+		String saveImage = uploadPath + r_image;
 		
 		byte[] result = null;
 		try {
@@ -60,7 +60,7 @@ public class AjaxController {
 	@GetMapping("/display3")
 	public byte[] display3(@RequestParam("u_image") String u_image) {
 		
-		String saveImage = userUploadPath + "\\" + u_image;
+		String saveImage = userUploadPath + u_image;
 		
 		byte[] result = null;
 		try {

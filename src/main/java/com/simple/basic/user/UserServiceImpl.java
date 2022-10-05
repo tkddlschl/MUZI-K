@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService {
 		boolean result = userMapper.userInsert(dto);
 		
 		String imageOrigin = u_image.getOriginalFilename();
-	    String imageName = imageOrigin.substring(imageOrigin.lastIndexOf("\\") + 1);
-	    String imageSave = uploadPath + "\\"  + imageName;
+	    String imageName = imageOrigin.substring(imageOrigin.lastIndexOf("/") + 1);
+	    String imageSave = uploadPath + imageName;
 	    
 	    try {
 	    	File saveImage= new File(imageSave);
