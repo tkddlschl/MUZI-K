@@ -53,17 +53,17 @@ public class RecodeController {
 	}
 
 	@GetMapping("/recodeList")
-	public String recodeList(@RequestParam("cat_name") String cat_name, Model model) throws Exception {
+	public @ResponseBody String recodeList(@RequestParam("cat_name") String cat_name, Model model) throws Exception {
 
 		List<JoinDTO> nickName = recodeService.nickName();
-		//List<RecodeDTO> list1 = recodeService.recodeList();
-		//List<CategoryDTO> list3 = categoryService.listAll();
+		List<RecodeDTO> list1 = recodeService.recodeList();
+		List<CategoryDTO> list3 = categoryService.listAll();
 		
-		//model.addAttribute("list1", list1);
-		//model.addAttribute("list3", list3);
+		model.addAttribute("list1", list1);
+		model.addAttribute("list3", list3);
 		model.addAttribute("cat_name", cat_name);
 		model.addAttribute("nickName", nickName);
-		return "/recodelist";
+		return "recodelist";
 	}
 	
 	@GetMapping("/recode_List")
