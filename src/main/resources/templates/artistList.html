@@ -28,7 +28,7 @@
               let f_passiveUser = $(this).parents('.channels-card-image').find('#f_passiveUser').val();
               let follow = $(this).parents('.channels-card').find('.channels-view');
     		  $.ajax({
-  	            url: "/followSwitch_a",
+  	            url: "/muzik/followSwitch_a",
   	            type: 'POST',
   	            contentType: 'application/json;charset=utf-8',
   	            dataType: 'json',
@@ -53,7 +53,7 @@
   	          });
     		  
     		  $.ajax({
-    	            url: "/followCount_a",
+    	            url: "/muzik/followCount_a",
     	            type: 'POST',
     	            contentType: 'application/json;charset=utf-8',
     	            dataType: 'json',

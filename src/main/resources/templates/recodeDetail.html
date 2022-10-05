@@ -37,7 +37,7 @@
     	  $('#like1').on('click', function() {
     		  
     		  $.ajax({
-	            url: "/likeSwitch",
+	            url: "/muzik/likeSwitch",
 	            type: 'POST',
 	            contentType: 'application/json;charset=utf-8',
 	            dataType: 'json',
@@ -60,7 +60,7 @@
 	          });
     		  
     		  $.ajax({
-		            url: "/likeCount",
+		            url: "/muzik/likeCount",
 		            type: 'POST',
 		            contentType: 'application/json;charset=utf-8',
 		            dataType: 'json',
@@ -81,7 +81,7 @@
     	  $('#play').on('click', function() {
               
               $.ajax({
-                 url: "/playSwitch",
+                 url: "/muzik/playSwitch",
                  type: 'POST',
                  contentType: 'application/json;charset=utf-8',
                  dataType: 'json',

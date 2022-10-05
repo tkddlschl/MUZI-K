@@ -31,7 +31,7 @@
     	  $("#u_nick").on('propertychange change paste input', function(){
 
 				$.ajax({
-					url: "/nickCheck",
+					url: "/muzik/nickCheck",
 					type: "POST",
 					dataType: "JSON",
 					data: {"u_nick" : $("#u_nick").val()},

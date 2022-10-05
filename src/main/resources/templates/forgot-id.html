@@ -99,7 +99,7 @@
      
       function fn_sendCode() {
 			$.ajax({
-				url : "/sendCode",
+				url : "/muzik/sendCode",
 				type : "POST",
 				astnc : false,
 				dataType : "text",
@@ -120,7 +120,7 @@
     
 		function fn_checkCode(){
 			$.ajax({
-				url : "/checkCode",
+				url : "/muzik/checkCode",
 				type : "POST",
 				dataType : "text",
 				data : { 
@@ -131,7 +131,7 @@
 						$('#emailCertification').text("인증 성공!").css('color', 'black');
 						// findId controller 끌어오면
 						$.ajax({
-							url : "/findId",
+							url : "/muzik/findId",
 							type : "POST",
 							dataType : "text",
 							data : {

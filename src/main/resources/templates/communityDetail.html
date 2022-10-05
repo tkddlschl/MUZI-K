@@ -30,7 +30,7 @@
                let reply_con = $(this).parents('.left').find('#reply-update').val()
                console.log("call")
                $.ajax({
-                   url: "/replyUpdate" ,
+                   url: "/muzik/replyUpdate" ,
                    type: 'POST',
                    contentType: 'application/json;charset=utf-8',
                    dataType: 'json',
@@ -54,7 +54,7 @@
                let reply_no = $(this).attr("value");
                console.log("call")
                $.ajax({
-                   url: "/replyDelete" ,
+                   url: "/muzik/replyDelete" ,
                    type: 'POST',
                    contentType: 'application/json;charset=utf-8',
                    dataType: 'json',
