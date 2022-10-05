@@ -84,8 +84,8 @@
             
             <li th:if="${session.user != null}" class="nav-item dropdown no-arrow osahan-right-navbar-user">
                <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			   <img th:if="${session.user.u_image != null}" alt="Avatar" th:src="@{../display3(u_path=${session.user.u_path}, u_image=${session.user.u_image})}">
-               <img th:if="${session.user.u_image == null}" alt="Avatar" src="/img/default.png">
+			   <img th:if="${session.user.u_image != null}" alt="Avatar" th:src="@{/display3(u_path=${session.user.u_path}, u_image=${session.user.u_image})}">
+               <img th:if="${session.user.u_image == null}" alt="Avatar" src="img/default.png">
                [[${session.user.u_nick}]]
                </a>
                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
@@ -169,8 +169,8 @@
                         <div class="channels-card">
                            <div class="channels-card-image">
                               <a th:href="@{artistDetail(u_id=${list.follower},u_nick=${list.u_nick})}">
-                              <img th:if="${list.u_image != null}" class="img-fluid" th:src="@{../display3(u_path=${list.u_path}, u_image=${list.u_image})}" alt="">
-                              <img th:if="${list.u_image == null}" src="/img/default.png">
+                              <img th:if="${list.u_image != null}" class="img-fluid" th:src="@{/display3(u_path=${list.u_path}, u_image=${list.u_image})}" alt="">
+                              <img th:if="${list.u_image == null}" src="img/default.png">
                               </a>
                               <form action="followingDelete" method="post">
                               <div class="channels-card-image-btn">

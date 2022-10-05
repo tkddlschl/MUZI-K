@@ -150,8 +150,8 @@
             
             <li th:if="${session.user != null}" class="nav-item dropdown no-arrow osahan-right-navbar-user">
                <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <img th:if="${session.user.u_image != null}" alt="Avatar" th:src="@{../display3(u_path=${session.user.u_path}, u_image=${session.user.u_image})}">
-               <img th:if="${session.user.u_image == null}" alt="Avatar" src="/img/default.png">
+               <img th:if="${session.user.u_image != null}" alt="Avatar" th:src="@{/display3(u_path=${session.user.u_path}, u_image=${session.user.u_image})}">
+               <img th:if="${session.user.u_image == null}" alt="Avatar" src="img/default.png">
                [[${session.user.u_nick}]]
                </a>
                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
@@ -273,7 +273,7 @@
                            <div class="video-card-image">
                            	  <a th:if="${session.user != null}" class="play-icon" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=${session.user.u_id})}"><i class="fas fa-play-circle"></i></a>
                               <a th:unless="${session.user != null}" class="play-icon" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=null)}"><i class="fas fa-play-circle"></i></a>
-                              <a href="#"><img class="img-fluid" th:src="@{../display(r_path=${dto1.r_path}, r_image=${dto1.r_image})}" alt=""></a>
+                              <a href="#"><img class="img-fluid" th:src="@{/display(r_path=${dto1.r_path}, r_image=${dto1.r_image})}" alt=""></a>
                               <div class="time"></div>
                            </div>
                            <div class="video-card-body">
@@ -303,8 +303,8 @@
                         <div class="channels-card a_listInner">
                            <div class="channels-card-image">
                               <a th:href="@{artistDetail(u_id=${art.follower},u_nick=${art.u_nick})}">
-                              <img th:if="${art.u_image != null}" class="img-fluid" th:src="@{../display3(u_path=${art.u_path}, u_image=${art.u_image})}" alt="">
-                              <img th:if="${art.u_image == null}" alt="Avatar" src="/img/default.png">
+                              <img th:if="${art.u_image != null}" class="img-fluid" th:src="@{/display3(u_path=${art.u_path}, u_image=${art.u_image})}" alt="">
+                              <img th:if="${art.u_image == null}" alt="Avatar" src="img/default.png">
                               </a>
                               
                               <input th:if="${session.user != null}" type="hidden" id="u_id" name="u_id" th:value="${session.user.u_id}">
