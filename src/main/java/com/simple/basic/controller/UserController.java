@@ -266,6 +266,7 @@ public class UserController {
 		return "redirect:/main";
 	}
 	
+	
 	@PostMapping("/idCheck")
 	@ResponseBody
 	public int idCheck(String u_id) {
@@ -286,6 +287,7 @@ public class UserController {
 		int result = userService.emailCheck(u_email);
 		return result;
 	}
+	
 	
 	@PostMapping("/followSwitch_a")
 	@ResponseBody

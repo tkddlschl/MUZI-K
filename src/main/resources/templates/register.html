@@ -30,7 +30,6 @@
 			$('#u_id').on('propertychange change paste input', function(){
 				$.ajax({
 					url: "/idCheck",
-					contentType: "application/json; charset=utf-8",
 					type: "POST",
 					dataType: "JSON",
 					data: {"u_id" : $("#u_id").val()},
@@ -61,7 +60,6 @@
 
 				$.ajax({
 					url: "/nickCheck",
-					contentType: "application/json; charset=utf-8",
 					type: "POST",
 					dataType: "JSON",
 					data: {"u_nick" : $("#u_nick").val()},
@@ -91,7 +89,6 @@
 			$('#u_email').on('propertychange change paste input', function(){
 				$.ajax({
 					url: "/emailCheck",
-					contentType: "application/json; charset=utf-8",
 					type: "POST",
 					dataType: "JSON",
 					data: {"u_email" : $("#u_email").val()},
