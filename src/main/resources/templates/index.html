@@ -273,7 +273,7 @@
                            <div class="video-card-image">
                            	  <a th:if="${session.user != null}" class="play-icon" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=${session.user.u_id})}"><i class="fas fa-play-circle"></i></a>
                               <a th:unless="${session.user != null}" class="play-icon" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=null)}"><i class="fas fa-play-circle"></i></a>
-                              <a href="#"><img class="img-fluid" th:src="@{../display(r_path=${dto1.r_path}, r_image=${dto1.r_image})}" alt=""></a>
+                              <a href="#"><img class="img-fluid" th:src="@{/display(r_path=${dto1.r_path}, r_image=${dto1.r_image})}" alt=""></a>
                               <div class="time"></div>
                            </div>
                            <div class="video-card-body">
