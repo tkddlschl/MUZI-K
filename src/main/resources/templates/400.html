@@ -100,30 +100,7 @@
                음악 업로드
                </a>
             </li>
-            <li class="nav-item dropdown no-arrow mx-1">
-               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <i class="fas fa-bell fa-fw"></i>
-               <span class="badge badge-danger"></span>
-               </a>
-               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-                  <a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i> &nbsp; Action</a>
-                  <a class="dropdown-item" href="#"><i class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i> &nbsp; Something else here</a>
-               </div>
-            </li>
-            <li class="nav-item dropdown no-arrow mx-1">
-               <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <i class="fas fa-envelope fa-fw"></i>
-               <span class="badge badge-success"></span>
-               </a>
-               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-                  <a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i> &nbsp; Action</a>
-                  <a class="dropdown-item" href="#"><i class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i> &nbsp; Something else here</a>
-               </div>
-            </li>
+            
             
             <li th:if="${session.user == null}" class="nav-item dropdown no-arrow osahan-right-navbar-user">
                <a class="nav-link dropdown-toggle user-dropdown-link" th:href="@{login}">
@@ -176,16 +153,11 @@
                <span>음악 업로드</span>
                </a>
             </li>
-            <li class="nav-item">
-               <a th:if="${session.user != null}" class="nav-link" th:href="@{playlist(u_id = ${session.user.u_id})}">
+            <li th:if="${session.user != null}" class="nav-item">
+               <a class="nav-link" th:href="@{playlist(u_id=${session.user.u_id})}">
                <i class="fas fa-fw fa-history"></i>
                <span>플레이리스트</span>
                </a>
-               <a th:unless="${session.user != null}" class="nav-link" th:href="@{playlist}">
-               <i class="fas fa-fw fa-history"></i>
-               <span>플레이리스트</span>
-               </a>
-             
             </li>
             <li class="nav-item dropdown">
                <a class="nav-link dropdown-toggle" href="categories.html" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -232,8 +204,7 @@
                   <div class="row no-gutters">
                      <div class="col-lg-6 col-sm-6">
                         <p class="mt-1 mb-0"><strong class="text-dark">MUZI-K</strong>. 
-                           <small class="mt-0 mb-0"><a class="text-primary" target="_blank" href="https://templatespoint.net/">TemplatesPoint</a>
-                           </small> 
+                           
 							</p>
                      </div>
                      <div class="col-lg-6 col-sm-6 text-right">
