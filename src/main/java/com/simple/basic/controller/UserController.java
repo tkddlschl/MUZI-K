@@ -267,21 +267,21 @@ public class UserController {
 	}
 	
 	
-	@PostMapping("/idCheck")
+	@PostMapping("/muzik/idCheck")
 	@ResponseBody
 	public int idCheck(String u_id) {
 		int result = userService.idCheck(u_id);
 		return result;
 	}
 	
-	@PostMapping("/nickCheck")
+	@PostMapping("/muzik/nickCheck")
 	@ResponseBody
 	public int nickCheck(String u_nick) {
 		int result = userService.nickCheck(u_nick);
 		return result;
 	}
 	
-	@PostMapping("/emailCheck")
+	@PostMapping("/muzik/emailCheck")
 	@ResponseBody
 	public int emailCheck(String u_email) {
 		int result = userService.emailCheck(u_email);
