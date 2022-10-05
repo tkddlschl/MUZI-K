@@ -12,6 +12,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -183,7 +184,7 @@ public class RecodeController {
 	
 	@PostMapping("/likeCount")
 	@ResponseBody
-	public int likeCount(LikeDTO likeDto) {
+	public int likeCount(@RequestBody LikeDTO likeDto) {
 		
 		int ilike = recodeService.ilike(likeDto.getR_num());
 		
@@ -192,7 +193,7 @@ public class RecodeController {
 	
 	@PostMapping("/likeSwitch")
 	@ResponseBody
-	public int likeSwitch(LikeDTO likeDto) {
+	public int likeSwitch(@RequestBody LikeDTO likeDto) {
 		
 		int isCheck = recodeService.checkLike(likeDto);
 		
