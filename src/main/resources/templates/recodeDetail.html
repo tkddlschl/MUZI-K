@@ -40,6 +40,7 @@
 	            url: "/muzik/likeSwitch",
 	            type: 'POST',
 	            dataType: 'json',
+	            contentType: 'application/json;charset=utf-8',
 	            async: false,
 	            data: JSON.stringify({                    
 	                u_id: $('#u_id').val(),
@@ -62,6 +63,7 @@
 		            url: "/muzik/likeCount",
 		            type: 'POST',
 		            dataType: 'json',
+		            contentType: 'application/json;charset=utf-8',
 		            async: false,
 		            data: JSON.stringify({  
 		            	u_id: $('#u_id').val(),
@@ -81,6 +83,7 @@
               $.ajax({
                  url: "/muzik/playSwitch",
                  type: 'POST',
+                 contentType: 'application/json;charset=utf-8',
                  dataType: 'json',
                  async: false,
                  data: JSON.stringify({                    
