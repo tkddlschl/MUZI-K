@@ -29,14 +29,14 @@ public class WebConfig implements WebMvcConfigurer {
         
         registry
 		        .addResourceHandler("/mp3/**")
-		        .addResourceLocations("classpath:/static/mp3/");
+		        .addResourceLocations("file:/usr/local/tomcat/webapps/muzik/WEB-INF/classes/static/mp3/");
         
         registry
-        .addResourceHandler("../display/**")
+        .addResourceHandler("/display/**")
         .addResourceLocations("file:/usr/local/tomcat/webapps/upload/");
         
         registry
-        .addResourceHandler("../display3/**")
+        .addResourceHandler("/display3/**")
         .addResourceLocations("file:/usr/local/tomcat/webapps/upload/user/");
       
         		
