@@ -52,7 +52,7 @@ public class RecodeController {
 	}
 
 	@GetMapping("/recodeList")
-	public String recodeList(@RequestParam("cat_name") String cat_name, Model model) {
+	public String recodeList(@RequestParam("cat_name") String cat_name, Model model) throws Exception {
 
 		List<JoinDTO> nickName = recodeService.nickName();
 		List<RecodeDTO> list1 = recodeService.recodeList();

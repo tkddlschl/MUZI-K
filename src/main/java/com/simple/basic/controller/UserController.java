@@ -104,7 +104,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/artistList")
-	public String artistList(Model model, HttpSession session) throws Exception {
+	public String artistList(Model model, HttpSession session) {
 		UserTotalDTO user = (UserTotalDTO)session.getAttribute("user");
 		if(user != null) {
 			String u_id = user.getU_id();
