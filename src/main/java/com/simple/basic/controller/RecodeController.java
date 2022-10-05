@@ -203,12 +203,6 @@ public class RecodeController {
 		}
 		return isCheck;
 	}
-	
-	@ExceptionHandler(value = Exception.class)
-	public String controllerExceptionHandler(Exception e, Model model) {
-		model.addAttribute("error", e);
-		return "/error/500";
-	}
 
 }
 
