@@ -21,57 +21,7 @@
       <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
       <script type="text/javascript">
-      $(document).ready(function(){
-   	  
-    	  $('.channels-card #follow').on('click', function() {
-    		  
-              let f_passiveUser = $(this).parents('.channels-card-image').find('#f_passiveUser').val();
-              let follow = $(this).parents('.channels-card').find('.channels-view');
-    		  $.ajax({
-  	            url: "/followSwitch",
-  	            type: 'POST',
-  	            contentType: 'application/json;charset=utf-8',
-  	            dataType: 'json',
-  	            async: false,
-  	            data: JSON.stringify({                    
-  	                u_id: $('#u_id').val(),
-  	                f_passiveUser: f_passiveUser
-  	            }),
-  	            context: this,
-  	            success: function (data) {
-	  		           if(data == 0){
-	  		               $(this).html("팔로우 취소");
-	  		           }
-	  		            	 
-	  		           else{
-	  		               $(this).html("팔로우");
-	  		           }
-  		        },	            
-  	            error: function(ex)  {
-  	            	alert("error : " + ex);
-  	            } 
-  	          });
-    		  
-    		  $.ajax({
-    	            url: "/followCount",
-    	            type: 'POST',
-    	            contentType: 'application/json;charset=utf-8',
-    	            dataType: 'json',
-    	            async: false,
-    	            data: JSON.stringify({                    
-    	            	u_id: f_passiveUser
-    	            }),
-    	            success: function (data) {
-    	            	console.log(data);
-  	  		             $(follow).html(data + "&nbsp팔로워");
-    		        },	            
-    	            error: function(ex)  {
-    	            	alert("error : " + ex);
-    	            } 
-    	          });
-		  
-    	  });
-      });
+      
       </script>
    </head>
    <body id="page-top">
@@ -81,18 +31,7 @@
          <i class="fas fa-bars"></i>
          </button> &nbsp;&nbsp;
          <a class="navbar-brand mr-1" th:href="@{main}"><img class="img-fluid" alt="" src="img/logo.png"></a>
-         <!-- Navbar Search -->
-         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
-            <div class="input-group">
-               <input type="text" class="form-control" placeholder="Search for...">
-               <div class="input-group-append">
-                  <button class="btn btn-light" type="button">
-                  <i class="fas fa-search"></i> 
-                  </button>
-               </div>
-            </div>
-         </form>
-         <!-- Navbar -->
+        
          <ul class="navbar-nav ml-auto ml-md-0 osahan-right-navbar">
             <li th:if="${session.user != null} and ${session.user.u_type} == 'a'" class="nav-item mx-1">
                <a class="nav-link" th:href="@{recodeInsert}">
