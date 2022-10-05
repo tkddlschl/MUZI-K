@@ -183,7 +183,7 @@ public class RecodeController {
 	
 	@PostMapping("/likeCount")
 	@ResponseBody
-	public int likeCount(@RequestBody LikeDTO likeDto) {
+	public int likeCount(LikeDTO likeDto) {
 		
 		int ilike = recodeService.ilike(likeDto.getR_num());
 		
@@ -192,7 +192,7 @@ public class RecodeController {
 	
 	@PostMapping("/likeSwitch")
 	@ResponseBody
-	public int likeSwitch(@RequestBody LikeDTO likeDto) {
+	public int likeSwitch(LikeDTO likeDto) {
 		
 		int isCheck = recodeService.checkLike(likeDto);
 		
