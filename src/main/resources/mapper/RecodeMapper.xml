@@ -152,7 +152,7 @@
   
   <select id="recodeplay2" resultType="UploadDTO">
     select * 
-   	from playlist p left join Upload u
+   	from playlist p left join upload u
    	on p.r_num = u.r_num 
   </select>
   </mapper>
