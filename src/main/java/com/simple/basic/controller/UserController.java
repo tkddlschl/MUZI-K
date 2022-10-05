@@ -1,9 +1,7 @@
 package com.simple.basic.controller;
 
-import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -270,28 +268,22 @@ public class UserController {
 	
 	@PostMapping("/idCheck")
 	@ResponseBody
-	public int idCheck(String u_id, HttpServletResponse resp, HttpServletRequest req) throws ServletException, IOException {
+	public int idCheck(String u_id) {
 		int result = userService.idCheck(u_id);
-		req.setCharacterEncoding("UTF-8");
-		resp.setContentType("application/json; charset=utf-8");
 		return result;
 	}
 	
 	@PostMapping("/nickCheck")
 	@ResponseBody
-	public int nickCheck(String u_nick, HttpServletResponse resp, HttpServletRequest req) throws ServletException, IOException {
+	public int nickCheck(String u_nick) {
 		int result = userService.nickCheck(u_nick);
-		req.setCharacterEncoding("UTF-8");
-		resp.setContentType("application/json; charset=utf-8");
 		return result;
 	}
 	
 	@PostMapping("/emailCheck")
 	@ResponseBody
-	public int emailCheck(String u_email, HttpServletResponse resp, HttpServletRequest req) throws ServletException, IOException {
+	public int emailCheck(String u_email) {
 		int result = userService.emailCheck(u_email);
-		req.setCharacterEncoding("UTF-8");
-		resp.setContentType("application/json; charset=utf-8");
 		return result;
 	}
 	
