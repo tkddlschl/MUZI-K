@@ -38,7 +38,7 @@ public class PlayController {
 	
 	@PostMapping("/playSwitch")
 	@ResponseBody
-	public int playSwitch(@RequestBody PlayDTO playDto) {
+	public int playSwitch(PlayDTO playDto) {
 
 		int playCheck = playService.listCheck(playDto);
 
