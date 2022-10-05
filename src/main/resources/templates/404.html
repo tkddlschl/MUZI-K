@@ -20,59 +20,7 @@
       <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
       <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script type="text/javascript">
-      $(document).ready(function(){
-   	  
-    	  $('.channels-card #follow').on('click', function() {
-    		  
-              let f_passiveUser = $(this).parents('.channels-card-image').find('#f_passiveUser').val();
-              let follow = $(this).parents('.channels-card').find('.channels-view');
-    		  $.ajax({
-  	            url: "/followSwitch",
-  	            type: 'POST',
-  	            contentType: 'application/json;charset=utf-8',
-  	            dataType: 'json',
-  	            async: false,
-  	            data: JSON.stringify({                    
-  	                u_id: $('#u_id').val(),
-  	                f_passiveUser: f_passiveUser
-  	            }),
-  	            context: this,
-  	            success: function (data) {
-	  		           if(data == 0){
-	  		               $(this).html("팔로우 취소");
-	  		           }
-	  		            	 
-	  		           else{
-	  		               $(this).html("팔로우");
-	  		           }
-  		        },	            
-  	            error: function(ex)  {
-  	            	alert("error : " + ex);
-  	            } 
-  	          });
-    		  
-    		  $.ajax({
-    	            url: "/followCount",
-    	            type: 'POST',
-    	            contentType: 'application/json;charset=utf-8',
-    	            dataType: 'json',
-    	            async: false,
-    	            data: JSON.stringify({                    
-    	            	u_id: f_passiveUser
-    	            }),
-    	            success: function (data) {
-    	            	console.log(data);
-  	  		             $(follow).html(data + "&nbsp팔로워");
-    		        },	            
-    	            error: function(ex)  {
-    	            	alert("error : " + ex);
-    	            } 
-    	          });
-		  
-    	  });
-      });
-      </script>
+      
    </head>
    <body id="page-top">
       <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
@@ -139,8 +87,8 @@
             
             <li th:if="${session.user != null}" class="nav-item dropdown no-arrow osahan-right-navbar-user">
                <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <img th:if="${session.user.u_image != null}" alt="Avatar" th:src="@{../display3(u_path=${session.user.u_path}, u_image=${session.user.u_image})}">
-               <img th:if="${session.user.u_image == null}" alt="Avatar" src="/img/default.png">
+               <img th:if="${session.user.u_image != null}" alt="Avatar" th:src="@{/display3(u_path=${session.user.u_path}, u_image=${session.user.u_image})}">
+               <img th:if="${session.user.u_image == null}" alt="Avatar" src="img/default.png">
                [[${session.user.u_nick}]]
                </a>
                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
@@ -237,13 +185,6 @@
             <footer class="sticky-footer">
                <div class="container">
                   <div class="row no-gutters">
-                     <div class="col-lg-6 col-sm-6">
-                        <p class="mt-1 mb-0"><strong class="text-dark">MUZI-K</strong>. 
-                           <small class="mt-0 mb-0"><a class="text-primary" target="_blank" href="https://templatespoint.net/">TemplatesPoint</a>
-                           </small> 
-                           
-							</p>
-                     </div>
                      <div class="col-lg-6 col-sm-6 text-right">
                         <div class="app">
                            <a href="#"><img alt="" src="img/google.png"></a>
