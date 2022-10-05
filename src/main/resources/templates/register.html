@@ -29,7 +29,7 @@
 			
 			$('#u_id').on('propertychange change paste input', function(){
 				$.ajax({
-					url: "/idCheck",
+					url: "/muzik/idCheck",
 					type: "POST",
 					dataType: "JSON",
 					data: {"u_id" : $("#u_id").val()},
@@ -59,7 +59,7 @@
 			$("#u_nick").on('propertychange change paste input', function(){
 
 				$.ajax({
-					url: "/nickCheck",
+					url: "/muzik/nickCheck",
 					type: "POST",
 					dataType: "JSON",
 					data: {"u_nick" : $("#u_nick").val()},
@@ -88,7 +88,7 @@
 			
 			$('#u_email').on('propertychange change paste input', function(){
 				$.ajax({
-					url: "/emailCheck",
+					url: "/muzik/emailCheck",
 					type: "POST",
 					dataType: "JSON",
 					data: {"u_email" : $("#u_email").val()},
