@@ -269,7 +269,7 @@ public class UserController {
 	
 	@PostMapping("/muzik/idCheck")
 	@ResponseBody
-	public int idCheck(String u_id) {
+	public int idCheck(@RequestBody String u_id) {
 		int result = userService.idCheck(u_id);
 		return result;
 	}
