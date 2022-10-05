@@ -96,12 +96,12 @@
      on(i.u_id = u.u_id)
   </select>
   
-   <insert id = "like" >
+   <insert id = "like" parameterType="LikeDTO">
       insert into likey(u_id, r_num)
       values(#{u_id}, #{r_num})
    </insert>  
   
-  <delete id="unlike">
+  <delete id="unlike" parameterType="LikeDTO">
      delete from likey
      where u_id = #{u_id} and r_num = #{r_num}
   </delete>
