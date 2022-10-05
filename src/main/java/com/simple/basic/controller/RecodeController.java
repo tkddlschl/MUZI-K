@@ -88,7 +88,7 @@ public class RecodeController {
 	}
 
 	@GetMapping("/recodeDetail")
-	public String recodeDetail(@RequestParam("r_num") int r_num, @RequestParam("u_id") String u_id, Model model) {
+	public String recodeDetail(@RequestParam("r_num") int r_num, @RequestParam("u_id") String u_id, Model model) throws Exception {
 		List<JoinDTO> nickName = recodeService.nickName();
 		RecodeDTO dto1 = recodeService.recodeDetail1(r_num);
 		UploadDTO dto2 = recodeService.recodeDetail2(r_num);
