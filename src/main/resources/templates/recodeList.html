@@ -165,7 +165,7 @@
                         </div>
                      </div>
                     
-                     <div th:each="dto1 : ${list1}" th:if = "${dto1.r_open} == 'o'" class="col-xl-3 col-sm-6 mb-3 listInner">
+                     <div th:each="dto1 : ${list1}" th:if = "${dto1.r_genre} == ${cat_name} and ${dto1.r_open} == 'o'" class="col-xl-3 col-sm-6 mb-3 listInner">
                         <div class="video-card history-video">
                            <div class="video-card-image">
                               <a th:if="${session.user != null}" class="play-icon" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=${session.user.u_id})}"><i class="fas fa-play-circle"></i></a>
@@ -182,7 +182,9 @@
                                  [[${dto1.r_genre}]]  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
                               </div>
                               <a style="margin-top: -5px; float: right; font-size: 15px" class=""><i class="fas fa-heart"></i>&nbsp<i>[[${dto1.likeCount}]]</i></a>
-                              
+                              <div th:each = "dto3 : ${nickName}" th:if = "${dto1.u_id} == ${dto3.u_id}" class="video-view" style="font-size: 12px;">
+                                 [[${dto3.u_nick}]]
+                              </div>
                            </div>
                            <span class="recode"></span>
                         </div>
