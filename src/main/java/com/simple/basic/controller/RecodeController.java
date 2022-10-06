@@ -108,8 +108,6 @@ public class RecodeController {
 		model.addAttribute("ilike", ilike);
 		model.addAttribute("follower", follower);
 		model.addAttribute("isCheck", isCheck);
-		model.addAttribute("r_num", r_num);
-		model.addAttribute("u_id", u_id);
 		model.addAttribute("play", play);
 		model.addAttribute("playlist1", playlist1);
 		model.addAttribute("playlist2", playlist2);

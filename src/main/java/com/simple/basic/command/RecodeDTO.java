@@ -27,4 +27,6 @@ public class RecodeDTO {
 	
 	private Integer upload_no; //pk
 	private String r_path;
+	
+	private int pl_num;
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.simple.basic.command.PlayDTO;
+import com.simple.basic.command.RecodeDTO;
 
 @Service
 public class PlayServiceImpl implements PlayService {
@@ -33,5 +34,10 @@ public class PlayServiceImpl implements PlayService {
 	@Override
 	public boolean rmList(PlayDTO dto) {
 		return playMapper.rmList(dto);
+	}
+
+	@Override
+	public PlayDTO nextSong(String u_id,int r_num) {
+		return playMapper.nextSong(u_id, r_num);
 	}
 }

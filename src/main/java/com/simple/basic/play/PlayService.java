@@ -3,6 +3,7 @@ package com.simple.basic.play;
 import java.util.List;
 
 import com.simple.basic.command.PlayDTO;
+import com.simple.basic.command.RecodeDTO;
 
 public interface PlayService {
 
@@ -13,4 +14,7 @@ public interface PlayService {
 	
 	public boolean addList(PlayDTO dto);
 	public boolean rmList(PlayDTO dto);
+	
+	
+	public PlayDTO nextSong(String u_id, int r_num);
 }

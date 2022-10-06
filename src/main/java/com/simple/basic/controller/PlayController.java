@@ -2,6 +2,8 @@ package com.simple.basic.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,10 +15,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.simple.basic.category.CategoryService;
 import com.simple.basic.command.CategoryDTO;
-import com.simple.basic.command.LikeDTO;
 import com.simple.basic.command.PlayDTO;
 import com.simple.basic.command.RecodeDTO;
 import com.simple.basic.command.UploadDTO;
+import com.simple.basic.command.UserTotalDTO;
 import com.simple.basic.play.PlayService;
 import com.simple.basic.recode.RecodeService;
 
@@ -62,5 +64,13 @@ public class PlayController {
 		
 		return "/playlist";
 	}
+	
+	@PostMapping("/nextSong")
+	@ResponseBody
+	public PlayDTO nextSong(@RequestBody PlayDTO playDTO) {
+		PlayDTO next = playService.nextSong(playDTO.getU_id(),playDTO.getR_num() );
+		return next ;
+	}
+	
 	
 }
