@@ -40,7 +40,7 @@ public class AjaxController {
 		return result;
 	}
 	
-//	@GetMapping("/display2")1
+//	@GetMapping("/display2")
 //	public byte[] display2(@RequestParam("r_file") String r_file) {
 //		
 //		String saveMusic = uploadPath + "\\" + r_file;
