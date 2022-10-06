@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
    
-   <head>
+<head>
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,6 +19,10 @@
       <!-- Owl Carousel -->
       <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
       <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script type="text/javascript">
+   
+      </script>
    </head>
    <body id="page-top">
       <nav class="navbar navbar-expand navbar-light bg-white static-top osahan-nav sticky-top">
@@ -27,11 +31,7 @@
          <i class="fas fa-bars"></i>
          </button> &nbsp;&nbsp;
          <a class="navbar-brand mr-1" th:href="@{main}"><img class="img-fluid" alt="" src="img/logo.png"></a>
-         <!-- Navbar Search -->
-         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-5 my-2 my-md-0 osahan-navbar-search">
-            <div class="input-group">
-            </div>
-         </form>
+        
          <!-- Navbar -->
          <ul class="navbar-nav ml-auto ml-md-0 osahan-right-navbar">
             <li th:if="${session.user != null} and ${session.user.u_type} == 'a'" class="nav-item mx-1">
@@ -40,30 +40,8 @@
                음악 업로드
                </a>
             </li>
-            <li class="nav-item dropdown no-arrow mx-1">
-               <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <i class="fas fa-bell fa-fw"></i>
-               <span class="badge badge-danger"></span>
-               </a>
-               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-                  <a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i> &nbsp; Action</a>
-                  <a class="dropdown-item" href="#"><i class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i> &nbsp; Something else here</a>
-               </div>
-            </li>
-            <li class="nav-item dropdown no-arrow mx-1">
-               <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <i class="fas fa-envelope fa-fw"></i>
-               <span class="badge badge-success"></span>
-               </a>
-               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-                  <a class="dropdown-item" href="#"><i class="fas fa-fw fa-edit "></i> &nbsp; Action</a>
-                  <a class="dropdown-item" href="#"><i class="fas fa-fw fa-headphones-alt "></i> &nbsp; Another action</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star "></i> &nbsp; Something else here</a>
-               </div>
-            </li>
+            
+            
             <li th:if="${session.user == null}" class="nav-item dropdown no-arrow osahan-right-navbar-user">
                <a class="nav-link dropdown-toggle user-dropdown-link" th:href="@{login}">
                로그인
@@ -78,13 +56,16 @@
             
             <li th:if="${session.user != null}" class="nav-item dropdown no-arrow osahan-right-navbar-user">
                <a class="nav-link dropdown-toggle user-dropdown-link" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			   <img th:if="${session.user.u_image != null}" alt="Avatar" th:src="@{/display3(u_path=${session.user.u_path}, u_image=${session.user.u_image})}">
-               <img th:if="${session.user.u_image == null}" alt="Avatar" src="img/default.png">
+               <img th:if="${session.user.u_image != null}" alt="Avatar" th:src="@{../display3(u_path=${session.user.u_path}, u_image=${session.user.u_image})}">
+               <img th:if="${session.user.u_image == null}" alt="Avatar" src="/img/default.png">
                [[${session.user.u_nick}]]
                </a>
                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-				  <a class="dropdown-item" th:href="@{mypage(u_id=${session.user.u_id})}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; 마이페이지</a>
-                  <a class="dropdown-item" th:href="@{userInfo}"><i class="fas fa-fw fa-cog"></i> &nbsp; 회원정보관리</a>
+               <form action ="mypageForm" method ="post">
+               	  <input type="hidden" name="u_id1" class="form-control" th:value="${session.user.u_id}">
+                  <button style="cursor:pointer" class="dropdown-item" th:href="@{mypage}"><i class="fas fa-fw fa-user-circle"></i> &nbsp; 마이페이지</button>
+               </form>
+                  <a class="dropdown-item" th:href="@{artistDetail(u_id=${session.user.u_id},u_nick=${session.user.u_nick})}"><i class="fas fa-fw fa-cog"></i> &nbsp; 상세 정보 페이지</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-fw fa-sign-out-alt"></i> &nbsp; 로그아웃</a>
                </div>
@@ -94,7 +75,7 @@
       <div id="wrapper">
          <!-- Sidebar -->
          <ul class="sidebar navbar-nav">
-            <li class="nav-item">
+            <li class="nav-item active">
                <a class="nav-link" th:href="@{main}">
                <i class="fas fa-fw fa-home"></i>
                <span>Home</span>
@@ -135,66 +116,25 @@
                <div class="dropdown-menu">
                   <a class="dropdown-item" th:href="@{communityList}">모든 게시글</a>
                   <a th:if="${session.user != null}" class="dropdown-item" th:href="@{communityMypost(u_id=${session.user.u_id})}">나의 게시글</a>
-                  <a class="dropdown-item" th:href="@{noticeList}">공지글 게시판</a>               
+                  <a class="dropdown-item" th:href="@{noticeList}">공지글 게시판</a>
                </div>
+            </li>
+            <li class="nav-item channel-sidebar-list">
+               <h6>장르별 카테고리</h6>
+               <ul>
+               </ul>
             </li>
          </ul>
 
-         <div id="content-wrapper">
+        <div id="content-wrapper">
             <div class="container-fluid">
-               <div class="video-block section-padding">
-                  <div class="row">
-                     <div class="col-md-12">
-                        <div class="main-title">
-                           <div class="btn-group float-right right-action">
-                              <a href="#" class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Sort by <i class="fa fa-caret-down" aria-hidden="true"></i>
-                              </a>
-                              <div class="dropdown-menu dropdown-menu-right">
-                                 <a class="dropdown-item" href="#"><i class="fas fa-fw fa-star"></i> &nbsp; Top Rated</a>
-                                 <a class="dropdown-item" href="#"><i class="fas fa-fw fa-signal"></i> &nbsp; Viewed</a>
-                                 <a class="dropdown-item" href="#"><i class="fas fa-fw fa-times-circle"></i> &nbsp; Close</a>
-                              </div>
-                           </div>
-                           <h6>플레이리스트</h6>
-                        </div>
+               <div class="row">
+                  <div class="col-md-8 mx-auto text-center  pt-4 pb-5">
+                     <h1><img alt="400" src="img/400.png" class="img-fluid"></h1>
+                     <div class="mt-5">
+                        <a class="btn btn-outline-primary" th:href="@{main}"><i class="mdi mdi-home"></i> GO TO HOME PAGE</a>
                      </div>
-                    
-                      <div  th:each="dto1 : ${playlist1}" th:if="${dto1.r_open} == 'o'" class="col-xl-3 col-sm-6 mb-3" >
-                                   <div class="video-card">
-                                    <div class="video-card-image">
-                                       <a th:if="${session.user != null}" class="play-icon" th:href="@{recodeDetail(r_num=${dto1.r_num}, u_id=${session.user.u_id})}"><i class="fas fa-play-circle"></i></a>
-                                       <a th:each="dto2 : ${playlist2}" th:if="${dto1.r_num} == ${dto2.r_num}" href="#"><img class="img-fluid" th:src="@{../display(r_path=${dto2.r_path}, r_image=${dto2.r_image})}"  alt=""></a>
-                                    </div>
-                                    <div class="video-card-body">
-                                       <div class="btn-group float-right right-action">
-                                          <a class="right-action-link text-gray" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                          </a>
-                                       </div>
-                                       <div class="video-title">
-                                          <a href="#">[[${dto1.r_name}]]</a>
-                                       </div>
-                                       <div class="video-page text-success">
-                                          [[${dto1.r_genre}]]  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
-                                       </div>
-                                       
-                                    </div>
-                                 </div>
-                             </div>
                   </div>
-                  <nav aria-label="Page navigation example">
-                     <ul class="pagination justify-content-center pagination-sm mb-0">
-                        <li class="page-item disabled">
-                           <a class="page-link" href="#" tabindex="-1">Previous</a>
-                        </li>
-                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                           <a class="page-link" href="#">Next</a>
-                        </li>
-                     </ul>
-                  </nav>
                </div>
             </div>
             <!-- /.container-fluid -->
@@ -203,6 +143,9 @@
                <div class="container">
                   <div class="row no-gutters">
                      <div class="col-lg-6 col-sm-6">
+                        <p class="mt-1 mb-0"><strong class="text-dark">MUZI-K</strong>. 
+                           
+							</p>
                      </div>
                      <div class="col-lg-6 col-sm-6 text-right">
                         <div class="app">

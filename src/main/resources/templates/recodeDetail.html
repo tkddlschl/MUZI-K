@@ -106,6 +106,33 @@
                });
             
            });
+    	  
+    	  document.getElementById('music').addEventListener('ended', function(){
+              
+              $.ajax({
+                url: "/muzik/nextSong",
+                type: 'post',
+                contentType: 'application/json;charset=utf-8',
+                dataType: 'json',
+                async: false,
+                data: JSON.stringify({    
+                    u_id: $('#u_id').val(), 
+                    r_num: $('#r_num').val()                   
+                }),
+                success: function (data) {
+                   
+                   if (data.pl_num != null) {
+                      location.href="recodeDetail?r_num="+data.r_num+"&u_id="+data.u_id
+                      console.log(data)
+                   }
+                      
+                },
+                error: function(ex)  {
+                   alert("마지막 곡입니다.");
+                } 
+              }); 
+           });
+    	  
       });
       
      </script>
@@ -202,8 +229,8 @@
                <span>음악 업로드</span>
                </a>
             </li>
-            <li class="nav-item">
-               <a class="nav-link" th:href="@{playlist}">
+            <li th:if="${session.user != null}" class="nav-item">
+               <a class="nav-link" th:href="@{playlist(u_id=${session.user.u_id})}">
                <i class="fas fa-fw fa-history"></i>
                <span>플레이리스트</span>
                </a>
@@ -267,7 +294,7 @@
                               <img th:if="${dto3.u_image != null}" class="img-fluid" th:src="@{/display3(u_path=${dto3.u_path}, u_image=${dto3.u_image})}" alt="">
                               <img th:if="${dto3.u_image == null}" alt="Avatar" src="img/default.png">
                               <p><a th:href="@{artistDetail(u_id=${dto3.u_id}, u_nick=${dto3.u_nick})}"><strong>[[${dto3.u_nick}]]</strong></a> <span title="" data-placement="top" data-toggle="tooltip" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></span></p>
-                              <small>Published on Aug 10, 2018</small>
+                              <small> &nbsp</small>
                            </div>
                            <div class="single-video-info-content box mb-3">
                               <h6>제목:</h6>
