@@ -182,9 +182,7 @@
                                  [[${dto1.r_genre}]]  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
                               </div>
                               <a style="margin-top: -5px; float: right; font-size: 15px" class=""><i class="fas fa-heart"></i>&nbsp<i>[[${dto1.likeCount}]]</i></a>
-                              <div th:each = "dto3 : ${nickName}" th:if = "${dto1.u_id} == ${dto3.u_id}" class="video-view" style="font-size: 12px;">
-                                 [[${dto3.u_nick}]]
-                              </div>
+                              
                            </div>
                            <span class="recode"></span>
                         </div>

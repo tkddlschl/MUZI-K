@@ -98,15 +98,15 @@ public class UserServiceImpl implements UserService {
 		boolean result = userMapper.userUpdate(dto);
 		
 		String imageOrigin = u_image.getOriginalFilename();
-	    String imageName = imageOrigin.substring(imageOrigin.lastIndexOf("\\") + 1);
+	    String imageName = imageOrigin.substring(imageOrigin.lastIndexOf("/") + 1);
 	    String uuid = UUID.randomUUID().toString();
 	    if(imageName == null || imageName == "") {
 	    	uuid = null;
 	    }
 	    String u_imageName = uuid + "_" + imageName;
-	    String imageSave = uploadPath + "\\" + uuid + "_" + imageName;
+	    String imageSave = uploadPath + uuid + "_" + imageName;
 	    if(imageName == null || imageName == "") {
-	    	imageSave = uploadPath + "\\" + imageName;
+	    	imageSave = uploadPath + imageName;
 	    }
 	    
 	    try {
