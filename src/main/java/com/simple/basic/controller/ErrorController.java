@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 @Slf4j
 public class ErrorController {
-
+	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(Exception.class) // Exception타입이 아니라 .class를 붙임으로써 값으로 인식한다.
 	public String except(Exception e, Model model) {
 
