@@ -33,4 +33,9 @@ public class PlayServiceImpl implements PlayService {
 	public boolean rmList(PlayDTO dto) {
 		return playMapper.rmList(dto);
 	}
+
+	@Override
+	public PlayDTO nextSong(String u_id, int r_num) {
+		return playMapper.nextSong(u_id, r_num);
+	}
 }

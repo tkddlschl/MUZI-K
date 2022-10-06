@@ -25,4 +25,13 @@
      where u_id = #{u_id} and r_num = #{r_num}
   </select>
   
+   <select id="nextSong" resultType="PlayDTO">
+   select *
+   from playlist 
+   where pl_num >
+   (select pl_num
+   from playlist
+   where u_id = #{u_id} and r_num = #{r_num})
+   limit 1;
+  </select>
   </mapper>

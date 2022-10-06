@@ -13,4 +13,6 @@ public interface PlayService {
 	public boolean addList(PlayDTO dto);
 
 	public boolean rmList(PlayDTO dto);
+	
+	public PlayDTO nextSong(String u_id, int r_num);
 }
