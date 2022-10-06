@@ -63,7 +63,7 @@ public class RecodeController {
 		model.addAttribute("list3", list3);
 		model.addAttribute("cat_name", cat_name);
 		model.addAttribute("nickName", nickName);
-		return "/categories";
+		return "/recodeList";
 	}
 	
 	@GetMapping("/recode_List")
