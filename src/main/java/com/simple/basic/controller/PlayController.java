@@ -30,14 +30,7 @@ public class PlayController {
 
 	@Autowired
 	RecodeService recodeService;
-	
-	
-	@GetMapping("playlist")
-	public String playlist(Model model) {
-		List<CategoryDTO> list3 = categoryService.listAll();
-		model.addAttribute("list3", list3);
-		return "playlist";
-	}
+
 	
 	@PostMapping("/playSwitch")
 	@ResponseBody
