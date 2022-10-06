@@ -269,7 +269,7 @@
                            </center>
                            </div>
                            <center>
-                           <audio id="music" preload="auto" controls="controls">
+                           <audio autoplay="autoplay" id="music" preload="auto" controls="controls">
                               	<source id="mp4" th:src="@{/mp3/} + ${dto2.r_file}" type="audio/mpeg">
                            </audio>
                            <p id="demo"></p>
@@ -318,7 +318,7 @@
                            <div class="row">
                               <div class="col-md-12">
                                  <div class="main-title">
-                                    <h6>Up Next</h6>
+                                    <h6>PlayList</h6>
                                  </div>
                               </div>
                                <div  th:each="dto1 : ${playlist1}" th:if="${dto1.r_open} == 'o'" class="col-md-12" >
@@ -338,9 +338,6 @@
                                        </div>
                                        <div class="video-page text-success">
                                           [[${dto1.r_genre}]]  <a title="" data-placement="top" data-toggle="tooltip" href="#" data-original-title="Verified"><i class="fas fa-check-circle text-success"></i></a>
-                                       </div>
-                                       <div class="video-view">
-                                          1.8M views &nbsp;<i class="fas fa-calendar-alt"></i> 11 Months ago
                                        </div>
                                     </div>
                                  </div>
