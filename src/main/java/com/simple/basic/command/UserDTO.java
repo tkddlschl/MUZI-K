@@ -21,7 +21,7 @@ public class UserDTO {
 	private String u_nick;
 	private char u_type;
 	
-	private String follower; // 내가 팔로우한 사람
+	private String follower; // 내가 팔로우한 사람e
 	private String u_image; // 유저 프로필 사진
 	private String u_path; // 유저 프로필 사진 저장 주소
 	private int followerCount; // 팔로워 숫자
