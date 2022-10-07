@@ -134,7 +134,7 @@ public class RecodeServiceImpl implements RecodeService {
 	    
 	    
 	    String imageOrigin = image.getOriginalFilename();
-	    String imageName = imageOrigin.substring(origin.lastIndexOf("/") + 1);
+	    String imageName = imageOrigin.substring(origin.lastIndexOf("\\") + 1);
 	    String uuid2 = UUID.randomUUID().toString();
 	    if(imageName == null || imageName == "") {
 	    	uuid2 = null;

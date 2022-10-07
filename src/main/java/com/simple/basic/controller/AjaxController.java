@@ -21,8 +21,6 @@ public class AjaxController {
 	String uploadPath;
 	@Value("${user.upload.path}")
 	String userUploadPath;
-	@Value("${music.upload.path}")
-	String musicUploadPath;
 	
 	
 	@GetMapping("/display")
@@ -42,22 +40,22 @@ public class AjaxController {
 		return result;
 	}
 	
-	@GetMapping("/display2")
-	public byte[] display2(@RequestParam("r_file") String r_file) {
-		
-		String saveMusic = musicUploadPath + r_file;
-		
-		byte[] result = null;
-		try {
-			File file = new File(saveMusic);
-			result = FileCopyUtils.copyToByteArray(file);
-		}catch(Exception e) {
-			System.out.println("음악 경로 참조 에러");
-			e.printStackTrace();
-		}
-		
-		return result;
-	}
+//	@GetMapping("/display2")
+//	public byte[] display2(@RequestParam("r_file") String r_file) {
+//		
+//		String saveMusic = uploadPath + "\\" + r_file;
+//		
+//		byte[] result = null;
+//		try {
+//			File file = new File(saveMusic);
+//			result = FileCopyUtils.copyToByteArray(file);
+//		}catch(Exception e) {
+//			System.out.println("음악 경로 참조 에러");
+//			e.printStackTrace();
+//		}
+//		
+//		return result;
+//	}
 	
 	@GetMapping("/display3")
 	public byte[] display3(@RequestParam("u_image") String u_image) {
