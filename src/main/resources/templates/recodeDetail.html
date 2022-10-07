@@ -270,7 +270,7 @@
                            </div>
                            <center>
                            <audio autoplay="autoplay" id="music" preload="auto" controls="controls">
-                              	<source id="mp4" th:src="@{/display2(r_path=/usr/local/tomcat/mp3/, r_image=${dto2.r_file})}" type="audio/mpeg">
+                              	<source id="mp4" th:src="@{/display2(r_path=${musicUploadPath}, r_image=${dto2.r_file})}" type="audio/mpeg">
                            </audio>
                            <p id="demo"></p>
                            
