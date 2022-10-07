@@ -216,8 +216,8 @@ public class RecodeServiceImpl implements RecodeService {
 	}
 
 	@Override
-	public List<UploadDTO> recodeplay2() {
-		return recodeMapper.recodeplay2();
+	public List<UploadDTO> recodeplay2(String u_id) {
+		return recodeMapper.recodeplay2(u_id);
 	}
 
 }

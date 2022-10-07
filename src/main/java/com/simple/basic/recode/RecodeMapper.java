@@ -33,5 +33,5 @@ public interface RecodeMapper {
 	public boolean userGiveLikeDelete(String u_id);
 	
 	public List<RecodeDTO> recodeplay1(String u_id);
-	public List<UploadDTO> recodeplay2();
+	public List<UploadDTO> recodeplay2(String u_id);
 }

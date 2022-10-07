@@ -5,8 +5,8 @@
   
   <mapper namespace="com.simple.basic.notice.NoticeMapper">
   <insert id="noticeRegist">
-  		insert into notice(u_id, n_title, n_contents)
-  		values(#{u_id},#{n_title},#{n_contents})
+  		insert into notice(u_id, n_title, n_contents, n_date)
+  		values(#{u_id},#{n_title},#{n_contents}, now())
   	</insert>
   	
   	<select id="getList" resultType="NoticeDTO">
@@ -34,8 +34,8 @@
   	
   	<update id="noticeUpdate">
  		update notice
- 		set c_title = #{n_title},
- 			c_contents = #{n_contents}
+ 		set n_title = #{n_title},
+ 			n_contents = #{n_contents}
  		where n_num = #{n_num}
  	</update>
  	
