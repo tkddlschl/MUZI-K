@@ -127,23 +127,23 @@ public class RecodeServiceImpl implements RecodeService {
 	    	uuid = null;
 	    }
 	    String r_fileName = uuid + "_" + filename;
-	    String save = musicPath + "\\"  + r_fileName;
+	    String save = musicPath + r_fileName;
 	    if(filename == null || filename == "") {
-	    	save = uploadPath + "\\" + filename;
+	    	save = uploadPath + filename;
 	    }
 	    
 	    
 	    String imageOrigin = image.getOriginalFilename();
-	    String imageName = imageOrigin.substring(origin.lastIndexOf("\\") + 1);
+	    String imageName = imageOrigin.substring(origin.lastIndexOf("/") + 1);
 	    String uuid2 = UUID.randomUUID().toString();
 	    if(imageName == null || imageName == "") {
 	    	uuid2 = null;
 	    }
 	    
 	    String r_imageName = uuid2 + "_" + imageName;
-	    String imageSave = uploadPath + "\\" + uuid2 + "_" + imageName;
+	    String imageSave = uploadPath + uuid2 + "_" + imageName;
 	    if(imageName == null || imageName == "") {
-	    	imageSave = uploadPath + "\\" + imageName;
+	    	imageSave = uploadPath + imageName;
 	    }
 	    
 	    try {
@@ -158,7 +158,7 @@ public class RecodeServiceImpl implements RecodeService {
 	    }
 		
 		recodeMapper.recodeImgUpdate(
-				UploadDTO.builder().r_file(filename).r_image(imageName).r_path(uploadPath).r_name(dto.getR_name()).r_num(dto.getR_num()).build()
+				UploadDTO.builder().r_file(r_fileName).r_image(r_imageName).r_path(uploadPath).r_name(dto.getR_name()).r_num(dto.getR_num()).build()
 				);
 		
 		return result;
