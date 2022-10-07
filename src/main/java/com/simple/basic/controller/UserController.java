@@ -384,4 +384,18 @@ public class UserController {
 
 		return id;
 	}
+	
+	@PostMapping("/idemailCheck")
+	@ResponseBody
+	public int emailCheck(String u_email, String u_id) {
+		String find = userService.findId(u_email);
+		int result;
+		if(find.equals(u_id)) {
+			result = 1;
+		}
+		else {
+			result = 0;
+		}
+		return result;
+	}
 }
