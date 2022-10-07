@@ -5,11 +5,11 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,6 +43,9 @@ public class RecodeController {
 	
 	@Autowired
 	PlayService playService;
+	
+	@Value("${music.upload.path}")
+	String musicUploadPath;
 
 	@GetMapping("/recodeInsert") // 업로드 화면
 	public String recodeInsert(Model model) {
@@ -102,7 +105,7 @@ public class RecodeController {
 		List<RecodeDTO> playlist1 = recodeService.recodeplay1(u_id);
 		List<UploadDTO> playlist2 = recodeService.recodeplay2();
 		int playCheck = playService.listCheck(PlayDTO.builder().r_num(r_num).u_id(u_id).build());
-
+		
 		model.addAttribute("dto1", dto1);
 		model.addAttribute("dto2", dto2);
 		model.addAttribute("list3", list3);
@@ -114,6 +117,7 @@ public class RecodeController {
 		model.addAttribute("playlist1", playlist1);
 		model.addAttribute("playlist2", playlist2);
 		model.addAttribute("playCheck", playCheck);
+		model.addAttribute("musicUploadPath", musicUploadPath);
 		return "/recodeDetail";
 	}
 	
