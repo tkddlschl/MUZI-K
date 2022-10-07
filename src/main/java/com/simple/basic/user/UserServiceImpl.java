@@ -123,7 +123,7 @@ public class UserServiceImpl implements UserService {
 	    else {
 	    	userMapper.userImgUpdate(UserUploadDTO.builder().u_image(u_imageName).u_path(uploadPath).u_email(dto.getU_email()).u_id(dto.getU_id()).build());
 	    	dto.setU_path(uploadPath);
-	    	dto.setU_image(imageName);
+	    	dto.setU_image(u_imageName);
 	    }
 		
 		return result;
