@@ -173,9 +173,9 @@
 											<textarea class="form-control" rows="5" name="n_contents" style="height: 400px;">[[${NoticeDTO.n_contents}]]</textarea>
 										</div>                                   
                                             <div class="btn_area">       
-                                                <a th:if="${session.user != null} and ${session.user.u_id} == ${NoticeDTO.u_id} and ${session.user.u_type} == 'm'" href="#" class="btn btn-outline-primary" th:onclick="|commu_update()|">저장</a>                                                                                 
+                                                <a th:if="${session.user != null} and ${session.user.u_id} == ${NoticeDTO.u_id} and ${session.user.u_type} == 'm'" href="#" class="btn btn-outline-primary" th:onclick="|notice_update()|">저장</a>                                                                                 
                                                 <a th:href="noticeList" class="btn btn-outline-primary">목록</a>                                       
-                                                <a th:if="${session.user != null} and ${session.user.u_id} == ${NoticeDTO.u_id} and ${session.user.u_type} == 'm'" href="#" class="btn btn-outline-primary" th:onclick="|commu_delete()|">삭제</a>                                          	
+                                                <a th:if="${session.user != null} and ${session.user.u_id} == ${NoticeDTO.u_id} and ${session.user.u_type} == 'm'" href="#" class="btn btn-outline-primary" th:onclick="|notice_delete()|">삭제</a>                                          	
                                             </div>
 									</form>
 									
@@ -239,17 +239,17 @@
       <!-- Custom scripts for all pages-->
       <script src="js/custom.js"></script>
       <script th:inline="javascript">
-	function commu_update() {
+	function notice_update() {
 
 		event.preventDefault(); 
-		document.actionForm.action = "communityUpdate";
+		document.actionForm.action = "noticeUpdate";
 		document.actionForm.method = "post"; 
 		document.actionForm.submit(); //서브밋
 	}
 	
-	function commu_delete() {
+	function notice_delete() {
 		event.preventDefault();
-		document.actionForm.action = "communityDelete";
+		document.actionForm.action = "noticeDelete";
 		document.actionForm.method = "post"; 
 		document.actionForm.submit(); //서브밋
 	}

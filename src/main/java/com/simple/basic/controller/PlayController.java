@@ -51,7 +51,7 @@ public class PlayController {
 		List<CategoryDTO> list3 = categoryService.listAll();
 		List<PlayDTO> play = playService.playlist(u_id);
 		List<RecodeDTO> playlist1 = recodeService.recodeplay1(u_id);
-		List<UploadDTO> playlist2 = recodeService.recodeplay2();
+		List<UploadDTO> playlist2 = recodeService.recodeplay2(u_id);
 
 		model.addAttribute("list3", list3);
 		model.addAttribute("play", play);
